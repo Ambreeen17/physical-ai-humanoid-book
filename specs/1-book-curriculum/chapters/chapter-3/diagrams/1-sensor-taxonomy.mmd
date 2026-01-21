@@ -1,0 +1,61 @@
+graph TD
+    subgraph Sensing_Domain["EXTERNAL ENVIRONMENT"]
+        direction TB
+    end
+
+    Exteroceptive["EXTEROCEPTIVE<br/>External State"]
+    Proprioceptive["PROPRIOCEPTIVE<br/>Internal State"]
+    Vestibular["VESTIBULAR<br/>Balance/Orientation"]
+    Temporal["TEMPORAL<br/>Time Reference"]
+
+    Vision["VISION"]
+    Range["RANGE SENSORS"]
+    Light["LIGHT SENSORS"]
+    MotorEncoder["MOTOR ENCODERS"]
+    ActuatorSensors["ACTUATOR SENSORS"]
+    IMU["IMU"]
+    Clocks["CLOCKS/TIMERS"]
+
+    %% Exteroceptive branch
+    subgraph VisionDevices["Vision Devices"]
+        direction LR
+        MonoCamera["Mono Camera"]
+        StereoCamera["Stereo Camera"]
+    end
+
+    subgraph RangeDevices["Range Devices"]
+        direction LR
+        LiDAR["LiDAR Scanner"]
+        ToFCamera["ToF Camera"]
+    end
+
+    subgraph LightDevices["Light Sensors"]
+        direction LR
+        CCD["CCD/CMOS"]
+        Photodiode["Photodiode"]
+    end
+
+    %% Connections
+    Exteroceptive --> Vision
+    Exteroceptive --> Range
+    Exteroceptive --> Light
+
+    Proprioceptive --> MotorEncoder
+    Proprioceptive --> ActuatorSensors
+
+    Vestibular --> IMU
+    Temporal --> Clocks
+
+    Vision --> VisionDevices
+    Range --> RangeDevices
+    Light --> LightDevices
+
+    classDef extero fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef proprio fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef vestibular fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    classDef temporal fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class Exteroceptive,Vision,Range,Light,VisionDevices,RangeDevices,LightDevices extero
+    class Proprioceptive,MotorEncoder,ActuatorSensors proprio
+    class Vestibular,IMU vestibular
+    class Temporal,Clocks temporal

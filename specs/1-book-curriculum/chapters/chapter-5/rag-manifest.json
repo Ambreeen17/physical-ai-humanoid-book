@@ -1,0 +1,103 @@
+{
+  "chapter": 5,
+  "topic": "Computer Vision for Robotics",
+  "total_chunks": 15,
+  "chunk_strategy": "semantic",
+  "embedding_model": "text-embedding-3-small",
+  "vector_db": "qdrant",
+  "collection_name": "textbook_chapter_5",
+  "metadata": {
+    "created_at": "2026-01-05T23:06:03.598977",
+    "chapter_title": "Computer Vision for Robotics",
+    "learning_objectives": [
+      "Apply fundamental image processing techniques for robotic perception",
+      "Implement feature detection and matching algorithms for visual tracking",
+      "Design object recognition systems using deep learning approaches",
+      "Integrate visual-inertial odometry for robust localization",
+      "Evaluate computer vision performance in real-time robotic applications"
+    ],
+    "difficulty_level": "multi_level",
+    "target_audience": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ]
+  },
+  "chunks": [
+    {
+      "id": "ch5_001",
+      "type": "introduction",
+      "size": 512
+    },
+    {
+      "id": "ch5_002",
+      "type": "theory",
+      "size": 1024
+    },
+    {
+      "id": "ch5_003",
+      "type": "mathematical_foundation",
+      "size": 768
+    },
+    {
+      "id": "ch5_004",
+      "type": "hardware_considerations",
+      "size": 640
+    },
+    {
+      "id": "ch5_005",
+      "type": "software_implementation",
+      "size": 896
+    },
+    {
+      "id": "ch5_006",
+      "type": "code_example",
+      "size": 512
+    },
+    {
+      "id": "ch5_007",
+      "type": "simulation",
+      "size": 704
+    },
+    {
+      "id": "ch5_008",
+      "type": "testing",
+      "size": 640
+    },
+    {
+      "id": "ch5_009",
+      "type": "applications",
+      "size": 768
+    },
+    {
+      "id": "ch5_010",
+      "type": "challenges",
+      "size": 576
+    },
+    {
+      "id": "ch5_011",
+      "type": "beginner_content",
+      "size": 640
+    },
+    {
+      "id": "ch5_012",
+      "type": "intermediate_content",
+      "size": 704
+    },
+    {
+      "id": "ch5_013",
+      "type": "advanced_content",
+      "size": 768
+    },
+    {
+      "id": "ch5_014",
+      "type": "assessment_preparation",
+      "size": 512
+    },
+    {
+      "id": "ch5_015",
+      "type": "summary",
+      "size": 448
+    }
+  ]
+}

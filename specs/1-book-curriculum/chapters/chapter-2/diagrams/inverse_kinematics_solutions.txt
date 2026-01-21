@@ -1,0 +1,169 @@
+## Inverse Kinematics Solutions
+
+### ASCII Representation
+
+```
+    2-DOF Planar Arm: Multiple IK Solutions
+    =======================================
+
+                      Target Point (x, y)
+                           *
+                          / \
+                         /   \
+                        /     \
+                       /       \
+                      /    *    \
+                     /   Target  \
+                    /             \
+                   /               \
+                  /                 \
+                 /                   \
+                / Elbow-Up           \ Elbow-Down
+               /  Solution 1          \ Solution 2
+              /                       \
+             /                         \
+            O---------------------------O
+          Joint 1                    Joint 1
+         (q1_up)                     (q1_down)
+
+    ============================================================
+
+    Both solutions reach the SAME target point
+    ========================================
+
+    Solution 1 (Elbow-Up):
+    ----------------------
+         theta_2 = +arccos(cos_theta2)
+         theta_1 = atan2(y, x) - atan2(L2*sin(theta_2), L1 + L2*cos(theta_2))
+
+    Solution 2 (Elbow-Down):
+    -----------------------
+         theta_2 = -arccos(cos_theta2)
+         theta_1 = atan2(y, x) - atan2(L2*sin(theta_2), L1 + L2*cos(theta_2))
+
+    ============================================================
+
+    3-DOF Arm: Up to 8 Solutions
+    ============================
+
+    Given target position (x, y, z) and orientation (roll, pitch, yaw):
+
+    +----------------------------------------------------------+
+    |  Wrist Position Decoupling                               |
+    |  -------------------------------------------------------- |
+    |  1. Choose wrist position based on orientation           |
+    |  2. Solve 3-DOF arm IK for wrist position                |
+    |  3. Solve wrist orientation separately                   |
+    +----------------------------------------------------------+
+
+    For each choice of elbow configuration (up/down), there are
+    4 combinations of wrist orientations, giving up to 8 solutions.
+
+    ============================================================
+
+    Unitree G1 Arm: Up to 16 Solutions
+    =================================
+
+    With 6-DOF, there can be up to 16 solutions for a given
+    reachable pose, though joint limits typically reduce this.
+
+    +------------+-------------------------------------------+
+    | Solution   | Characteristics                           |
+    +------------+-------------------------------------------+
+    | Primary    | Nearest to current configuration          |
+    | Alternate  | Elbow-up/down variants                    |
+    | Wrist      | Different wrist configurations            |
+    +------------+-------------------------------------------+
+
+    ============================================================
+
+    Solution Selection Criteria
+    ===========================
+
+    1. MINIMUM TORQUE / MOTION
+       Choose solution closest to current q
+       Minimize: ||q_new - q_current||
+
+    2. MAXIMUM MANIPULABILITY
+       Choose solution with largest manipulability measure
+       Maximize: sqrt(det(J * J^T))
+
+    3. AVOID JOINT LIMITS
+       Choose solution farthest from joint limits
+       Maximize: min_i (distance to limit_i)
+
+    ============================================================
+
+    Visualization
+    =============
+
+              Target Point (x, y)
+
+                    * <-- Same position for both
+
+             Elbow Up             Elbow Down
+               / \                  /   \
+              /   \                /     \
+             /     \              /       \
+            O-------O            O---------O
+            |       |            |         |
+            |       |            |         |
+            O-------O            O---------O
+```
+
+### Mermaid Diagram
+
+```mermaid
+flowchart TB
+    subgraph Problem["IK Problem"]
+        Input["Target Pose<br/>T_des = [x, y, z, roll, pitch, yaw]"]
+    end
+
+    subgraph Solutions["Multiple Solutions"]
+        S1["Solution 1<br/>Elbow-Up<br/>q₁₁, q₂₁"]
+        S2["Solution 2<br/>Elbow-Down<br/>q₁₂, q₂₂"]
+        S3["Solution 3<br/>Wrist variant<br/>..."]
+        S4["Solution 4<br/>Wrist variant<br/>..."]
+    end
+
+    subgraph Selection["Solution Selection"]
+        Crit1["Nearest to current<br/>||q - q_current||"]
+        Crit2["Max manipulability<br/>sqrt(det(JJ^T))"]
+        Crit3["Avoid limits<br/>distance to bounds"]
+    end
+
+    Input --> S1
+    Input --> S2
+    Input --> S3
+    Input --> S4
+
+    S1 --> Selection
+    S2 --> Selection
+    S3 --> Selection
+    S4 --> Selection
+
+    subgraph Output["Chosen Solution"]
+        Final["q*<br/>Optimal configuration"]
+    end
+
+    Selection --> Output
+
+    style Input fill:#e3f2fd
+    style S1 fill:#c8e6c9
+    style S2 fill:#c8e6c9
+    style S3 fill:#c8e6c9
+    style S4 fill:#fff3e0
+    style Selection fill:#f3e5f5
+    style Output fill:#ffecb3
+```
+
+### Description for Docusaurus
+
+**Alt Text:**
+Diagram showing how inverse kinematics can have multiple solutions for the same target pose. A 2-DOF planar arm can reach a target point with either an elbow-up or elbow-down configuration. The Unitree G1's 6-DOF arm can have up to 16 solutions for a given reachable pose.
+
+**Caption:**
+Unlike forward kinematics which has a unique solution, inverse kinematics is a many-to-one mapping. For a 2-DOF arm, the elbow-up and elbow-down configurations both reach the same target. The 6-DOF Unitree G1 arm can have up to 16 solutions, requiring selection criteria like minimum motion or maximum manipulability.
+
+**Explanation:**
+The inverse kinematics problem is fundamentally different from forward kinematics: multiple joint configurations can produce the same end-effector pose. For a 2-DOF planar arm, the law of cosines gives cos(theta2), which has two values (+/- arccos), corresponding to elbow-up and elbow-down solutions. For a 3-DOF arm with wrist decoupling, each of the two elbow configurations combines with two wrist flip configurations, giving 4 solutions. The 6-DOF G1 arm can have up to 16 solutions. Solution selection uses criteria such as: choosing the configuration closest to the current pose (minimizes motion), maximizing manipulability measure (avoids singularities), or maximizing distance from joint limits. Joint limits and self-collision avoidance typically reduce the number of valid solutions in practice.

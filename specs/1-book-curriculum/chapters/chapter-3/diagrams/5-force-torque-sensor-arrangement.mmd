@@ -1,0 +1,64 @@
+flowchart TB
+    subgraph SENSOR["F/T Sensor Structure"]
+        TOP["Top Flange<br/>Mounting Interface"]
+        FLEX["Flexure Structure<br/>Strain Gauges"]
+        BODY["Body/Housing<br/>Electronics"]
+        BOTTOM["Bottom Flange<br/>Tool Mount"]
+    end
+
+    TOP --> FLEX --> BODY --> BOTTOM
+
+    subgraph BRIDGE["Wheatstone Bridge"]
+        VEXC["V_EXC<br/>Excitation"]
+        R1["R1 (+)<br/>G1 Tension"]
+        R2["R2 (-)<br/>G3 Compression"]
+        R3["R3 (+)<br/>G2 Compression"]
+        R4["R4 (-)<br/>G4 Tension"]
+        VOUT["V_OUT<br/>Balanced Output"]
+    end
+
+    VEXC --> R1
+    VEXC --> R2
+    R1 --> VOUT
+    R2 --> VOUT
+    R3 --> VOUT
+    R4 --> VOUT
+
+    subgraph AXES["6-Axis Measurements"]
+        FXYZ["Forces<br/>Fx, Fy, Fz"]
+        MXYZ["Torques<br/>Mx, My, Mz"]
+    end
+
+    FLEX --> BRIDGE
+    BRIDGE --> AXES
+
+    subgraph CALIB["Calibration Process"]
+        K_MATRIX["K<br/>Calibration Matrix 6x6"]
+        V_RAW["V_raw<br/>Raw Bridge Output"]
+        V_BIAS["V_0<br/>Zero Offset"]
+        INV["K⁻¹<br/>Inverse Matrix"]
+        F_TRUE["F_true = K⁻¹ × (V_raw - V_0)"]
+    end
+
+    V_RAW --> F_TRUE
+    V_BIAS --> F_TRUE
+    K_MATRIX --> INV
+    INV --> F_TRUE
+
+    subgraph ARRANGEMENTS["Sensor Arrangements"]
+        WRIST["Wrist Mounted<br/>Single 6-DOF F/T"]
+        DISTRIBUTED["Distributed Array<br/>Multiple F/T Sensors"]
+    end
+
+    SENSOR --> WRIST
+    SENSOR --> DISTRIBUTED
+
+    classDef structure fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef circuit fill:#fff9c4,stroke:#f9a825,stroke-width:2px
+    classDef output fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    classDef calib fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+
+    class TOP,FLEX,BODY,BOTTOM structure
+    class VEXC,R1,R2,R3,R4,VOUT circuit
+    class FXYZ,MXYZ output
+    class K_MATRIX,V_RAW,V_BIAS,INV,F_TRUE calib

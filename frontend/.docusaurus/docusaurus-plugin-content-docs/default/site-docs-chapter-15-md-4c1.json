@@ -1,0 +1,28 @@
+{
+  "id": "chapter-15",
+  "title": "Chapter 15: Deployment & Operations",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-15.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-15",
+  "permalink": "/docs/chapter-15",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-15.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 16,
+  "frontMatter": {
+    "sidebar_position": 16,
+    "title": "Chapter 15: Deployment & Operations"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 14: Safety & Robustness",
+    "permalink": "/docs/chapter-14"
+  },
+  "next": {
+    "title": "Chapter 16: Capstone Project",
+    "permalink": "/docs/chapter-16"
+  }
+}

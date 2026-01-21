@@ -1,0 +1,87 @@
+{
+  "assessment_type": "mcq",
+  "chapter": 2,
+  "total_points": 10,
+  "questions": [
+    {
+      "id": "ch2_mcq_007",
+      "question": "Which of the following is NOT a characteristic of the joint space of a robot manipulator?",
+      "difficulty": "beginner",
+      "points": 2,
+      "learning_objectives": ["LO2.1"],
+      "tags": ["joint_space", "workspace", "configuration_space"],
+      "options": [
+        "A) Represented by vector of joint angles q = [q1, q2, ..., qn]",
+        "B) Each point corresponds to a unique robot configuration",
+        "C) Contains only Cartesian positions of the end-effector",
+        "D) Has dimensionality equal to the number of DOF"
+      ],
+      "correct_answer": "C",
+      "explanation": "Joint space contains all possible joint angle combinations, not Cartesian positions. Cartesian positions of the end-effector belong to the workspace. The joint space dimensionality equals the number of degrees of freedom."
+    },
+    {
+      "id": "ch2_mcq_008",
+      "question": "The forward kinematics equation T_end = T1 * T2 * ... * Tn computes:",
+      "difficulty": "beginner",
+      "points": 2,
+      "learning_objectives": ["LO2.2"],
+      "tags": ["forward_kinematics", "DH_parameters", "transformations"],
+      "options": [
+        "A) Joint torques required for desired motion",
+        "B) End-effector position and orientation from joint angles",
+        "C) Mass matrix of the manipulator",
+        "D) Minimum energy configuration"
+      ],
+      "correct_answer": "B",
+      "explanation": "Forward kinematics computes the end-effector pose (position + orientation) given the joint angles. Each Ti is a homogeneous transformation matrix derived from DH parameters. The chain multiplication accumulates all link transformations."
+    },
+    {
+      "id": "ch2_mcq_009",
+      "question": "When deriving dynamics using Lagrangian mechanics for a robot manipulator, which energy is subtracted from kinetic energy?",
+      "difficulty": "intermediate",
+      "points": 2,
+      "learning_objectives": ["LO2.4"],
+      "tags": ["lagrangian_mechanics", "energy", "dynamics"],
+      "options": [
+        "A) Frictional energy",
+        "B) Potential energy",
+        "C) Thermal energy",
+        "D) Electrical energy"
+      ],
+      "correct_answer": "B",
+      "explanation": "The Lagrangian is defined as L = T - V, where T is kinetic energy and V is potential energy (typically gravitational). The Euler-Lagrange equation uses this difference to derive equations of motion."
+    },
+    {
+      "id": "ch2_mcq_010",
+      "question": "Numerical inverse kinematics methods like Jacobian pseudo-inverse may fail to converge when:",
+      "difficulty": "advanced",
+      "points": 2,
+      "learning_objectives": ["LO2.3"],
+      "tags": ["inverse_kinematics", "numerical_methods", "convergence", "singularities"],
+      "options": [
+        "A) The target is reachable and not near a singularity",
+        "B) The initial guess is very close to the solution",
+        "C) The configuration is near or at a singularity",
+        "D) The Jacobian is well-conditioned"
+      ],
+      "correct_answer": "C",
+      "explanation": "Near singularities, the Jacobian becomes nearly singular (poorly conditioned), causing numerical methods to fail or converge slowly. Damped least squares (Levenberg-Marquardt) is often used to mitigate this issue by adding regularization."
+    },
+    {
+      "id": "ch2_mcq_011",
+      "question": "Which statement best describes the relationship between simulation and reality in robotics?",
+      "difficulty": "intermediate",
+      "points": 2,
+      "learning_objectives": ["LO2.5"],
+      "tags": ["simulation", "sim_to_real", "mujoco", "gazebo"],
+      "options": [
+        "A) Simulations always perfectly match reality",
+        "B) Simulations are useful for prototyping but require validation against real hardware",
+        "C) Simulations are only for visualization, not for controller development",
+        "D) Real robots cannot benefit from simulation insights"
+      ],
+      "correct_answer": "B",
+      "explanation": "Physics simulations like MuJoCo and Gazebo approximate reality using simplified models. They are excellent for development and testing but require validation. Differences arise from unmodeled friction, compliance, contact dynamics, and other real-world effects (sim-to-real gap)."
+    }
+  ]
+}

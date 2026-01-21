@@ -1,0 +1,173 @@
+## MuJoCo Simulation Pipeline
+
+### ASCII Representation
+
+```
+    MuJoCo Simulation Pipeline
+    ===========================
+
+    +------------------------------------------------------------------+
+    |                         MODEL DEFINITION                         |
+    |                    (MJCF / XML Format)                           |
+    +------------------------------------------------------------------+
+    |                                                                   |
+    |  <mujoco model="unitree_g1_arm">                                  |
+    |    <worldbody>                                                    |
+    |      <body name="shoulder" pos="0 0 0.5">                         |
+    |        <geom type="cylinder" ... />                               |
+    |        <joint name="j1_yaw" type="hinge" ... />                   |
+    |        <body name="upper_arm" ...>                                |
+    |          ...                                                      |
+    |        </body>                                                    |
+    |      </body>                                                      |
+    |    </worldbody>                                                   |
+    |    <actuator>                                                     |
+    |      <motor joint="j1_yaw" ... />                                 |
+    |      ...                                                          |
+    |    </actuator>                                                    |
+    |  </mujoco>                                                        |
+    |                                                                   |
+    +------------------------------------------------------------------+
+                                  |
+                                  v (Load)
+    +------------------------------------------------------------------+
+    |                   MuJoCo MjModel Object                          |
+    |              (Parsed model with physics parameters)               |
+    +------------------------------------------------------------------+
+                                  |
+                                  v (Initialize)
+    +------------------------------------------------------------------+
+    |                    MuJoCo MjData Object                          |
+    |              (State: qpos, qvel, qacc, ctrl)                      |
+    +------------------------------------------------------------------+
+                                  |
+                                  v
+    +------------------------------------------------------------------+
+    |                    SIMULATION LOOP                                |
+    +------------------------------------------------------------------+
+    |                                                                   |
+    |    while t < t_final:                                            |
+    |    +----------------------------------------------------------+   |
+    |    | 1. APPLY CONTROL                                        |   |
+    |    |    data.ctrl[:] = tau_desired                           |   |
+    |    +----------------------------------------------------------+   |
+    |    |                          |                               |   |
+    |    |                          v                               |   |
+    |    |    +--------------------------------------------+        |   |
+    |    |    | 2. PHYSICS STEP (mj_step)                  |        |   |
+    |    |    |    - Forward kinematics                    |        |   |
+    |    |    |    - Inverse dynamics                      |        |   |
+    |    |    |    - Contact dynamics                      |        |   |
+    |    |    |    - Numerical integration                 |        |   |
+    |    |    +--------------------------------------------+        |   |
+    |    |                          |                               |   |
+    |    |                          v                               |   |
+    |    |    +--------------------------------------------+        |   |
+    |    |    | 3. UPDATE STATE                            |        |   |
+    |    |    |    - qpos (joint positions)                |        |   |
+    |    |    |    - qvel (joint velocities)                |        |   |
+    |    |    |    - qacc (joint accelerations)             |        |   |
+    |    |    +--------------------------------------------+        |   |
+    |    +----------------------------------------------------------+   |
+    |                                                                  |
+    +------------------------------------------------------------------+
+                                  |
+                                  v
+    +------------------------------------------------------------------+
+    |                      OUTPUT / VISUALIZATION                      |
+    +------------------------------------------------------------------+
+    |    - Render 3D scene (OpenGL)                                    |
+    |    - Log trajectory data                                         |
+    |    - Export for analysis                                         |
+    +------------------------------------------------------------------+
+
+    ============================================================
+
+    Integration Methods
+    ===================
+
+    +----------------+------------------+---------------------------+
+    | Method         | Accuracy         | Stability                 |
+    +----------------+------------------+---------------------------+
+    | Euler          | First-order      | Unstable (stiff systems)  |
+    | RK4            | Fourth-order     | Good stability            |
+    | Implicit       | Variable         | Unconditional stability   |
+    +----------------+------------------+---------------------------+
+
+    MuJoCo Default: Implicit integration with 1ms timestep
+
+    ============================================================
+
+    Data Flow
+    =========
+
+    tau (control)  -->  data.ctrl[:]  -->  mj_step  -->  qpos, qvel, qacc
+                                          |
+                                          v
+                                   Forces computed:
+                                   - Motor torques
+                                   - Gravity
+                                   - Coriolis
+                                   - Contact forces
+```
+
+### Mermaid Diagram
+
+```mermaid
+flowchart TB
+    subgraph Model["Model Definition"]
+        direction LR
+        MJCF["MJCF/XML<br/>Robot Description"]
+        URDF["URDF Import<br/>ROS Compatibility"]
+    end
+
+    subgraph Parse["Parsing"]
+        MjModel["MjModel<br/>Compiled Model<br/>Physics Parameters"]
+    end
+
+    subgraph State["State Initialization"]
+        MjData["MjData<br/>Initial State<br/>qpos, qvel, qacc"]
+    end
+
+    subgraph Simulation["Simulation Loop"]
+        direction TB
+
+        Control["tau<br/>Control Torques"] --> Apply["Apply Control<br/>data.ctrl = tau"]
+
+        Apply --> Physics["Physics Engine<br/>mj_step<br/>mj_step1 + mj_step2"]
+
+        Physics --> Update["Update State<br/>qpos, qvel, qacc"]
+
+        Update --> Check{"t < t_final?"}
+
+        Check -->|"Yes"| Control
+        Check -->|"No"| Output
+    end
+
+    subgraph Output["Results"]
+        Render["3D Rendering<br/>OpenGL"]
+        Log["Trajectory Log<br/>Data Export"]
+    end
+
+    Model --> Parse
+    Parse --> State
+    State --> Simulation
+    Simulation --> Output
+
+    style Model fill:#e3f2fd
+    style Parse fill:#c8e6c9
+    style State fill:#c8e6c9
+    style Simulation fill:#fff3e0
+    style Output fill:#f3e5f5
+```
+
+### Description for Docusaurus
+
+**Alt Text:**
+Pipeline diagram showing the MuJoCo simulation workflow: MJCF/XML model definition is parsed into an MjModel, initialized as MjData state, then run through a simulation loop where control torques are applied, physics is stepped, and state is updated. Output includes 3D rendering and trajectory logging.
+
+**Caption:**
+The MuJoCo simulation pipeline converts a robot model description (MJCF/XML) into a physics simulation. At each timestep, control torques are applied, the physics engine computes dynamics including contacts, and joint states are updated. MuJoCo uses implicit integration for unconditional stability, making it ideal for contact-rich manipulation tasks.
+
+**Explanation:**
+The MuJoCo pipeline starts with model definition in MJCF (native XML format) or URDF (imported). The MjModel object compiles this into efficient physics parameters (masses, inertias, joint axes, geom properties). MjData holds the dynamic state: joint positions qpos, velocities qvel, accelerations qacc, and control inputs ctrl. The simulation loop applies torques via ctrl, calls mj_step which internally performs forward kinematics, computes inverse dynamics, handles contact through optimization-based dynamics, and integrates acceleration to update velocities and positions. MuJoCo uses implicit integration by default, providing stability for stiff systems. The pipeline outputs rendered visualization (OpenGL) and logged trajectory data for analysis. For the Unitree G1, this enables validation of control algorithms before hardware deployment.

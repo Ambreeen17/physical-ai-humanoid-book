@@ -1,0 +1,45 @@
+flowchart TB
+    subgraph Inputs["System Inputs"]
+        direction LR
+        q["q<br/>Joint Positions"]
+        qd["q̇<br/>Joint Velocities"]
+        params["Physical Parameters<br/>masses, inertias, lengths"]
+    end
+
+    subgraph Energy["Energy Computation"]
+        T["T<br/>Kinetic Energy<br/>T = ½ q̇ᵀ M(q) q̇"]
+        V["V<br/>Potential Energy<br/>V = Σ mᵢ g hᵢ"]
+    end
+
+    L["L = T - V<br/>Lagrangian"]
+
+    subgraph Derivatives["Partial Derivatives"]
+        dL_dqd["∂L/∂q̇<br/>Generalized Momentum"]
+        dL_dq["∂L/∂q<br/>Generalized Force"]
+    end
+
+    EL["d/dt(∂L/∂q̇) - ∂L/∂q = τ<br/>Euler-Lagrange Equation"]
+
+    subgraph Dynamics["Dynamics Output"]
+        M["M(q)<br/>Mass Matrix<br/>n × n"]
+        C["C(q, q̇)<br/>Coriolis/Centrifugal<br/>n × n"]
+        g["g(q)<br/>Gravity Vector<br/>n × 1"]
+    end
+
+    Result["M(q) q̈ + C(q, q̇) q̇ + g(q) = τ<br/>Canonical Robot Dynamics Equation"]
+
+    Inputs --> Energy
+    Energy --> L
+    L --> Derivatives
+    Derivatives --> EL
+    EL --> Dynamics
+    Dynamics --> Result
+
+    style Inputs fill:#e3f2fd
+    style T fill:#c8e6c9
+    style V fill:#c8e6c9
+    style L fill:#fff3e0
+    style Derivatives fill:#f3e5f5
+    style EL fill:#ffecb3
+    style Dynamics fill:#ffcdd2
+    style Result fill:#bbdefb

@@ -1,0 +1,26 @@
+# Docker Compose configuration for Chapter 2 Labs
+# Kinematics & Dynamics with ROS 2 Humble + Gazebo Harmonic
+#
+# Usage:
+#   docker-compose build
+#   docker-compose up -d
+#   docker exec -it kinematics_lab bash
+
+services:
+  kinematics_lab:
+    build:
+      context: .
+      dockerfile: Dockerfile.lab
+    container_name: kinematics_lab
+    image: ros2-lab-ch2:latest
+    environment:
+      - ROS_DOMAIN_ID=0
+      - GAZEBO_MODEL_PATH=/root/ros2_ws/src:${GAZEBO_MODEL_PATH}
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - .:/root/ros2_ws/src/chapter2_labs
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    network_mode: host
+    stdin_open: true
+    tty: true
+    command: bash

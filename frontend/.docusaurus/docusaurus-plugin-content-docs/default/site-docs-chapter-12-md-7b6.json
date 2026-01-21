@@ -1,0 +1,28 @@
+{
+  "id": "chapter-12",
+  "title": "Chapter 12: Vision-Language-Action Models",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-12.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-12",
+  "permalink": "/docs/chapter-12",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-12.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 13,
+  "frontMatter": {
+    "sidebar_position": 13,
+    "title": "Chapter 12: Vision-Language-Action Models"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 11: Imitation Learning",
+    "permalink": "/docs/chapter-11"
+  },
+  "next": {
+    "title": "Chapter 13: System Integration",
+    "permalink": "/docs/chapter-13"
+  }
+}

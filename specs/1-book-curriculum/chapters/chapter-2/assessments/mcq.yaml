@@ -1,0 +1,158 @@
+# Chapter 2: Kinematics & Dynamics - Multiple Choice Questions
+# 4 questions, 5 points each = 20 points total
+# Auto-graded assessment
+
+assessment_metadata:
+  chapter: 2
+  title: "Kinematics & Dynamics MCQ"
+  version: "1.0"
+  total_points: 20
+  total_questions: 4
+  time_limit_minutes: 20
+  passing_score: 14  # 70%
+
+questions:
+  # Question 1: DH Parameters - Foundational
+  - id: ch2_mcq_001
+    question: |
+      In the Denavit-Hartenberg (DH) convention for robot manipulators, which parameter
+      represents the length of the link along the axis perpendicular to both joint axes?
+    difficulty: foundational
+    points: 5
+    learning_objectives: [LO2.2]
+    topic: DH_parameters
+    options:
+      - label: A
+        text: "theta (theta) - the joint angle"
+        is_correct: false
+      - label: B
+        text: "d - the link offset"
+        is_correct: false
+      - label: C
+        text: "a - the link length"
+        is_correct: true
+      - label: D
+        text: "alpha - the link twist angle"
+        is_correct: false
+    explanation: |
+      In the DH convention:
+      - theta (theta) is the joint angle, which varies for revolute joints
+      - d is the link offset, which varies for prismatic joints
+      - a (alpha) is the link length, the perpendicular distance between joint axes
+      - alpha is the twist angle, the angle between joint axes
+
+      The link length 'a' is the constant geometric property describing how far apart
+      the joint axes are in space, measured along the common normal.
+    auto_grading:
+      correct_value: 5
+      partial_credit: false
+
+  # Question 2: Singularities - Foundational
+  - id: ch2_mcq_002
+    question: |
+      At a kinematic singularity of a robot manipulator, what happens to the Jacobian matrix?
+    difficulty: foundational
+    points: 5
+    learning_objectives: [LO2.1, LO2.2]
+    topic: singularities
+    options:
+      - label: A
+        text: "The Jacobian becomes a square identity matrix"
+        is_correct: false
+      - label: B
+        text: "The Jacobian loses rank and becomes non-invertible"
+        is_correct: true
+      - label: C
+        text: "The Jacobian determinant becomes exactly 1"
+        is_correct: false
+      - label: D
+        text: "The Jacobian becomes zero (all elements equal 0)"
+        is_correct: false
+    explanation: |
+      At a singularity, the Jacobian matrix loses rank, meaning its determinant becomes
+      zero and it can no longer be inverted. This means:
+      - Some Cartesian directions cannot be achieved (loss of DOF)
+      - Infinite joint velocities would be required to move in certain directions
+      - The manipulator "loses a degree of freedom" in terms of Cartesian control
+
+      This is why singularities must be avoided in trajectory planning.
+    auto_grading:
+      correct_value: 5
+      partial_credit: false
+
+  # Question 3: Workspace - Intermediate
+  - id: ch2_mcq_003
+    question: |
+      A 2-DOF planar arm has link lengths L1 = 0.5m and L2 = 0.3m. What is the
+      maximum reachable distance from the base (i.e., the maximum radius of the reachable workspace)?
+    difficulty: intermediate
+    points: 5
+    learning_objectives: [LO2.1]
+    topic: workspace
+    options:
+      - label: A
+        text: "0.3m"
+        is_correct: false
+      - label: B
+        text: "0.5m"
+        is_correct: false
+      - label: C
+        text: "0.8m (L1 + L2)"
+        is_correct: true
+      - label: D
+        text: "0.2m (L1 - L2)"
+        is_correct: false
+      - label: E
+        text: "1.0m"
+        is_correct: false
+    explanation: |
+      For a 2-DOF planar arm, the reachable workspace is an annular region (ring-shaped):
+      - Maximum reach = L1 + L2 = 0.5m + 0.3m = 0.8m (when both links extend straight)
+      - Minimum reach = |L1 - L2| = |0.5m - 0.3m| = 0.2m (when one folds back)
+
+      Points within this range (0.2m to 0.8m) are reachable in some configurations.
+    auto_grading:
+      correct_value: 5
+      partial_credit: false
+
+  # Question 4: Lagrangian Dynamics - Advanced
+  - id: ch2_mcq_004
+    question: |
+      In the Euler-Lagrange equation d/dt(dL/dq_dot) - dL/dq = tau, what does 'q'
+      represent, and how does it differ from the Cartesian position 'x'?
+    difficulty: advanced
+    points: 5
+    learning_objectives: [LO2.4]
+    topic: lagrangian_dynamics
+    options:
+      - label: A
+        text: "q is the joint velocity; x is the joint position"
+        is_correct: false
+      - label: B
+        text: "q is the Cartesian position of the end-effector"
+        is_correct: false
+      - label: C
+        text: "q is the vector of joint angles/positions; x is the end-effector pose in Cartesian space"
+        is_correct: true
+      - label: D
+        text: "q and x are equivalent representations"
+        is_correct: false
+    explanation: |
+      In robotics:
+      - q = [q1, q2, ..., qn] is the joint space configuration (joint angles or positions)
+      - x = [x, y, z, roll, pitch, yaw] is the Cartesian space pose (end-effector position/orientation)
+
+      The relationship is given by forward kinematics: x = f(q)
+
+      The Lagrangian L = T(q, q_dot) - V(q) is expressed in joint space, while the
+      equation of motion tau = M(q)*q_ddot + C(q, q_dot)*q_dot + g(q) gives joint torques.
+    auto_grading:
+      correct_value: 5
+      partial_credit: false
+
+# Answer Key for Auto-grading
+answer_key:
+  ch2_mcq_001: "C"
+  ch2_mcq_002: "B"
+  ch2_mcq_003: "C"
+  ch2_mcq_004: "C"

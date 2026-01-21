@@ -1,0 +1,23 @@
+graph TB
+    subgraph DH_Frame["DH Coordinate Frame"]
+        direction LR
+
+        Zi["Z<sub>i-1</sub><br/>Joint Axis<br/>↑"] -->|"d<sub>i</sub> (offset)"| Oi["O<sub>i-1</sub><br/>Origin<br/>●"]
+
+        Oi -->|"a<sub>i</sub> (length)"| Xi["X<sub>i</sub><br/>Link Direction<br/>→"]
+
+        Zi -.->|"theta<sub>i</sub> (angle)"| Rot["Rotation<br/>about Z<sub>i-1</sub>"]
+        Xi -.->|"alpha<sub>i</sub> (twist)"| Twist["Twist<br/>about X<sub>i</sub>"]
+    end
+
+    subgraph DH_Parameters["DH Parameters"]
+        P1["θ<sub>i</sub><br/>Joint Angle<br/>rotation about Z<sub>i-1</sub>"]
+        P2["d<sub>i</sub><br/>Link Offset<br/>translation along Z<sub>i-1</sub>"]
+        P3["a<sub>i</sub><br/>Link Length<br/>translation along X<sub>i</sub>"]
+        P4["α<sub>i</sub><br/>Link Twist<br/>rotation about X<sub>i</sub>"]
+    end
+
+    DH_Frame --> DH_Parameters
+
+    style DH_Frame fill:#e3f2fd
+    style DH_Parameters fill:#f3e5f5

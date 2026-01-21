@@ -1,0 +1,199 @@
+================================================================================
+                    DC MOTOR TORQUE-SPEED CHARACTERISTICS
+================================================================================
+
+    EQUIVALENT CIRCUIT MODEL:
+    =========================
+
+        +------------+                        +-------------+
+        |   SOURCE   |                        |   MECHANICAL|
+        |   V_in     |                        |   LOAD      |
+        |            |                        |             |
+        +------+-----+                        +------+------+
+               |                                    |
+               v                                    |
+        +------+------+                             |
+        |    R_a    |                             (T_load)
+        |  Armature |                             (ω)
+        | Resistance|                             |
+        +------+------+                             |
+               |                                    |
+               +-----+                              |
+                     |                              |
+               +-----v------+                       |
+               |    L_a     |                       |
+               |  Armature  |                       |
+               | Inductance |                       |
+               +-----+------+                       |
+                     |                              |
+               +-----v------+                       |
+               |    E_b     |-----------------------+
+               | Back EMF   |
+               +------------+
+
+    GOVERNING EQUATIONS:
+    ===================
+
+    ELECTRICAL:
+        V_in = I_a * R_a + L_a * (dI_a/dt) + E_b
+
+    At steady state (dI_a/dt = 0):
+        V_in = I_a * R_a + E_b
+
+    ELECTROMECHANICAL:
+        E_b = K_e * ω
+        T_m = K_t * I_a
+
+    Where:
+        K_e = Back EMF constant [V/(rad/s)]
+        K_t = Torque constant [Nm/A]
+        ω = Angular velocity [rad/s]
+        I_a = Armature current [A]
+
+    TORQUE-SPEED EQUATION:
+    ======================
+
+        From V_in = I_a * R_a + K_e * ω
+        And T_m = K_t * I_a
+
+        Substitute I_a = T_m / K_t:
+
+        V_in = (T_m / K_t) * R_a + K_e * ω
+
+        Rearrange for ω:
+
+        ω = (V_in / K_e) - (R_a / (K_e * K_t)) * T_m
+
+    TORQUE-SPEED CURVE:
+    ===================
+
+    Speed (ω)
+        ^
+        |           No-Load Speed (ω_no_load = V_in / K_e)
+        |          /
+        |         /
+        |        /
+        |       /
+        |      /
+        |     /
+        |    /
+        |   /          |\
+        |  /           | \
+        | /            |  \
+        |/             |   \
+        +--------------+----+-----------------> Torque (T)
+        |              |    \
+        |              |     \  Rated Operation
+        |              |      \ Region
+        |              |       \
+        |              |        \
+        |              |         \
+        |              |          \
+        |              |           \
+        |              |            \
+        |              |             \
+        |              |              \
+        |              |               \
+        |              |                \
+        |              |                 \  Stall Torque
+        |              |                  \ (T_stall = V_in * K_t / R_a)
+        |              |                   \
+        +--------------+--------------------+----------------
+                     T_rated
+
+        Slope = - R_a / (K_e * K_t)
+
+    POWER CURVE:
+    ============
+
+    Mechanical Power: P_m = T_m * ω
+
+    Substituting ω from torque-speed equation:
+
+        P_m = T_m * [(V_in / K_e) - (R_a / (K_e * K_t)) * T_m]
+
+    Maximum power occurs at dP_m/dT_m = 0:
+
+        T_max_power = (V_in / K_e) * (K_t / (2 * R_a))
+        ω_max_power = (V_in / K_e) / 2
+
+        Maximum Power = (V_in^2) / (4 * R_a)
+
+    Power Curve:
+        ^
+        |          Peak Power
+        |            *
+        |           / \
+        |          /   \
+        |         /     \
+        |        /       \
+        |       /         \
+        |      /           \
+        |     /             \
+        |    /               \
+        |   /                 \
+        |  /                   \
+        | /                     \
+        |/                       \
+        +--------------------------> T
+        0                  T_max_power
+
+    OPERATING REGIONS:
+    ==================
+
+    +------------------+------------------+------------------+------------------+
+    |     REGION       |    SPEED         |    TORQUE        |    APPLICATION   |
+    +------------------+------------------+------------------+------------------+
+    | Continuous       | 0.3 - 0.9        | 0.1 - 0.7        | Constant load    |
+    | (Rated)          | ω_no_load        | T_stall          | operation        |
+    +------------------+------------------+------------------+------------------+
+    | Intermittent     | 0 - 0.3          | 0.7 - 1.0        | Short duration   |
+    | (Peak)           | ω_no_load        | T_stall          | high torque      |
+    +------------------+------------------+------------------+------------------+
+    | Regenerative     | > ω_no_load      | Negative         | Braking,         |
+    | Braking          | (if V_in=0)      | (generation)     | energy recovery  |
+    +------------------+------------------+------------------+------------------+
+
+    MOTOR PARAMETERS (TYPICAL):
+    ===========================
+
+    | PARAMETER           | SYMBOL  | UNIT         | TYPICAL RANGE        |
+    |---------------------|---------|--------------|----------------------|
+    | Nominal Voltage     | V_nom   | V            | 12, 24, 48, 72       |
+    | No-Load Speed       | ω_nl    | rpm          | 1000 - 10000         |
+    | Stall Torque        | T_s     | Nm           | 0.1 - 10             |
+    | Rated Power         | P_rated | W            | 10 - 500             |
+    | Armature Resistance | R_a     | Ω            | 0.1 - 10             |
+    | Torque Constant     | K_t     | Nm/A         | 0.01 - 0.5           |
+    | Back EMF Constant   | K_e     | V/(rad/s)    | K_e ≈ 1/K_t (SI)     |
+    | Time Constant       | τ       | ms           | 1 - 50               |
+
+    SPEED CONTROL (PWM):
+    ====================
+
+        Effective Voltage: V_eff = D * V_in
+
+        Where D = Duty Cycle (0 to 1)
+
+        Speed Control Range:
+
+        ω = (D * V_in / K_e) - (R_a / (K_e * K_t)) * T_m
+
+        For constant torque load:
+        - Increase D: speed increases
+        - D = 1: full speed (no-load)
+        - D = 0: motor stops (but holding torque depends on driver)
+
+    EFFICIENCY:
+    ===========
+
+        η = P_mech / P_elec
+          = (T_m * ω) / (V_in * I_a)
+
+        Maximum efficiency at optimal operating point:
+
+        η_max = 1 - (2 * sqrt(R_a * P_load) / V_in)
+
+        Typically 70-90% for DC motors
+
+================================================================================

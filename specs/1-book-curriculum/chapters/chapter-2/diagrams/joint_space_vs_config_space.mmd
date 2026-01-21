@@ -1,0 +1,29 @@
+graph TB
+    subgraph Joint_Space["Joint Space (Unconstrained)"]
+        JS["R^n<br/>All joint angle combinations<br/>q = [q1, q2, ..., qn]"]
+    end
+
+    subgraph Configuration_Space["Configuration Space (Constrained)"]
+        CS["C-Space<br/>Subset of Joint Space<br/>Satisfies all constraints"]
+    end
+
+    subgraph Workspace["Workspace (End-Effector)"]
+        WS["Reachable Positions<br/>Where the hand can reach<br/>Inverse of FK mapping"]
+    end
+
+    JS -->|"Apply joint limits"| CS
+    CS -->|"Forward Kinematics"| WS
+    JS -->|"Forward Kinematics"| WS
+
+    style JS fill:#e1f5fe
+    style CS fill:#c8e6c9
+    style WS fill:#fff3e0
+
+    %% Unitree G1 specific
+    subgraph G1_Arm["Unitree G1 Arm"]
+        G1["6-DOF Configuration<br/>q1: Shoulder yaw<br/>q2: Shoulder pitch<br/>q3: Shoulder roll<br/>q4: Elbow<br/>q5: Wrist pitch<br/>q6: Wrist roll"]
+    end
+
+    JS -.-> G1_Arm
+
+    style G1_Arm fill:#fce4ec

@@ -1,0 +1,28 @@
+{
+  "id": "chapter-9",
+  "title": "Chapter 9: Task & Motion Planning",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-9.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-9",
+  "permalink": "/docs/chapter-9",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-9.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10,
+  "frontMatter": {
+    "sidebar_position": 10,
+    "title": "Chapter 9: Task & Motion Planning"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 8: Manipulation & Grasping",
+    "permalink": "/docs/chapter-8"
+  },
+  "next": {
+    "title": "Chapter 10: Reinforcement Learning",
+    "permalink": "/docs/chapter-10"
+  }
+}

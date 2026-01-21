@@ -1,0 +1,288 @@
+{
+  "metadata": {
+    "chapter": "Chapter 4: State Estimation",
+    "chapter_ur": "باب 4: ریاست کا تخمینہ",
+    "language": "en-ur",
+    "version": "1.0",
+    "last_updated": "2026-01-04"
+  },
+  "key_terms": {
+    "State Estimation": {
+      "term_en": "State Estimation",
+      "term_ur": "ریاست کا تخمینہ",
+      "definition_en": "The process of determining the hidden state of a dynamic system from noisy, indirect measurements.",
+      "definition_ur": "نویز والی، بالواسطہ پیمائشوں سے کسی ڈائنامک سسٹم کی چھپی ہوئی ریاست طے کرنے کا عمل۔"
+    },
+    "Kalman Filter": {
+      "term_en": "Kalman Filter",
+      "term_ur": "کالمن فلٹر",
+      "abbreviation": "KF",
+      "definition_en": "An optimal recursive estimator for linear systems with Gaussian noise that combines predictions from a motion model with measurements.",
+      "definition_ur": "گاسین نویز والے لینیر سسٹمز کے لیے ایک آپٹیمل ریکرسیو تخمینہ لگانے والا جو موشن ماڈل سے پیڈکشنز کو پیمائشوں کے ساتھ ملاتا ہے۔"
+    },
+    "EKF": {
+      "term_en": "Extended Kalman Filter",
+      "term_ur": "ایکسٹینڈڈ کالمن فلٹر",
+      "abbreviation": "EKF",
+      "definition_en": "Extended Kalman Filter that linearizes nonlinear functions using first-order Taylor series expansion around the current estimate.",
+      "definition_ur": "کالمن فلٹر کو غیر لینیر سسٹمز کے لیے موزو کرتا ہے جو موجودہ تخمینے کے گرد پہلے درجے کی ٹیلر سیریز ایکسپینشن کا استعمال کرتا ہے۔"
+    },
+    "UKF": {
+      "term_en": "Unscented Kalman Filter",
+      "term_ur": "انسنٹڈ کالمن فلٹر",
+      "abbreviation": "UKF",
+      "definition_en": "A Kalman Filter variant that uses deterministic sigma points to handle nonlinearities more accurately than EKF.",
+      "definition_ur": "کالمن فلٹر کا ایک ویریئنٹ جو EKF سے زیادہ درستگی سے غیر لینیریٹی سنبھالنے کے لیے ڈیٹرمنسٹک سگما پوائنٹس استعمال کرتا ہے۔"
+    },
+    "SLAM": {
+      "term_en": "SLAM",
+      "term_ur": "سلم",
+      "full_form_en": "Simultaneous Localization and Mapping",
+      "full_form_ur": "ایک ساتھ لوکلائزیشن اور میپنگ",
+      "definition_en": "The problem of simultaneously building a map of an unknown environment while localizing the robot within it.",
+      "definition_ur": "ایک نامعلوم ماحول کا نقشہ بناتے ہوئے ساتھ ہی روبوٹ کو اس کے اندر لوکلائز کرنے کا مسئلہ۔"
+    },
+    "Particle Filter": {
+      "term_en": "Particle Filter",
+      "term_ur": "پارٹیکل فلٹر",
+      "definition_en": "A non-parametric recursive estimator that represents belief as weighted particles, capable of handling non-Gaussian and multi-modal distributions.",
+      "definition_ur": "ایک غیر پیرامیٹرک ریکرسیو تخمینہ لگانے والا جو بیلیف کو وزن والے پارٹیکلز کے طور پر نمائندہ کرتا ہے، غیر گاسین اور ملٹی موڈل تقسیم کو سنبھالنے کے قابل۔"
+    },
+    "Bayes Filter": {
+      "term_en": "Bayes Filter",
+      "term_ur": "بیزین فلٹر",
+      "definition_en": "A general recursive framework for state estimation that alternates between prediction and update steps using Bayes' rule.",
+      "definition_ur": "ریاست کے تخمینے کے لیے ایک عام ریکرسیو فریم ورک جو بیز کے اصول کا استعمال کرتے ہوئے پیڈکشن اور اپڈیٹ اسٹیپس کے درمیان alternate کرتا ہے۔"
+    },
+    "Sensor Fusion": {
+      "term_en": "Sensor Fusion",
+      "term_ur": "سینسر فیوڈنگ",
+      "definition_en": "The process of combining data from multiple sensors to produce a more accurate and reliable estimate.",
+      "definition_ur": "متعدد سینسرز کے ڈیٹا کو ملا کر ایک زیادہ درست اور قابل اعتماد تخمینہ پیدا کرنے کا عمل۔"
+    },
+    "IMU": {
+      "term_en": "IMU",
+      "term_ur": "آئی ایم یو",
+      "full_form_en": "Inertial Measurement Unit",
+      "full_form_ur": "انرشیل میزورمنٹ یونٹ",
+      "definition_en": "A device containing accelerometers and gyroscopes that measures linear acceleration and angular velocity.",
+      "definition_ur": "ایک آلہ جو ایکسلرومیٹر اور جائروسکوپ پر مشتمل ہے جو لینیر ایکسیلریشن اور زاویائی رفتار ناپتا ہے۔"
+    },
+    "Odometry": {
+      "term_en": "Odometry",
+      "term_ur": "اوڈومیٹری",
+      "definition_en": "Position estimation from wheel encoders by integrating wheel rotations over time.",
+      "definition_ur": "وہیل انکوڈر سے پوزیشن کا تخمینہ جو وقت کے ساتھ وہیل کے گردش کو انٹیگریٹ کرتا ہے۔"
+    },
+    "Kalman Gain": {
+      "term_en": "Kalman Gain",
+      "term_ur": "کالمن گین",
+      "symbol": "K",
+      "definition_en": "The weight given to the measurement when updating the state estimate, balancing prediction confidence vs measurement confidence.",
+      "definition_ur": "ریاست کے تخمینے کو اپڈیٹ کرتے وقت پیمائش کو دیا جانے والا وزن جو پیڈکشن کے اعتماد اور پیمائش کے اعتماد کے درمیان توازن برقرار رکھتا ہے۔"
+    },
+    "Covariance": {
+      "term_en": "Covariance",
+      "term_ur": "کوویریئس",
+      "symbol": "P, Q, R",
+      "definition_en": "A measure of how variables change together; in state estimation, covariance matrices represent uncertainty.",
+      "definition_ur": "متغیرات کے ساتھ کتنے بدلتے ہیں کا پیمانہ؛ ریاست کے تخمینے میں، کوویریئس میٹرکس عدم یقین کی نمائندگی کرتی ہیں۔"
+    },
+    "Prediction": {
+      "term_en": "Prediction",
+      "term_ur": "پیڈکشن",
+      "definition_en": "The first step of a Bayes filter that propagates the current belief forward in time using the motion model.",
+      "definition_ur": "بیزین فلٹر کا پہلا مرحلہ جو موشن ماڈل کا استعمال کرتے ہوئے موجودہ بیلیف کو آگے وقت میں پھیلاتا ہے۔"
+    },
+    "Update": {
+      "term_en": "Update",
+      "term_ur": "اپڈیٹ",
+      "definition_en": "The second step of a Bayes filter that incorporates new measurements to refine the state estimate.",
+      "definition_ur": "بیزین فلٹر کا دوسرا مرحلہ جو ریاست کے تخمینے کو صقل کرنے کے لیے نئی پیمائشیں شامل کرتا ہے۔"
+    },
+    "Innovation": {
+      "term_en": "Innovation",
+      "term_ur": "انوویشن",
+      "symbol": "y",
+      "definition_en": "The difference between the actual measurement and the predicted measurement (measurement residual).",
+      "definition_ur": "اصل پیمائش اور پیڈکشن شدہ پیمائش کے درمیان فرق (پیمائش ریزیڈوئل)۔"
+    },
+    "Jacobian": {
+      "term_en": "Jacobian",
+      "term_ur": "جیکوبین",
+      "definition_en": "A matrix of partial derivatives used in EKF for linearizing nonlinear transition and measurement functions.",
+      "definition_ur": "جزوی مشتقات کی میٹرکس جو EKF میں غیر لینیر ٹرانزیشن اور پیمائش فنکشنز کو لینیرایز کرنے کے لیے استعمال ہوتی ہے۔"
+    },
+    "Sigma Points": {
+      "term_en": "Sigma Points",
+      "term_ur": "سگما پوائنٹس",
+      "definition_en": "Deterministically selected points around the mean that capture the covariance of a distribution for UKF.",
+      "definition_ur": "اوسط کے گرد ڈیٹرمنسٹک طور پر چنے گئے پوائنٹس جو UKF کے لیے تقسیم کے کوویریئس کو پکڑتے ہیں۔"
+    },
+    "Resampling": {
+      "term_en": "Resampling",
+      "term_ur": "ریسیمپلنگ",
+      "definition_en": "In particle filters, the process of discarding low-weight particles and duplicating high-weight particles.",
+      "definition_ur": "پارٹیکل فلٹر میں، کم وزن والے پارٹیکلز کو ہٹانے اور زیادہ وزن والے پارٹیکلز کو ڈپلیکیٹ کرنے کا عمل۔"
+    },
+    "Prior": {
+      "term_en": "Prior",
+      "term_ur": "پرائر",
+      "definition_en": "The probability distribution of the state before incorporating new observations (result of prediction step).",
+      "definition_ur": "نئے مشاہدات کو شامل کرنے سے پہلے ریاست کی احتمال تقسیم (پیڈکشن اسٹیپ کا نتیجہ)۔"
+    },
+    "Posterior": {
+      "term_en": "Posterior",
+      "term_ur": "پوسٹیریر",
+      "definition_en": "The probability distribution of the state after incorporating new observations (result of update step).",
+      "definition_ur": "نئے مشاہدات کو شامل کرنے کے بعد ریاست کی احتمال تقسیم (اپڈیٹ اسٹیپ کا نتیجہ)۔"
+    },
+    "RMSE": {
+      "term_en": "RMSE",
+      "term_ur": "آر ایم ایس ای",
+      "full_form_en": "Root Mean Square Error",
+      "full_form_ur": "روٹ مین اسکوئیر ایرر",
+      "definition_en": "A metric for evaluating estimation accuracy: sqrt(mean((true - estimated)^2)).",
+      "definition_ur": "تخمینہ کی درستگی جانچنے کا ایک میٹرک: sqrt(mean((true - estimated)^2))۔"
+    },
+    "Likelihood": {
+      "term_en": "Likelihood",
+      "term_ur": "لائکلی ہوڈ",
+      "definition_en": "The probability of observing a particular measurement given a hypothesized state.",
+      "definition_ur": "ایک مفروضہ ریاست کو دیکھتے ہوئے ایک خاص پیمائش کے مشاہدے کا احتمال۔"
+    },
+    "Gaussian Distribution": {
+      "term_en": "Gaussian Distribution",
+      "term_ur": "گاسین تقسیم",
+      "definition_en": "A probability distribution characterized by its mean and covariance (bell curve).",
+      "definition_ur": "اوسط اور کوویریئس کی خصوصیت والی احتمال تقسیم (گھنٹی منحنی)۔"
+    },
+    "State": {
+      "term_en": "State",
+      "term_ur": "ریاست",
+      "symbol": "x",
+      "definition_en": "A complete description of a system at a given time sufficient to predict future behavior.",
+      "definition_ur": "ایک مخصوص وقت پر سسٹم کی مکمل وضاحت جو مستقبل کے برتاؤ کو پیڈکٹ کرنے کے لیے کافی ہو۔"
+    },
+    "Process Noise": {
+      "term_en": "Process Noise",
+      "term_ur": "پراسس نویز",
+      "symbol": "w_k",
+      "definition_en": "Uncertainty in the motion model representing unmodeled dynamics or disturbances.",
+      "definition_ur": "موشن ماڈل میں عدم یقین جو غیر ماڈلڈ ڈائنامکس یا پریشانیوں کی نمائندگی کرتا ہے۔"
+    },
+    "Measurement Noise": {
+      "term_en": "Measurement Noise",
+      "term_ur": "پیمائش کا نویز",
+      "symbol": "v_k",
+      "definition_en": "Uncertainty in sensor readings due to measurement imperfections.",
+      "definition_ur": "پیمائش کی خامیوں کی وجہ سے سینسر ریڈنگ میں عدم یقین۔"
+    },
+    "State Transition Matrix": {
+      "term_en": "State Transition Matrix",
+      "term_ur": "ریاست ٹرانزیشن میٹرکس",
+      "symbol": "A, F",
+      "definition_en": "Matrix that describes how the state evolves from one time step to the next in a linear system.",
+      "definition_ur": "میٹرکس جو بیان کرتی ہے کہ لینیر سسٹم میں ریاست ایک وقت کے قدم سے اگلے میں کیسے تبدیل ہوتی ہے۔"
+    },
+    "Measurement Matrix": {
+      "term_en": "Measurement Matrix",
+      "term_ur": "پیمائش میٹرکس",
+      "symbol": "H",
+      "definition_en": "Matrix that maps the state vector to the measurement space.",
+      "definition_ur": "میٹرکس جو ریاست ویکٹر کو پیمائش اسپیس میں میپ کرتی ہے۔"
+    },
+    "Centralized Filter": {
+      "term_en": "Centralized Filter",
+      "term_ur": "سینٹرلائزڈ فلٹر",
+      "definition_en": "A sensor fusion architecture where a single filter processes all sensor measurements.",
+      "definition_ur": "ایک سینسر فیوڈنگ آرکیٹیکچر جہاں ایک فلٹر تمام سینسر کی پیمائشیں پروسیس کرتا ہے۔"
+    },
+    "Decentralized Filter": {
+      "term_en": "Decentralized Filter",
+      "term_ur": "ڈیسینٹرلائزڈ فلٹر",
+      "definition_en": "A sensor fusion architecture where multiple filters process sensor data and fuse their estimates.",
+      "definition_ur": "ایک سینسر فیوڈنگ آرکیٹیکچر جہاں متعدد فلٹر سینسر ڈیٹا کو پروسیس کرتے ہیں اور اپنے تخمینوں کو فیوڈ کرتے ہیں۔"
+    },
+    "FastSLAM": {
+      "term_en": "FastSLAM",
+      "term_ur": "فاسٹ سلم",
+      "definition_en": "A particle filter-based SLAM algorithm that uses particles for robot pose and EKFs for landmark mapping.",
+      "definition_ur": "ایک پارٹیکل فلٹر پر مبنی سلم الگورتھم جو روبوٹ پوز کے لیے پارٹیکلز اور لینڈمارک میپنگ کے لیے EKFs استعمال کرتا ہے۔"
+    },
+    "Multi-modal Distribution": {
+      "term_en": "Multi-modal Distribution",
+      "term_ur": "ملٹی موڈل تقسیم",
+      "definition_en": "A probability distribution with multiple peaks, representing multiple possible states.",
+      "definition_ur": "ایک احتمال تقسیم جس میں متعدد چوٹیاں ہیں، متعدد ممکنہ ریاستوں کی نمائندگی کرتی ہے۔"
+    },
+    "Non-Gaussian": {
+      "term_en": "Non-Gaussian",
+      "term_ur": "غیر گاسین",
+      "definition_en": "A distribution that does not follow the Gaussian (normal) bell curve shape.",
+      "definition_ur": "ایک تقسیم جو گاسین (نارمل) گھنٹی منحنی شکل کی پیروی نہیں کرتی۔"
+    },
+    "Linearization": {
+      "term_en": "Linearization",
+      "term_ur": "لینیرایزیشن",
+      "definition_en": "The process of approximating a nonlinear function with a linear function using derivatives (Taylor expansion).",
+      "definition_ur": "غیر لینیر فنکشن کو مشتقات (ٹیلر ایکسپینشن) کا استعمال کرتے ہوئے لینیر فنکشن کے ساتھ اپروکسیمیٹ کرنے کا عمل۔"
+    },
+    "Taylor Series": {
+      "term_en": "Taylor Series",
+      "term_ur": "ٹیلر سیریز",
+      "definition_en": "An infinite sum of terms calculated from a function's derivatives at a single point, used for linearization in EKF.",
+      "definition_ur":": ایک واحد پوائنٹ پر فنکشن کے مشتقات سے حساب کیے گئے الفاظ کا لامتناہی مجموعہ، EKF میں لینیرایزیشن کے لیے استعمال کیا جاتا ہے۔"
+    },
+    "Unscented Transform": {
+      "term_en": "Unscented Transform",
+      "term_ur": "انسنٹڈ ٹرانسفارم",
+      "definition_en": "A method for propagating mean and covariance through nonlinearity using sigma points.",
+      "definition_ur": "سگما پوائنٹس کا استعمال کرتے ہوئے اوسط اور کوویریئس کو غیر لینیریٹی کے ذریعے پھیلانے کا ایک طریقہ۔"
+    },
+    "Particle": {
+      "term_en": "Particle",
+      "term_ur": "پارٹیکل",
+      "definition_en": "A sample representing a possible state with an associated weight in a particle filter.",
+      "definition_ur": "پارٹیکل فلٹر میں ایک ممکنہ ریاست کا ایک نمونہ ایک منسلک وزن کے ساتھ۔"
+    },
+    "Belief": {
+      "term_en": "Belief",
+      "term_ur": "بیلیف",
+      "definition_en": "The probability distribution representing the robot's knowledge about its state (also called posterior).",
+      "definition_ur": "احتمال تقسیم جو روبوٹ کی اپنی ریاست کے بارے میں علم کی نمائندگی کرتی ہے (پوسٹیریر بھی کہا جاتا ہے)۔"
+    }
+  },
+  "equations": {
+    "kalman_filter_prediction": {
+      "equation": "x̂⁻ = A x̂",
+      "description_en": "State prediction using state transition matrix",
+      "description_ur": "ریاست ٹرانزیشن میٹرکس کا استعمال کر کے ریاست کا پیڈکشن"
+    },
+    "kalman_covariance_prediction": {
+      "equation": "P⁻ = A P Aᵀ + Q",
+      "description_en": "Covariance prediction incorporating process noise",
+      "description_ur": "پراسس نویز کو شامل کرتے ہوئے کوویریئس کا پیڈکشن"
+    },
+    "kalman_gain": {
+      "equation": "K = P⁻ Hᵀ (H P⁻ Hᵀ + R)⁻¹",
+      "description_en": "Optimal Kalman gain computation",
+      "description_ur": "آپٹیمل کالمن گین کا حساب"
+    },
+    "state_update": {
+      "equation": "x̂ = x̂⁻ + K(z - H x̂⁻)",
+      "description_en": "State update using innovation",
+      "description_ur": "انوویشن کا استعمال کر کے ریاست کا اپڈیٹ"
+    },
+    "covariance_update": {
+      "equation": "P = (I - K H) P⁻",
+      "description_en": "Covariance update after measurement",
+      "description_ur": "پیمائش کے بعد کوویریئس کا اپڈیٹ"
+    },
+    "bayes_rule": {
+      "equation": "P(x|z) ∝ P(z|x) × P(x)",
+      "description_en": "Bayes' rule for state estimation",
+      "description_ur": "ریاست کے تخمینے کے لیے بیز کا اصول"
+    }
+  }
+}

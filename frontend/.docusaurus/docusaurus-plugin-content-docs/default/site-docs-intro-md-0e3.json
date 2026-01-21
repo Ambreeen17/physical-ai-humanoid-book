@@ -1,0 +1,23 @@
+{
+  "id": "intro",
+  "title": "Welcome to Physical AI & Humanoid Robotics",
+  "description": "Welcome to an AI-native textbook designed to bridge the gap between artificial intelligence and physical embodiment. This curriculum guides you from foundational concepts to building autonomous humanoid systems capable of perceiving, planning, and acting in the real world.",
+  "source": "@site/docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/docs/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Chapter 1: Introduction to Physical AI",
+    "permalink": "/docs/chapter-1"
+  }
+}

@@ -1,0 +1,43 @@
+flowchart TB
+    subgraph RGB_Branch["RGB Sensor Path"]
+        direction LR
+        RGB["RGB SENSOR<br/>Color Image"]
+        RGB_K["INTRINSICS K<br/>[fx,fy,cx,cy]"]
+        RGB_Dist["DISTORTION<br/>[k1,k2,p1,p2,k3]"]
+        RGB_Correct["CORRECTED<br/>[u,v]"]
+    end
+
+    subgraph Depth_Branch["Depth Sensor Path"]
+        direction LR
+        Depth["DEPTH SENSOR<br/>Depth Image"]
+        Depth_K["INTRINSICS K'<br/>[fx',fy',cx',cy']"]
+        Depth_Dist["DISTORTION<br/>[k1',k2',p1',p2',k3']"]
+        Depth_Correct["CORRECTED<br/>[u',v']"]
+    end
+
+    subgraph Extrinsic["Extrinsic Calibration"]
+        direction TB
+        R["R (3x3 Rotation)"]
+        t["t (3x1 Translation)"]
+    end
+
+    subgraph Alignment["Point Cloud Generation"]
+        direction LR
+        Transform["P_color = R·P_depth + t"]
+        Project["[u,v] = K·P_color/Z"]
+        PointCloud["3D POINT CLOUD"]
+    end
+
+    RGB --> RGB_K --> RGB_Dist --> RGB_Correct
+    Depth --> Depth_K --> Depth_Dist --> Depth_Correct
+
+    RGB_Correct & Depth_Correct --> Extrinsic
+    Extrinsic --> Transform --> Project --> PointCloud
+
+    classDef sensor fill:#bbdefb,stroke:#1565c0,stroke-width:2px
+    classDef calib fill:#fff9c4,stroke:#f9a825,stroke-width:2px
+    classDef output fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+
+    class RGB,Depth sensor
+    class RGB_K,Depth_K,R,t,Transform calib
+    class PointCloud,RGB_Correct,Depth_Correct,Project output

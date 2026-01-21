@@ -1,0 +1,50 @@
+flowchart TB
+    subgraph Mounting["Mounting Configurations"]
+        direction LR
+        Wrist["WRIST MOUNT<br/>Most Common<br/>Tool-side"]
+        Flange["FLANGE MOUNT<br/>Task-oriented<br/>Arm-side"]
+    end
+
+    subgraph Internal["Internal Structure"]
+        direction TB
+        TopPlate["TOP PLATE<br/>Tool interface"]
+        Gauges["STRAIN GAUGES<br/>Array (6-12 gauges)"]
+        BottomPlate["BOTTOM PLATE<br/>Arm interface"]
+    end
+
+    subgraph SignalChain["Signal Chain"]
+        direction LR
+        Bridge["WHEATSTONE<br/>BRIDGE"]
+        Amp["INSTRUMENT<br/>AMPLIFIER"]
+        ADC["A/D<br/>CONVERTER"]
+        Cal["CALIBRATION<br/>MATRIX"]
+        Output["[Fₓ,Fᵧ,F_z,Mₓ,Mᵧ,M_z]ᵀ"]
+    end
+
+    subgraph GaugeTypes["Gauge Measurements"]
+        direction TB
+        Normal["NORMAL STRAINS<br/>F_z (axial)"]
+        Shear["SHEAR STRAINS<br/>Fₓ, Fᵧ, M_z"]
+        Bending["BENDING STRAINS<br/>Mₓ, M_y"]
+    end
+
+    TopPlate --> Gauges
+    Gauges --> BottomPlate
+
+    Gauges --> Bridge
+    Bridge --> Amp
+    Amp --> ADC
+    ADC --> Cal
+    Cal --> Output
+
+    Bridge --> GaugeTypes
+
+    classDef mount fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef internal fill:#fce4ec,stroke:#c62828,stroke-width:2px
+    classDef signal fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    classDef gauge fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class Wrist,Flange mount
+    class TopPlate,Gauges,BottomPlate internal
+    class Bridge,Amp,ADC,Cal,Output signal
+    class Normal,Shear,Bending gauge

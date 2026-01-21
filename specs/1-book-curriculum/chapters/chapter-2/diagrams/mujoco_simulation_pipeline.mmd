@@ -1,0 +1,45 @@
+flowchart TB
+    subgraph Model["Model Definition"]
+        direction LR
+        MJCF["MJCF/XML<br/>Robot Description"]
+        URDF["URDF Import<br/>ROS Compatibility"]
+    end
+
+    subgraph Parse["Parsing"]
+        MjModel["MjModel<br/>Compiled Model<br/>Physics Parameters"]
+    end
+
+    subgraph State["State Initialization"]
+        MjData["MjData<br/>Initial State<br/>qpos, qvel, qacc"]
+    end
+
+    subgraph Simulation["Simulation Loop"]
+        direction TB
+
+        Control["tau<br/>Control Torques"] --> Apply["Apply Control<br/>data.ctrl = tau"]
+
+        Apply --> Physics["Physics Engine<br/>mj_step<br/>mj_step1 + mj_step2"]
+
+        Physics --> Update["Update State<br/>qpos, qvel, qacc"]
+
+        Update --> Check{"t < t_final?"}
+
+        Check -->|"Yes"| Control
+        Check -->|"No"| Output
+    end
+
+    subgraph Output["Results"]
+        Render["3D Rendering<br/>OpenGL"]
+        Log["Trajectory Log<br/>Data Export"]
+    end
+
+    Model --> Parse
+    Parse --> State
+    State --> Simulation
+    Simulation --> Output
+
+    style Model fill:#e3f2fd
+    style Parse fill:#c8e6c9
+    style State fill:#c8e6c9
+    style Simulation fill:#fff3e0
+    style Output fill:#f3e5f5

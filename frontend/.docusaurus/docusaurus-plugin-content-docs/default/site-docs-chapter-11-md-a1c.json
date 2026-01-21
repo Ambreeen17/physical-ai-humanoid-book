@@ -1,0 +1,28 @@
+{
+  "id": "chapter-11",
+  "title": "Chapter 11: Imitation Learning",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-11.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-11",
+  "permalink": "/docs/chapter-11",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-11.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 12,
+  "frontMatter": {
+    "sidebar_position": 12,
+    "title": "Chapter 11: Imitation Learning"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 10: Reinforcement Learning",
+    "permalink": "/docs/chapter-10"
+  },
+  "next": {
+    "title": "Chapter 12: Vision-Language-Action Models",
+    "permalink": "/docs/chapter-12"
+  }
+}

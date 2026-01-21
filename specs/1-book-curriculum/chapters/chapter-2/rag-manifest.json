@@ -1,0 +1,103 @@
+{
+  "chapter": 2,
+  "topic": "Kinematics & Dynamics",
+  "total_chunks": 15,
+  "chunk_strategy": "semantic",
+  "embedding_model": "text-embedding-3-small",
+  "vector_db": "qdrant",
+  "collection_name": "textbook_chapter_2",
+  "metadata": {
+    "created_at": "2026-01-05T21:42:50.718814",
+    "chapter_title": "Kinematics & Dynamics",
+    "learning_objectives": [
+      "Define joint space and configuration space for robot manipulators",
+      "Compute forward kinematics using Denavit-Hartenberg parameters",
+      "Solve inverse kinematics for 2-DOF and 3-DOF arms",
+      "Apply Lagrangian mechanics to derive equations of motion",
+      "Simulate robot dynamics in MuJoCo and Gazebo"
+    ],
+    "difficulty_level": "multi_level",
+    "target_audience": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ]
+  },
+  "chunks": [
+    {
+      "id": "ch2_001",
+      "type": "introduction",
+      "size": 512
+    },
+    {
+      "id": "ch2_002",
+      "type": "theory",
+      "size": 1024
+    },
+    {
+      "id": "ch2_003",
+      "type": "mathematical_foundation",
+      "size": 768
+    },
+    {
+      "id": "ch2_004",
+      "type": "hardware_considerations",
+      "size": 640
+    },
+    {
+      "id": "ch2_005",
+      "type": "software_implementation",
+      "size": 896
+    },
+    {
+      "id": "ch2_006",
+      "type": "code_example",
+      "size": 512
+    },
+    {
+      "id": "ch2_007",
+      "type": "simulation",
+      "size": 704
+    },
+    {
+      "id": "ch2_008",
+      "type": "testing",
+      "size": 640
+    },
+    {
+      "id": "ch2_009",
+      "type": "applications",
+      "size": 768
+    },
+    {
+      "id": "ch2_010",
+      "type": "challenges",
+      "size": 576
+    },
+    {
+      "id": "ch2_011",
+      "type": "beginner_content",
+      "size": 640
+    },
+    {
+      "id": "ch2_012",
+      "type": "intermediate_content",
+      "size": 704
+    },
+    {
+      "id": "ch2_013",
+      "type": "advanced_content",
+      "size": 768
+    },
+    {
+      "id": "ch2_014",
+      "type": "assessment_preparation",
+      "size": 512
+    },
+    {
+      "id": "ch2_015",
+      "type": "summary",
+      "size": 448
+    }
+  ]
+}

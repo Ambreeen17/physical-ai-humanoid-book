@@ -1,0 +1,261 @@
+================================================================================
+                    DC MOTOR TORQUE-SPEED CHARACTERISTICS
+================================================================================
+
+    TORQUE-SPEED CURVE
+    ══════════════════
+
+    Speed (ω)
+      ↑
+      │          ╱
+      │        ╱
+      │      ╱
+      │    ╱           Slope = -K
+      │  ╱
+      │╱
+      ├──────────────────────────────► Torque (τ)
+     τ_stall    │    │    │    │    τ_no-load
+                │    │    │    │
+                │    │    │    │
+                │    │    │    │
+                │    │    │    │
+                │    │    │    │
+                │    │    │    │
+                │    │    │    │
+                │    │    │    │
+                │    │    │    │
+                ▼    ▼    ▼    ▼
+
+              τ_stall ──► Maximum torque (locked rotor)
+              ω_no-load ─► Maximum speed (no torque)
+
+
+================================================================================
+                    MOTOR EQUATIONS
+================================================================================
+
+    VOLTAGE EQUATION
+    ═════════════════
+
+    V = E + I·R
+
+    Where:
+        V = Applied voltage (V)
+        E = Back EMF (V) = K_e · ω
+        I = Armature current (A)
+        R = Armature resistance (Ω)
+
+
+    TORQUE EQUATION
+    ═══════════════
+
+    τ = K_t · I
+
+    Where:
+        τ = Electromagnetic torque (Nm)
+        K_t = Torque constant (Nm/A)
+        I = Armature current (A)
+
+
+    BACK EMF RELATIONSHIP
+    ═════════════════════
+
+    E = K_e · ω
+
+    Where:
+        K_e = Back EMF constant (V·s/rad)
+        ω = Angular velocity (rad/s)
+
+
+================================================================================
+    DERIVING THE TORQUE-SPEED RELATIONSHIP
+    ══════════════════════════════════════
+
+    From V = E + I·R:
+
+    V = K_e · ω + (τ / K_t) · R
+
+    Solving for ω:
+
+    ω = (V / K_e) - (R / (K_e · K_t)) · τ
+
+    Or in slope-intercept form:
+
+    ω = ω_no-load - K · τ
+
+    Where:
+        ω_no-load = V / K_e        (no-load speed)
+        K = R / (K_e · K_t)        (slope magnitude)
+        τ_stall = (V · K_t) / R    (stall torque)
+
+
+    RELATIONSHIP BETWEEN CONSTANTS
+    ══════════════════════════════
+
+    SI Units: K_e = K_t = K
+
+    At steady state (P_in = P_out):
+        V·I = τ·ω
+        (E + I·R)·I = (K·I)·ω
+        E·I + I²·R = K·ω·I
+        K·ω·I + I²·R = K·ω·I
+        I²·R = 0 (ideal, no losses)
+
+    Thus: K_e = K_t = K (numerically equal in SI units)
+
+
+================================================================================
+                    POWER CURVES
+    ══════════════════════════════════════════════════════════════════════
+
+    Speed (ω)
+      ↑
+      │    ╱╲ Power Output
+      │   ╱  ╲____
+      │  ╱        ╲____
+      │╱              ╲____
+      ├──────────────────────────────► Torque (τ)
+     τ_stall          τ_max   τ_opt
+                           (Peak Power)
+
+
+    POWER CALCULATIONS
+    ══════════════════
+
+    Output Power:     P_out = τ · ω
+                     P_out = τ · (ω_no-load - K·τ)
+                     P_out = τ·ω_no-load - K·τ²
+
+    Maximum Power:    dP_out/dτ = 0
+                     τ_peak = ω_no-load / (2K) = τ_stall / 2
+
+    Input Power:      P_in = V · I
+    Efficiency:       η = P_out / P_in = (τ·ω) / (V·I)
+
+
+================================================================================
+                    OPERATING REGIONS
+    ═════════════════════════════════════════════════════════════════════
+
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                          │
+    │   MOTOR OPERATING REGIONS                                                │
+    │                                                                          │
+    │                                                                          │
+    │      Continuous          Peak/                 │                         │
+    │      Operating           Transient             │    Overload             │
+    │      Zone                Zone                  │    Zone                 │
+    │   ┌─────────────────┬─────────────────────┐   │  ┌─────────────────┐   │
+    │   │                 │                     │   │  │                 │   │
+    │   │   NORMAL        │     INTERMITTENT    │   │  │     DAMAGE      │   │
+    │   │   OPERATION     │     OVERLOAD        │   │  │     RISK        │   │
+    │   │                 │                     │   │  │                 │   │
+    │   │   0 - 100%      │   100% - 200%       │   │  │   > 200%        │   │
+    │   │   rated torque  │   rated torque      │   │  │   rated torque  │   │
+    │   │                 │                     │   │  │                 │   │
+    │   │   Safe,         │   Short duration    │   │  │   Thermal       │   │
+    │   │   continuous    │   only              │   │  │   damage        │   │
+    │   │                 │                     │   │  │   possible      │   │
+    │   └─────────────────┴─────────────────────┘   │  └─────────────────┘   │
+    │                                                  │                      │
+    └──────────────────────────────────────────────────┴──────────────────────┘
+
+
+================================================================================
+                    MOTOR CHARACTERISTICS COMPARISON
+    ═══════════════════════════════════════════════════════════════════════
+
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║  MOTOR TYPE        τ_stall     ω_no-load    Efficiency   Comments    ║
+    ╠════════════════════╦═══════════╦════════════╦════════════╦════════════╣
+    ║  Brushed DC        High        Medium       75-90%      Simple,      ║
+    ║  (with gear)                                           low cost     ║
+    ╠════════════════════╬═══════════╬════════════╬════════════╬════════════╣
+    ║  Brushless DC      Very High   High         85-95%      Complex,     ║
+    ║  (BLDC)                                                high power   ║
+    ╠════════════════════╬═══════════╬════════════╬════════════╬════════════╣
+    ║  Stepper           Very High   Low          60-80%      Position     ║
+    ║  (bipolar)                                             control      ║
+    ╠════════════════════╬═══════════╬════════════╬════════════╬════════════╣
+    ║  Servo (DC)        Medium      Medium       70-85%      Integrated   ║
+    ║  (with gear)                                           control      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+================================================================================
+                    GEAR REDUCTION EFFECTS
+    ═══════════════════════════════════════════════════════════════════════
+
+    WITHOUT GEARBOX                 WITH GEARBOX (N:1)
+    ═══════════════                 ════════════════════
+
+    Speed:  ω_motor                 Speed: ω_load = ω_motor / N
+    Torque: τ_motor                 Torque: τ_load = τ_motor × N × η_gear
+
+    ┌──────────────────┐            ┌──────────────────┐
+    │   ╱╲             │            │           ╱╲     │
+    │  ╱  ╲            │            │          ╱  ╲    │
+    │ ╱    ╲           │     N:1    │         ╱    ╲   │
+    │╱      ╲          │ ─────────► │        ╱      ╲  │
+    ├──────────────►   │            │       ╱         ╲ │
+    │   τ_stall             │            │      │          │
+    │                      │            │      ▼          │
+    │                      │            │   ╱╲            │
+    │                      │            │  ╱  ╲           │
+    │                      │            │ ╱    ╲          │
+    │                      │            │╱      ╲         │
+    │                      │            │────────►        │
+    │                      │            │   N×τ_stall     │
+    └──────────────────────┘            └──────────────────┘
+
+    Benefits:
+    - Increased torque at output (×N)
+    - Decreased speed at output (/N)
+    - Reduced motor heating (less current at same load torque)
+
+
+================================================================================
+                    CONTROL STRATEGIES
+    ═══════════════════════════════════════════════════════════════════════
+
+    SPEED CONTROL                    TORQUE CONTROL
+    ═══════════════                  ════════════════
+
+    ┌────────────────────┐           ┌────────────────────┐
+    │    ω_ref ─────┐    │           │    τ_ref ─────┐    │
+    │               ▼    │           │               ▼    │
+    │   ┌───────────────┐ │           │   ┌───────────────┐ │
+    │   │  PI/PID       │ │           │   │   Current     │ │
+    │   │  Controller   │ │           │   │   Controller  │ │
+    │   └───────┬───────┘ │           │   └───────┬───────┘ │
+    │           │         │           │           │         │
+    │           ▼         │           │           ▼         │
+    │   ┌───────────────┐ │           │   ┌───────────────┐ │
+    │   │   Voltage     │ │           │   │   PWM         │ │
+    │   │   Command     │ │           │   │   Generator   │ │
+    │   └───────┬───────┘ │           │   └───────┬───────┘ │
+    │           │         │           │           │         │
+    │           ▼         │           │           ▼         │
+    │   ┌───────────────┐ │           │   ┌───────────────┐ │
+    │   │  PWM/H-Bridge │ │           │   │   H-Bridge    │ │
+    │   │  Drive        │ │           │   │   Driver      │ │
+    │   └───────┬───────┘ │           │   └───────┬───────┘ │
+    │           │         │           │           │         │
+    │           ▼         │           │           ▼         │
+    │   ┌───────────────┐ │           │   ┌───────────────┐ │
+    │   │    DC MOTOR   │ │           │   │    DC MOTOR   │ │
+    │   │               │ │           │   │               │ │
+    │   └───────────────┘ │           │   └───────────────┘ │
+    │           │         │           │           │         │
+    │           ▼         │           │           ▼         │
+    │   ┌───────────────┐ │           │   ┌───────────────┐ │
+    │   │   ω_measured  │ │           │   │   I_measured  │ │
+    │   │   (Encoder)   │ │           │   │   (Shunt)     │ │
+    │   └───────────────┘ │           │   └───────────────┘ │
+    └─────────────────────┘           └─────────────────────┘
+
+    Key Point: Torque control requires current feedback
+               Speed control requires position/velocity feedback
+
+
+================================================================================

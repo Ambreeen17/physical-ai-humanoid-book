@@ -1,0 +1,29 @@
+# Lab 3.2: RGB-D Camera Calibration
+# ROS 2 Humble container with OpenCV for camera calibration
+
+FROM osrf/ros:humble-desktop-full
+
+# Install Python dependencies for camera calibration
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-numpy \
+    python3-pip \
+    python3-opencv \
+    ros-humble-cv-bridge \
+    ros-humble-image-transport \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create workspace
+WORKDIR /root/ros2_lab
+
+# Copy package files
+COPY ./src/camera_calibration/package.xml /root/ros2_lab/src/camera_calibration/
+COPY ./src/camera_calibration/setup.py /root/ros2_lab/src/camera_calibration/
+COPY ./src/camera_calibration/setup.cfg /root/ros2_lab/src/camera_calibration/
+COPY ./src/camera_calibration/camera_calibration/ /root/ros2_lab/src/camera_calibration/camera_calibration/
+
+# Build the package
+RUN . /opt/ros/humble/setup.sh && \
+    cd /root/ros2_lab && \
+    colcon build --packages-select camera_calibration
+
+ENTRYPOINT ["/bin/bash"]

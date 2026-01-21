@@ -1,0 +1,64 @@
+{
+  "assessment_suite": {
+    "chapter": 2,
+    "title": "Kinematics & Dynamics",
+    "version": "1.0",
+    "generated_date": "2026-01-04",
+    "description": "Comprehensive assessment suite covering forward/inverse kinematics, dynamics, and simulation"
+  },
+  "files": {
+    "mcq.json": {
+      "description": "Multiple choice questions (6 questions, 12 points)",
+      "types": ["singularities", "DH_parameters", "configuration_space", "homogeneous_transformations", "Lagrangian", "numerical_IK"]
+    },
+    "short_answer.json": {
+      "description": "Short answer questions (3 questions, 6 points)",
+      "topics": ["multiple IK solutions", "joint space vs workspace", "dynamics equation terms"]
+    },
+    "coding_challenge.json": {
+      "description": "Extended IK with workspace boundaries (10 points)",
+      "skills": ["reachability_check", "closest_config", "visualization"]
+    },
+    "bonus_challenge.json": {
+      "description": "PD control trajectory tracking (5 bonus points)",
+      "metrics": ["tracking_error", "smoothness", "visualization"]
+    },
+    "additional_mcqs.json": {
+      "description": "Additional MCQs for comprehensive coverage (5 questions, 10 points)",
+      "types": ["joint_space", "forward_kinematics", "Lagrangian", "numerical_convergence", "simulation_reality"]
+    },
+    "rubric.json": {
+      "description": "Master rubric for all assessment components",
+      "criteria": ["conceptual_understanding", "code_quality", "problem_solving", "visualization", "mathematical_derivation", "control_performance"]
+    },
+    "assessment_config.yaml": {
+      "description": "Configuration for API/LMS integration",
+      "features": ["difficulty_mapping", "grading_weights", "tags_taxonomy", "LMS_export"]
+    }
+  },
+  "summary": {
+    "total_points": 28,
+    "bonus_points": 5,
+    "total_questions": 14,
+    "estimated_time_minutes": 90,
+    "difficulty_breakdown": {
+      "beginner": "40%",
+      "intermediate": "40%",
+      "advanced": "20%"
+    }
+  },
+  "learning_objectives_covered": {
+    "LO2.1": "Joint space and configuration space definition",
+    "LO2.2": "Forward kinematics with DH parameters",
+    "LO2.3": "Inverse kinematics (analytical and numerical)",
+    "LO2.4": "Lagrangian mechanics for dynamics",
+    "LO2.5": "Simulation of multi-body dynamics"
+  },
+  "prerequisites": [
+    "Chapter 1: Physical AI fundamentals",
+    "ROS 2 basics",
+    "Linear algebra",
+    "Calculus",
+    "Python programming"
+  ]
+}

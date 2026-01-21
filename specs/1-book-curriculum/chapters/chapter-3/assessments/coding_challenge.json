@@ -1,0 +1,240 @@
+{
+  "chapter": "Chapter 3: Robotic Sensors and Perception",
+  "total_points": 10,
+  "challenges": [
+    {
+      "id": "LAB-001",
+      "title": "Implement Obstacle Avoidance Using LiDAR",
+      "difficulty": "intermediate",
+      "estimated_time": "45-60 minutes",
+      "points": 10,
+      "learning_objectives": [
+        "LO-3.7: Process LiDAR point cloud data",
+        "LO-3.8: Implement real-time obstacle detection algorithms",
+        "LO-3.9: Design reactive navigation behaviors"
+      ],
+      "capstone_alignment": "Perception subsystem for autonomous mobile robot navigation",
+      "context": {
+        "scenario": "You are developing the perception system for an indoor mobile robot that must navigate autonomously while avoiding obstacles. The robot is equipped with a 2D LiDAR scanner that provides 360-degree distance measurements.",
+        "role": "Perception System Developer",
+        "environment": "Indoor office environment with static furniture and dynamic human obstacles"
+      },
+      "problem_statement": "Implement a LiDAR-based obstacle avoidance module that processes raw distance measurements and generates safe navigation commands. The module must detect obstacles within a configurable safety zone and recommend appropriate steering adjustments.",
+      "functional_requirements": [
+        {
+          "id": "FR-1",
+          "description": "Convert raw LiDAR scan data (angles and distances) into Cartesian coordinates (x, y) for each measurement point",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-2",
+          "description": "Implement obstacle detection by identifying measurement points within a configurable safety radius (default: 0.5 meters)",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-3",
+          "description": "Calculate the closest obstacle position (minimum distance and corresponding angle)",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-4",
+          "description": "Determine if the path is blocked (obstacle directly ahead within safety zone)",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-5",
+          "description": "Generate steering recommendations: forward (no obstacle), left (obstacle on right), right (obstacle on left), stop (obstacle directly ahead)",
+          "priority": "Should Have"
+        },
+        {
+          "id": "FR-6",
+          "description": "Handle invalid/NaN readings from the LiDAR sensor",
+          "priority": "Should Have"
+        }
+      ],
+      "input_specification": {
+        "description": "LiDAR scan data as a list of (angle, distance) pairs",
+        "format": {
+          "angle_unit": "degrees",
+          "distance_unit": "meters",
+          "data_structure": "List of tuples [(angle1, distance1), (angle2, distance2), ...]",
+          "range": {
+            "angle": "0 to 360 degrees",
+            "distance": "0.03 to 25.0 meters (invalid readings as None or NaN)"
+          }
+        },
+        "example": "[(45.0, 2.5), (46.0, 2.3), (90.0, 0.4), ...]"
+      },
+      "output_specification": {
+        "description": "Navigation decision and obstacle information",
+        "format": {
+          "command": "String: 'FORWARD', 'TURN_LEFT', 'TURN_RIGHT', or 'STOP'",
+          "closest_distance": "Float: distance to closest obstacle in meters",
+          "closest_angle": "Float: angle of closest obstacle in degrees",
+          "obstacle_count": "Integer: number of points in safety zone",
+          "safe": "Boolean: True if path ahead is clear"
+        },
+        "example": {
+          "command": "TURN_RIGHT",
+          "closest_distance": 0.4,
+          "closest_angle": 85.0,
+          "obstacle_count": 5,
+          "safe": false
+        }
+      },
+      "constraints": {
+        "safety_radius": "0.5 meters (configurable)",
+        "front_sector": "30 degrees centered on 0 degrees (forward direction)",
+        "performance": "Must process at least 10 scans per second",
+        "language": "Python 3.x"
+      },
+      "edge_cases": [
+        "All readings indicate clear path",
+        "All readings indicate obstacle (completely blocked)",
+        "Mixed readings with invalid/NaN values",
+        "Obstacle only in peripheral zones (not blocking front)",
+        "Empty scan data"
+      ],
+      "test_cases": [
+        {
+          "id": "TC-001",
+          "name": "Clear Path",
+          "input": [(0.0, 5.0), (90.0, 3.0), (180.0, 4.0), (270.0, 2.5)],
+          "expected": {"command": "FORWARD", "safe": true, "obstacle_count": 0}
+        },
+        {
+          "id": "TC-002",
+          "name": "Obstacle Directly Ahead",
+          "input": [(0.0, 0.3), (10.0, 2.0), (-10.0, 1.5)],
+          "expected": {"command": "STOP", "safe": false, "closest_distance": 0.3}
+        },
+        {
+          "id": "TC-003",
+          "name": "Obstacle on Right Side",
+          "input": [(0.0, 5.0), (45.0, 0.3), (90.0, 0.4)],
+          "expected": {"command": "TURN_LEFT", "safe": false, "closest_angle": 45.0}
+        },
+        {
+          "id": "TC-004",
+          "name": "Obstacle on Left Side",
+          "input": [(0.0, 5.0), (-45.0, 0.3), (-90.0, 0.4)],
+          "expected": {"command": "TURN_RIGHT", "safe": false, "closest_angle": -45.0}
+        }
+      ],
+      "starter_code": "# LiDAR Obstacle Avoidance Module\n\nimport math\nfrom typing import List, Tuple, Optional, Dict, Any\n\nclass LiDARObstacleAvoidance:\n    \"\"\"\n    LiDAR-based obstacle avoidance for mobile robots.\n    Processes 2D LiDAR scans and generates navigation commands.\n    \"\"\"\n    \n    def __init__(self, safety_radius: float = 0.5, front_sector_width: float = 30.0):\n        \"\"\"\n        Initialize the obstacle avoidance module.\n        \n        Args:\n            safety_radius: Minimum safe distance to obstacles (meters)\n            front_sector_width: Width of the front detection sector (degrees)\n        \"\"\"\n        self.safety_radius = safety_radius\n        self.front_sector_width = front_sector_width\n    \n    def _polar_to_cartesian(self, angle_deg: float, distance: float) -> Tuple[float, float]:\n        \"\"\"\n        Convert polar coordinates to Cartesian coordinates.\n        \n        Args:\n            angle_deg: Angle in degrees (0 = forward, positive = counterclockwise)\n            distance: Distance in meters\n            \n        Returns:\n            Tuple of (x, y) coordinates in meters\n        \"\"\"\n        # YOUR CODE HERE\n        pass\n    \n    def _is_in_front_sector(self, angle_deg: float) -> bool:\n        \"\"\"\n        Check if an angle falls within the front sector.\n        \n        Args:\n            angle_deg: Angle in degrees\n            \n        Returns:\n            True if angle is in front sector\n        \"\"\"\n        # YOUR CODE HERE\n        pass\n    \n    def process_scan(self, scan_data: List[Tuple[float, float]]) -> Dict[str, Any]:\n        \"\"\"\n        Process a LiDAR scan and generate navigation decision.\n        \n        Args:\n            scan_data: List of (angle_deg, distance_m) tuples\n            \n        Returns:\n            Dictionary with navigation decision and obstacle information\n        \"\"\"\n        # YOUR CODE HERE\n        pass\n        \n        # Return structure:\n        # {\n        #     'command': 'FORWARD' | 'TURN_LEFT' | 'TURN_RIGHT' | 'STOP',\n        #     'closest_distance': float,\n        #     'closest_angle': float,\n        #     'obstacle_count': int,\n        #     'safe': bool\n        # }\n    \n    def get_steering_command(self, scan_data: List[Tuple[float, float]]) -> str:\n        \"\"\"\n        Convenience method to get just the steering command.\n        \n        Args:\n            scan_data: List of (angle_deg, distance_m) tuples\n            \n        Returns:\n            Command string: 'FORWARD', 'TURN_LEFT', 'TURN_RIGHT', or 'STOP'\n        \"\"\"\n        result = self.process_scan(scan_data)\n        return result['command']\n\n\n# Example usage and simple test\nif __name__ == \"__main__\":\n    avoid = LiDARObstacleAvoidance(safety_radius=0.5)\n    \n    # Test with obstacle in front\n    test_scan = [(0.0, 5.0), (15.0, 0.3), (30.0, 2.0), (90.0, 3.0)]\n    result = avoid.process_scan(test_scan)\n    print(f\"Result: {result}\")\n"
+    },
+    {
+      "id": "CHALLENGE-001",
+      "title": "Fuse IMU + Wheel Odometry for Mobile Robot Localization",
+      "difficulty": "advanced",
+      "estimated_time": "60-90 minutes",
+      "bonus_points": 5,
+      "learning_objectives": [
+        "LO-3.10: Implement sensor fusion algorithm",
+        "LO-3.11: Understand odometry and inertial navigation principles",
+        "LO-3.12: Compensate for sensor drift and biases"
+      ],
+      "capstone_alignment": "Full localization system integration for autonomous navigation",
+      "context": {
+        "scenario": "You are building the localization module for a differential-drive mobile robot operating in a warehouse environment. The robot has wheel encoders for odometry and a 6-DOF IMU for inertial measurements. Neither sensor alone provides sufficient accuracy for the required navigation tasks.",
+        "role": "Navigation Systems Engineer",
+        "environment": "Warehouse with smooth floors (some slip possible) and potential for magnetic interference"
+      },
+      "problem_statement": "Implement a sensor fusion system that combines IMU and wheel odometry data to produce accurate robot pose estimates. The system must compensate for individual sensor weaknesses: wheel odometry suffers from slip and drift, while IMU accumulates integration errors.",
+      "functional_requirements": [
+        {
+          "id": "FR-1",
+          "description": "Track robot state: position (x, y), orientation (theta), and velocities (vx, vy/omega)",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-2",
+          "description": "Process wheel encoder data to estimate linear and angular velocity",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-3",
+          "description": "Process IMU data (accelerometer and gyroscope) to estimate orientation changes",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-4",
+          "description": "Implement a complementary filter or extended Kalman filter to fuse sensor data",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-5",
+          "description": "Provide estimated robot pose (x, y, theta) at each update",
+          "priority": "Must Have"
+        },
+        {
+          "id": "FR-6",
+          "description": "Reset/bias correction capability for IMU gyroscope",
+          "priority": "Should Have"
+        }
+      ],
+      "input_specification": {
+        "wheel_odometry": {
+          "description": "Left and right wheel encoder ticks since last update",
+          "format": {
+            "left_ticks": "Integer (positive = forward, negative = backward)",
+            "right_ticks": "Integer",
+            "ticks_per_meter": "Float constant (e.g., 1000 ticks/meter)",
+            "wheel_base": "Float (distance between wheels in meters)"
+          }
+        },
+        "imu_data": {
+          "description": "Accelerometer and gyroscope readings",
+          "format": {
+            "ax": "Float (accelerometer x in m/s^2)",
+            "ay": "Float (accelerometer y in m/s^2)",
+            "az": "Float (accelerometer z in m/s^2)",
+            "gx": "Float (gyroscope x in rad/s)",
+            "gy": "Float (gyroscope y in rad/s)",
+            "gz": "Float (gyroscope z in rad/s)"
+          }
+        }
+      },
+      "output_specification": {
+        "description": "Fused robot pose estimate",
+        "format": {
+          "x": "Float: X position in meters",
+          "y": "Float: Y position in meters",
+          "theta": "Float: Orientation in radians",
+          "timestamp": "Float: Time of estimate in seconds",
+          "velocity_linear": "Float: Estimated linear velocity in m/s",
+          "velocity_angular": "Float: Estimated angular velocity in rad/s"
+        }
+      },
+      "mathematical_background": {
+        "wheel_odometry": {
+          "differential_drive": {
+            "linear_velocity": "(right_ticks + left_ticks) / 2 * ticks_per_meter / dt",
+            "angular_velocity": "(right_ticks - left_ticks) * ticks_per_meter / (wheel_base * dt)"
+          }
+        },
+        "imu_integration": {
+          "orientation": "theta += gz * dt (gyroscope z-axis integration)",
+          "velocity": "vx += ax * dt (accelerometer, needs gravity compensation)",
+          "position": "x += vx * dt"
+        },
+        "complementary_filter": {
+          "description": "Uses high-pass filter on gyroscope (short-term) and low-pass filter on accelerometer/odometry (long-term)",
+          "formula": "theta_filtered = alpha * (theta_prev + gz * dt) + (1 - alpha) * theta_external"
+        }
+      },
+      "constraints": {
+        "update_rate": "At least 10 Hz update rate",
+        "filter_alpha": "Complementary filter coefficient (0.8-0.98 typical)",
+        "language": "Python 3.x"
+      },
+      "hints": [
+        "Start with simple velocity-based odometry before adding IMU fusion",
+        "The gyroscope measures angular velocity directly - integrate this for orientation",
+        "Wheel encoders provide accurate short-term position but drift with wheel slip",
+        "IMU provides stable orientation reference but velocity/position drift with integration",
+        "Consider using a complementary filter on orientation first, then extend to position"
+      ]
+    }
+  ]
+}

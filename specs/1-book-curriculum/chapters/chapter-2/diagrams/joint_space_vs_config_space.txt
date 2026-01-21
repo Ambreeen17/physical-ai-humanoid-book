@@ -1,0 +1,106 @@
+## Joint Space vs Configuration Space
+
+### ASCII Representation
+
+```
+                    Configuration Space (C-Space)
+                    =============================
+
+                         q2 (Joint 2 Angle)
+                              ^
+                              |     /|
+                              |    / |
+                              |   /  |
+                              |  /   |   Reachable
+                              | /    |   Configurations
+                              |/     |
+    -150 deg  ---------------+-------+----------> q1 (Joint 1 Angle)
+                     \       |       /
+                      \      |      /
+                       \     |     /
+                        \    |    /
+                         \   |   /   Joint Limits
+                          \  |  /    Applied
+                           \ | /
+                            \|/
+                             v
+
+                    Inner shaded region = C-Space
+                    Outer boundary = Joint Space (unbounded)
+
+    ============================================================
+
+                    Physical Interpretation
+                    =======================
+
+    Joint Space (unconstrained):
+    ---------------------------
+          q1 axis: [-180, +180] degrees (full rotation)
+          q2 axis: [-180, +180] degrees (full rotation)
+
+    Configuration Space (with limits):
+    ---------------------------------
+          q1 axis: [-120, +120] degrees (limited by shoulder)
+          q2 axis: [-150, +150] degrees (limited by elbow)
+
+    C-Space Shape:
+    - Unconstrained: Torus (n-dimensional)
+    - Constrained: Hyper-rectangle with collision cutouts
+
+    ============================================================
+
+    Unitree G1 Arm (6-DOF):
+    ----------------------
+          q = [q1, q2, q3, q4, q5, q6]^T
+
+          Joint Space: R^6 (6-dimensional real space)
+          Configuration Space: Bounded subset of R^6
+
+          Dimension: 6
+          Shape: 6D hyper-rectangle with constraints
+```
+
+### Mermaid Diagram
+
+```mermaid
+graph TB
+    subgraph Joint_Space["Joint Space (Unconstrained)"]
+        JS["R^n<br/>All joint angle combinations<br/>q = [q1, q2, ..., qn]"]
+    end
+
+    subgraph Configuration_Space["Configuration Space (Constrained)"]
+        CS["C-Space<br/>Subset of Joint Space<br/>Satisfies all constraints"]
+    end
+
+    subgraph Workspace["Workspace (End-Effector)"]
+        WS["Reachable Positions<br/>Where the hand can reach<br/>Inverse of FK mapping"]
+    end
+
+    JS -->|"Apply joint limits"| CS
+    CS -->|"Forward Kinematics"| WS
+    JS -->|"Forward Kinematics"| WS
+
+    style JS fill:#e1f5fe
+    style CS fill:#c8e6c9
+    style WS fill:#fff3e0
+
+    %% Unitree G1 specific
+    subgraph G1_Arm["Unitree G1 Arm"]
+        G1["6-DOF Configuration<br/>q1: Shoulder yaw<br/>q2: Shoulder pitch<br/>q3: Shoulder roll<br/>q4: Elbow<br/>q5: Wrist pitch<br/>q6: Wrist roll"]
+    end
+
+    JS -.-> G1_Arm
+
+    style G1_Arm fill:#fce4ec
+```
+
+### Description for Docusaurus
+
+**Alt Text:**
+Diagram showing the relationship between joint space, configuration space, and workspace for robot manipulators. Joint space is the full n-dimensional space of joint angles; configuration space is the constrained subset with joint limits applied; workspace shows reachable end-effector positions.
+
+**Caption:**
+Joint space represents all possible joint angle combinations, while configuration space (C-space) constrains this with physical limits. The Unitree G1's 6-DOF arm has a 6-dimensional joint space but a bounded configuration space due to joint limits and collision avoidance.
+
+**Explanation:**
+The diagram illustrates three fundamental spaces in robotics. Joint space is the n-dimensional space where each axis represents one joint angle; for the Unitree G1 arm, this is R^6. Configuration space (C-space) constrains joint space with physical limits—for revolute joints with limits, C-space becomes a bounded region. The workspace describes reachable end-effector positions, which is the image of C-space under forward kinematics. A key insight is that the mapping from C-space to workspace is many-to-one: multiple configurations can reach the same end-effector position (e.g., elbow-up vs elbow-down poses).

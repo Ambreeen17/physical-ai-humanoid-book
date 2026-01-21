@@ -1,0 +1,176 @@
+# Chapter 2: Kinematics & Dynamics - Assessment Configuration
+# Generated for API/Database Integration
+
+assessment_metadata:
+  chapter: 2
+  title: "Kinematics & Dynamics"
+  version: "1.0"
+  total_points: 28
+  bonus_points: 5
+  estimated_completion_minutes: 90
+  difficulty_distribution:
+    beginner: 40%
+    intermediate: 40%
+    advanced: 20%
+
+learning_objectives:
+  LO2.1:
+    description: "Define joint space and configuration space"
+    weight: 0.15
+    assessments: ["mcq", "short_answer", "coding"]
+  LO2.2:
+    description: "Compute forward kinematics using DH parameters"
+    weight: 0.20
+    assessments: ["mcq", "short_answer"]
+  LO2.3:
+    description: "Solve inverse kinematics analytically and numerically"
+    weight: 0.25
+    assessments: ["mcq", "short_answer", "coding"]
+  LO2.4:
+    description: "Apply Lagrangian mechanics for equations of motion"
+    weight: 0.25
+    assessments: ["mcq", "short_answer"]
+  LO2.5:
+    description: "Simulate robot dynamics in MuJoCo and Gazebo"
+    weight: 0.15
+    assessments: ["mcq", "bonus_challenge"]
+
+api_format:
+  version: "1.0"
+  endpoint_prefix: "/api/v1/chapters/2/assessments"
+
+  question_schema:
+    type: "object"
+    required_fields:
+      - "id"
+      - "chapter"
+      - "type"
+      - "difficulty"
+      - "question"
+      - "correct_answer"
+      - "points"
+      - "learning_objectives"
+      - "tags"
+    optional_fields:
+      - "options"
+      - "explanation"
+      - "answer_template"
+      - "rubric"
+      - "hints"
+
+  response_schema:
+    type: "object"
+    includes:
+      - "score"
+      - "feedback"
+      - "correct_answer"
+      - "explanation"
+      - "learning_objectives_met"
+      - "suggested_topics_for_improvement"
+
+grading_weights:
+  conceptual_questions: 0.30      # 12 points out of 28
+  short_answer: 0.15              # 6 points out of 28
+  coding_challenge: 0.40          # 10 points out of 28
+  bonus_challenge: 0.15           # 5 bonus points
+
+difficulty_mapping:
+  beginner:
+    mcq_points: 2
+    time_minutes_per_question: 3
+  intermediate:
+    mcq_points: 2
+    time_minutes_per_question: 5
+  advanced:
+    mcq_points: 2
+    time_minutes_per_question: 8
+
+tags_taxonomy:
+  kinematics:
+    - forward_kinematics
+    - inverse_kinematics
+  dynamics:
+    - lagrangian_mechanics
+    - equations_of_motion
+    - mass_matrix
+  parameters:
+    - DH_parameters
+    - joint_space
+    - configuration_space
+    - workspace
+  transformations:
+    - homogeneous_transformations
+    - jacobian
+    - singularities
+  simulation:
+    - mujoco
+    - gazebo
+    - pybullet
+    - sim_to_real
+  control:
+    - PD_control
+    - trajectory_tracking
+    - Kp_Kd_tuning
+
+prerequisites:
+  - "Chapter 1: Physical AI fundamentals"
+  - "ROS 2 basics"
+  - "Linear algebra (matrices, vectors)"
+  - "Calculus (derivatives, integrals)"
+  - "Python programming"
+
+available_files:
+  - "lab2_1_starter.py"     # Forward kinematics starter
+  - "lab2_2_starter.py"     # Inverse kinematics starter
+  - "lab2_3_starter.py"     # Dynamics simulation starter
+  - "arm_model.xml"         # MuJoCo model file
+
+personalization_variants:
+  beginner:
+    enabled: true
+    modifications:
+      - focus_on_2DOF_arm
+      - geometric_intuition_before_math
+      - skip_newton_euler
+      - provide_complete_starter_code
+  intermediate:
+    enabled: true
+    default: true
+    modifications:
+      - standard_coverage
+      - balance_intuition_and_math
+      - partial_starter_code
+  advanced:
+    enabled: true
+    modifications:
+      - include_newton_euler
+      - screw_theory
+      - minimal_starter_code
+      - research_papers
+
+accessibility:
+  supports_untimed_mode: true
+  supports_hint_system: true
+  supports_partial_credit: true
+  supports_resubmission: false
+
+randomization:
+  mcq_option_order: true
+  short_answer_prompts: false
+  coding_test_cases: false
+
+# Database Integration Settings
+database:
+  table_prefix: "ch2_assessments"
+  question_id_format: "ch2_{type}_{001-999}"
+  foreign_keys:
+    - "chapters.id = 2"
+    - "learning_objectives.chapter = 2"
+
+# LMS Integration (Canvas, Blackboard, Moodle)
+lms_export:
+  format: "QTI 2.1"
+  include_rubrics: true
+  include_feedback: true
+  shuffle_options: true
+  show_correct_after_submission: true

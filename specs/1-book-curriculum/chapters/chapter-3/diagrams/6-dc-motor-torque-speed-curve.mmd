@@ -1,0 +1,42 @@
+flowchart TB
+    subgraph EQUATIONS["Motor Equations"]
+        V_EQ["V = E + I·R<br/>Voltage Equation"]
+        E_EQ["E = K_e · ω<br/>Back EMF"]
+        T_EQ["τ = K_t · I<br/>Torque Equation"]
+    end
+
+    subgraph DERIVATION["Derivation"]
+        COMBINE["Combine: V = K_e·ω + (τ/K_t)·R"]
+        SOLVE["ω = (V/K_e) - (R/(K_e·K_t))·τ"]
+    end
+
+    subgraph PARAMETERS["Key Parameters"]
+        NO_LOAD["ω_no-load = V/K_e<br/>No-Load Speed"]
+        STALL["τ_stall = (V·K_t)/R<br/>Stall Torque"]
+        SLOPE["K = R/(K_e·K_t)<br/>Slope"]
+    end
+
+    V_EQ --> COMBINE
+    E_EQ --> COMBINE
+    T_EQ --> COMBINE
+    COMBINE --> SOLVE
+    SOLVE --> PARAMETERS
+
+    subgraph CONTROL["Control Strategies"]
+        direction LR
+        SPEED["Speed Control<br/>ω_ref → PI → V_cmd → PWM"]
+        TORQUE["Torque Control<br/>τ_ref → PI → I_cmd → PWM"]
+    end
+
+    subgraph GEAR["Gear Effects"]
+        G_SPEED["ω_out = ω_motor / N"]
+        G_TORQUE["τ_out = τ_motor × N × η"]
+    end
+
+    classDef equation fill:#fff9c4,stroke:#f9a825,stroke-width:2px
+    classDef param fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    classDef control fill:#bbdefb,stroke:#1565c0,stroke-width:2px
+
+    class V_EQ,E_EQ,T_EQ,COMBINE,SOLVE equation
+    class NO_LOAD,STALL,SLOPE,G_SPEED,G_TORQUE param
+    class SPEED,TORQUE control

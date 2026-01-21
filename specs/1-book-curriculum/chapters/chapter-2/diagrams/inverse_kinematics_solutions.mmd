@@ -1,0 +1,41 @@
+flowchart TB
+    subgraph Problem["IK Problem"]
+        Input["Target Pose<br/>T_des = [x, y, z, roll, pitch, yaw]"]
+    end
+
+    subgraph Solutions["Multiple Solutions"]
+        S1["Solution 1<br/>Elbow-Up<br/>q₁₁, q₂₁"]
+        S2["Solution 2<br/>Elbow-Down<br/>q₁₂, q₂₂"]
+        S3["Solution 3<br/>Wrist variant<br/>..."]
+        S4["Solution 4<br/>Wrist variant<br/>..."]
+    end
+
+    subgraph Selection["Solution Selection"]
+        Crit1["Nearest to current<br/>||q - q_current||"]
+        Crit2["Max manipulability<br/>sqrt(det(JJ^T))"]
+        Crit3["Avoid limits<br/>distance to bounds"]
+    end
+
+    Input --> S1
+    Input --> S2
+    Input --> S3
+    Input --> S4
+
+    S1 --> Selection
+    S2 --> Selection
+    S3 --> Selection
+    S4 --> Selection
+
+    subgraph Output["Chosen Solution"]
+        Final["q*<br/>Optimal configuration"]
+    end
+
+    Selection --> Output
+
+    style Input fill:#e3f2fd
+    style S1 fill:#c8e6c9
+    style S2 fill:#c8e6c9
+    style S3 fill:#c8e6c9
+    style S4 fill:#fff3e0
+    style Selection fill:#f3e5f5
+    style Output fill:#ffecb3

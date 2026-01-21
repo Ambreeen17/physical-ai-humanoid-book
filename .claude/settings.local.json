@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.ros.org)",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:mujoco.readthedocs.io)",
+      "WebFetch(domain:gazebosim.org)",
+      "WebFetch(domain:www.livox.com)",
+      "Bash(dir /s /b \"C:\\boook\\specs\\1-book-curriculum\")",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:wiki.ros.org)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(dir:*)",
+      "Bash(cat:*)",
+      "Bash(python -m src.main:*)"
+    ]
+  }
+}

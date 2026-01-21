@@ -1,0 +1,30 @@
+# Lab 3.1: LiDAR Point Cloud Processing
+# ROS 2 Humble container with Open3D and PCL
+
+FROM osrf/ros:humble-desktop-full
+
+# Install Python dependencies for point cloud processing
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-numpy \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Open3D for point cloud processing
+RUN pip3 install --no-cache-dir open3d
+
+# Create workspace
+WORKDIR /root/ros2_lab
+
+# Copy package files
+COPY ./src/sensor_processing/package.xml /root/ros2_lab/src/sensor_processing/
+COPY ./src/sensor_processing/setup.py /root/ros2_lab/src/sensor_processing/
+COPY ./src/sensor_processing/setup.cfg /root/ros2_lab/src/sensor_processing/
+COPY ./src/sensor_processing/sensor_processing/ /root/ros2_lab/src/sensor_processing/sensor_processing/
+
+# Build the package
+RUN . /opt/ros/humble/setup.sh && \
+    cd /root/ros2_lab && \
+    colcon build --packages-select sensor_processing
+
+# Set entrypoint
+ENTRYPOINT ["/bin/bash"]

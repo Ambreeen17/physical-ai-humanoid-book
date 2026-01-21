@@ -1,0 +1,31 @@
+flowchart TB
+    subgraph Workspace["Workspace Analysis"]
+        direction TB
+
+        RW["Reachable Workspace<br/>All points arm can touch<br/>Radius ≈ 0.47m"]
+        DW["Dexterous Workspace<br/>Points with any orientation<br/>Smaller than reachable"]
+    end
+
+    subgraph Boundaries["Workspace Boundaries"]
+        MaxReach["Maximum Reach<br/>L₁ + L₂ + L₃ = 0.47m<br/>Outer boundary"]
+        MinReach["Minimum Reach<br/>Wrist offset = 0.12m<br/>Inner boundary"]
+    end
+
+    subgraph Singularities["Singularity Types"]
+        S1["Shoulder Singularity<br/>Arm fully extended"]
+        S2["Wrist Singularity<br/>Axes parallel"]
+        S3["Elbow Singularity<br/>2-link arm extended"]
+    end
+
+    RW --> MaxReach
+    DW --> MinReach
+
+    Workspace --> Singularities
+
+    style RW fill:#fff3e0
+    style DW fill:#c8e6c9
+    style MaxReach fill:#ffecb3
+    style MinReach fill:#ffecb3
+    style S1 fill:#ffcdd2
+    style S2 fill:#ffcdd2
+    style S3 fill:#ffcdd2

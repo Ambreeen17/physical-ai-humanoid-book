@@ -1,0 +1,310 @@
+{
+  "metadata": {
+    "chapter": "Chapter 4: Bayesian Filtering and State Estimation",
+    "assessment_type": "Coding Challenge",
+    "title": "1D Kalman Filter Implementation",
+    "total_points": 10,
+    "difficulty": "Intermediate",
+    "estimated_time_minutes": 45,
+    "learning_objectives": [
+      "LO-4.1: Implement Kalman filter predict and update equations",
+      "LO-4.2: Apply Bayesian filtering to a 1D state estimation problem",
+      "LO-4.6: Handle sensor noise and process noise appropriately"
+    ],
+    "capstone_alignment": {
+      "capstone_component": "State Estimation Module",
+      "relevance": "Kalman filter is the foundation for all subsequent state estimation methods in the capstone project"
+    }
+  },
+  "challenge": {
+    "title": "Implement a 1D Kalman Filter for Position Tracking",
+    "description": "You will implement a 1D Kalman filter to estimate the position of an object moving along a line. The filter will process noisy position measurements and produce an optimal estimate of the true position.",
+    "context": "Autonomous vehicles use Kalman filters to fuse GPS, IMU, and wheel encoder data to estimate their position. In this simplified 1D case, you'll implement the core Kalman filter algorithm that underlies these more complex multi-sensor systems.",
+    "problem_statement": "Implement a KalmanFilter class that estimates position in 1D space. The filter should process noisy position measurements and output an optimal estimate of the true position.",
+    "initial_state": {
+      "description": "Filter starts with initial estimate and uncertainty",
+      "initial_position_estimate": 0.0,
+      "initial_estimate_uncertainty": 1.0
+    },
+    "system_parameters": {
+      "motion_model": "constant velocity",
+      "process_noise_variance": 0.1,
+      "measurement_noise_variance": 1.0,
+      "dt": 1.0
+    }
+  },
+  "specifications": {
+    "class_interface": {
+      "class_name": "KalmanFilter",
+      "methods": [
+        {
+          "name": "__init__",
+          "signature": "__init__(self, initial_x: float, initial_P: float)",
+          "description": "Initialize the filter with initial state estimate and uncertainty",
+          "parameters": {
+            "initial_x": "Initial state estimate (position)",
+            "initial_P": "Initial estimate uncertainty (variance)"
+          }
+        },
+        {
+          "name": "predict",
+          "signature": "predict(self, dt: float, process_noise: float) -> tuple[float, float]",
+          "description": "Predict the next state using the motion model",
+          "returns": {
+            "predicted_x": "Predicted state estimate",
+            "predicted_P": "Predicted uncertainty (variance)"
+          }
+        },
+        {
+          "name": "update",
+          "signature": "update(self, z: float, measurement_noise: float) -> tuple[float, float]",
+          "description": "Update the estimate with a new measurement",
+          "parameters": {
+            "z": "New measurement (observed position)",
+            "measurement_noise": "Variance of measurement noise"
+          },
+          "returns": {
+            "estimated_x": "Updated state estimate",
+            "estimated_P": "Updated uncertainty (variance)"
+          }
+        },
+        {
+          "name": "get_state",
+          "signature": "get_state(self) -> tuple[float, float]",
+          "description": "Return current state estimate and uncertainty",
+          "returns": {
+            "x": "Current state estimate",
+            "P": "Current uncertainty"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "x",
+          "type": "float",
+          "description": "Current state estimate (position)"
+        },
+        {
+          "name": "P",
+          "type": "float",
+          "description": "Current estimate uncertainty (variance)"
+        }
+      ]
+    },
+    "mathematical_equations": {
+      "predict_step": {
+        "description": "State prediction (assuming constant velocity with dt time step)",
+        "equations": [
+          "x_pred = x (for constant position model) OR x_pred = x + v*dt (if velocity tracked)",
+          "P_pred = P + Q  (where Q is process noise variance)"
+        ],
+        "notes": "For 1D position-only estimation with constant position model, x_pred = x"
+      },
+      "update_step": {
+        "description": "Measurement update using Kalman gain",
+        "equations": [
+          "K = P_pred / (P_pred + R)  (Kalman gain)",
+          "x = x_pred + K * (z - x_pred)  (posterior estimate)",
+          "P = (1 - K) * P_pred  (posterior uncertainty)"
+        ]
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "test_id": "TC-001",
+      "name": "Initial state",
+      "description": "Verify filter initializes correctly",
+      "input": {
+        "initial_x": 0.0,
+        "initial_P": 1.0
+      },
+      "expected": {
+        "x": 0.0,
+        "P": 1.0
+      },
+      "points": 1,
+      "automated": true
+    },
+    {
+      "test_id": "TC-002",
+      "name": "Predict step - no process noise",
+      "description": "Verify predict step without process noise",
+      "input": {
+        "initial_x": 10.0,
+        "initial_P": 4.0,
+        "predict_dt": 1.0,
+        "process_noise": 0.0,
+        "then_measure": null
+      },
+      "expected": {
+        "x": 10.0,
+        "P": 4.0
+      },
+      "points": 1,
+      "automated": true
+    },
+    {
+      "test_id": "TC-003",
+      "name": "Predict step - with process noise",
+      "description": "Verify uncertainty grows with process noise",
+      "input": {
+        "initial_x": 10.0,
+        "initial_P": 4.0,
+        "predict_dt": 1.0,
+        "process_noise": 1.0,
+        "then_measure": null
+      },
+      "expected": {
+        "x": 10.0,
+        "P": 5.0
+      },
+      "points": 1,
+      "automated": true
+    },
+    {
+      "test_id": "TC-004",
+      "name": "Update step - measurement matches estimate",
+      "description": "When measurement equals current estimate, uncertainty decreases",
+      "setup": {
+        "initial_x": 10.0,
+        "initial_P": 4.0
+      },
+      "input": {
+        "measurement": 10.0,
+        "measurement_noise": 1.0
+      },
+      "expected": {
+        "x": 10.0,
+        "P": 0.8
+      },
+      "calculation": "K = 4/(4+1) = 0.8, P = (1-0.8)*4 = 0.8",
+      "points": 2,
+      "automated": true
+    },
+    {
+      "test_id": "TC-005",
+      "name": "Update step - measurement differs from estimate",
+      "description": "Filter correctly weights measurement deviation",
+      "setup": {
+        "initial_x": 10.0,
+        "initial_P": 4.0
+      },
+      "input": {
+        "measurement": 12.0,
+        "measurement_noise": 1.0
+      },
+      "expected": {
+        "x": 11.6,
+        "P": 0.8
+      },
+      "calculation": "K = 4/(4+1) = 0.8, innovation = 2, x = 10 + 0.8*2 = 11.6, P = 0.8",
+      "points": 2,
+      "automated": true
+    },
+    {
+      "test_id": "TC-006",
+      "name": "Predict-Update cycle",
+      "description": "Full cycle: predict then update with measurement",
+      "input": {
+        "initial_x": 0.0,
+        "initial_P": 1.0,
+        "predict_dt": 1.0,
+        "process_noise": 0.1,
+        "measurement": 5.0,
+        "measurement_noise": 1.0
+      },
+      "expected": {
+        "x": "approximately 4.17",
+        "P": "approximately 0.52"
+      },
+      "calculation": "After predict: P = 1 + 0.1 = 1.1, After update: K = 1.1/2.1 ≈ 0.524, x = 0 + 0.524*5 = 2.62, P = (1-0.524)*1.1 ≈ 0.52",
+      "points": 2,
+      "automated": true,
+      "tolerance": 0.1
+    },
+    {
+      "test_id": "TC-007",
+      "name": "Convergence with noisy measurements",
+      "description": "Filter should converge toward true position with multiple measurements",
+      "input": {
+        "true_position": 100.0,
+        "measurements": [98.0, 102.0, 99.0, 101.0, 100.5],
+        "measurement_noise": 4.0,
+        "process_noise": 0.1
+      },
+      "expected": {
+        "description": "Final estimate should be closer to true position than individual measurements, with reduced uncertainty",
+        "x_final": "within 1.0 of 100.0",
+        "P_final": "less than initial uncertainty"
+      },
+      "points": 1,
+      "automated": true,
+      "tolerance": 1.0
+    }
+  ],
+  "constraints": {
+    "data_types": "All calculations should use float type",
+    "numerical_precision": "Use tolerance of 0.001 for floating point comparisons",
+    "edge_cases": [
+      "Zero process noise",
+      "Zero measurement noise (infinite trust in measurement)",
+      "Large initial uncertainty vs small measurement noise"
+    ]
+  },
+  "hints": [
+    {
+      "level": 1,
+      "hint": "The Kalman gain formula is K = P_pred / (P_pred + R). Start by implementing the predict step, then the update step."
+    },
+    {
+      "level": 2,
+      "hint": "Remember: the update step should use the PREDICTED uncertainty (P_pred), not the previous estimate uncertainty."
+    },
+    {
+      "level": 3,
+      "hint": "After the update, the new uncertainty is (1 - K) * P_pred. This is mathematically equivalent to P_pred - K*P_pred."
+    }
+  ],
+  "starter_code": {
+    "language": "python",
+    "filename": "kalman_filter.py",
+    "code": "class KalmanFilter:\n    \"\"\"\n    1D Kalman Filter for position estimation.\n\n    This filter implements the standard Kalman filter algorithm for estimating\n    a scalar position in 1D space, processing noisy measurements to produce\n    an optimal (minimum variance) estimate.\n    \"\"\"\n\n    def __init__(self, initial_x: float, initial_P: float):\n        \"\"\"\n        Initialize the Kalman filter.\n\n        Args:\n            initial_x: Initial state estimate (position)\n            initial_P: Initial estimate uncertainty (variance)\n        \"\"\"\n        # TODO: Initialize state estimate and uncertainty\n        pass\n\n    def predict(self, dt: float = 1.0, process_noise: float = 0.1) -> tuple[float, float]:\n        \"\"\"\n        Predict step: propagate state estimate forward in time.\n\n        For a constant position model, the state estimate doesn't change.\n        The uncertainty grows based on process noise.\n\n        Args:\n            dt: Time step (not used for constant position model but kept for interface)\n            process_noise: Process noise variance (Q)\n\n        Returns:\n            Tuple of (predicted_x, predicted_P)\n        \"\"\"\n        # TODO: Implement prediction\n        # x_pred = x (constant position model)\n        # P_pred = P + Q\n        pass\n\n    def update(self, z: float, measurement_noise: float = 1.0) -> tuple[float, float]:\n        \"\"\"\n        Update step: incorporate a new measurement.\n\n        Args:\n            z: Measured position\n            measurement_noise: Measurement noise variance (R)\n\n        Returns:\n            Tuple of (estimated_x, estimated_P)\n        \"\"\"\n        # TODO: Implement update\n        # 1. Compute Kalman gain: K = P_pred / (P_pred + R)\n        # 2. Compute innovation: y = z - x_pred\n        # 3. Update state: x = x_pred + K * y\n        # 4. Update uncertainty: P = (1 - K) * P_pred\n        pass\n\n    def get_state(self) -> tuple[float, float]:\n        \"\"\"\n        Get current state estimate and uncertainty.\n\n        Returns:\n            Tuple of (current_x, current_P)\n        \"\"\"\n        return (self.x, self.P)\n\n\n# Example usage\nif __name__ == \"__main__\":\n    # Create filter with initial estimate of 0 with uncertainty of 1\n    kf = KalmanFilter(initial_x=0.0, initial_P=1.0)\n\n    # Predict step\n    x_pred, P_pred = kf.predict(dt=1.0, process_noise=0.1)\n    print(f\"After predict: x = {x_pred}, P = {P_pred}\")\n\n    # Update with measurement\n    z = 5.0  # Measured position\n    x_est, P_est = kf.update(z, measurement_noise=1.0)\n    print(f\"After update with z={z}: x = {x_est}, P = {P_est}\")\n"
+  },
+  "grading_breakdown": {
+    "correctness": {
+      "description": "Filter produces correct outputs for all test cases",
+      "points": 6,
+      "breakdown": [
+        {"item": "TC-001: Initial state", "points": 1},
+        {"item": "TC-002: Predict without noise", "points": 1},
+        {"item": "TC-003: Predict with noise", "points": 1},
+        {"item": "TC-004: Update matching measurement", "points": 1},
+        {"item": "TC-005: Update differing measurement", "points": 1},
+        {"item": "TC-006: Predict-Update cycle", "points": 1}
+      ]
+    },
+    "code_quality": {
+      "description": "Code follows best practices and is well-documented",
+      "points": 2,
+      "breakdown": [
+        {"item": "Clear, readable code with appropriate variable names", "points": 1},
+        {"item": "Docstrings and comments explaining key steps", "points": 1}
+      ]
+    },
+    "edge_case_handling": {
+      "description": "Proper handling of edge cases and validation",
+      "points": 1,
+      "breakdown": [
+        {"item": "Handles zero noise cases appropriately", "points": 1}
+      ]
+    },
+    "convergence_behavior": {
+      "description": "Filter shows proper convergence behavior",
+      "points": 1,
+      "breakdown": [
+        {"item": "TC-007: Convergence test passes", "points": 1}
+      ]
+    }
+  }
+}

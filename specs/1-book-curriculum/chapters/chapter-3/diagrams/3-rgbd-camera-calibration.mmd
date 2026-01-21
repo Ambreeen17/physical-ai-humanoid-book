@@ -1,0 +1,53 @@
+flowchart TB
+    subgraph RGB["RGB Camera Subsystem"]
+        RGB_K["Intrinsic Matrix K_rgb<br/>fx=5.8mm, fy=5.8mm"]
+        RGB_DIST["Distortion: k1,k2,k3,p1,p2"]
+    end
+
+    subgraph DEP["Depth Camera Subsystem"]
+        DEP_K["Intrinsic Matrix K_depth<br/>fx=1.88mm, fy=1.88mm"]
+        DEP_MIN["Minimal Distortion"]
+    end
+
+    subgraph EXT["Extrinsic Parameters"]
+        R["Rotation Matrix R<br/>3x3"]
+        T["Translation Vector t<br/>3x1"]
+    end
+
+    RGB --> EXT
+    DEP --> EXT
+
+    EXT --> ALIGN["Depth-to-RGB Alignment"]
+    ALIGN --> PC["Point Cloud + RGB Color"]
+
+    subgraph CAL["Calibration Process"]
+        direction TB
+        CAP["1. Capture Images<br/>Chessboard Multiple Poses"]
+        DET["2. Detect Corner<br/>Features"]
+        EST["3. Estimate<br/>Correspondences"]
+        INT["4. Solve Intrinsics<br/>K_rgb, K_depth"]
+        EXT_SOL["5. Solve Extrinsics<br/>R, t"]
+        BA["6. Bundle Adjustment<br/>Refinement"]
+        LUT["7. Generate Lookup<br/>Table"]
+    end
+
+    CAP --> DET --> EST --> INT --> EXT_SOL --> BA --> LUT
+
+    subgraph TRANSFORM["Coordinate Transform"]
+        P_DEPTH["P_depth = [x, y, z]"]
+        P_RGB["P_rgb = R × P_depth + t"]
+        PROJ["u_rgb = fx × (x/z) + cx<br/>v_rgb = fy × (y/z) + cy"]
+        COPY["Color(u,v) = Color_rgb(u_rgb, v_rgb)"]
+    end
+
+    P_DEPTH --> P_RGB --> PROJ --> COPY
+
+    classDef sensor fill:#bbdefb,stroke:#1565c0,stroke-width:2px
+    classDef param fill:#fff9c4,stroke:#f9a825,stroke-width:2px
+    classDef process fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    classDef math fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+
+    class RGB,DEP sensor
+    class R,T,EXT param
+    class CAP,DET,EST,INT,EXT_SOL,BA,LUT process
+    class RGB_K,DEP_K,ALIGN,P_DEPTH,P_RGB,PROJ,COPY math

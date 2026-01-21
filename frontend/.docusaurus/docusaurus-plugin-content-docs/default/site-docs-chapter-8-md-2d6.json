@@ -1,0 +1,28 @@
+{
+  "id": "chapter-8",
+  "title": "Chapter 8: Manipulation & Grasping",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-8.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-8",
+  "permalink": "/docs/chapter-8",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-8.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {
+    "sidebar_position": 9,
+    "title": "Chapter 8: Manipulation & Grasping"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 7: Motion Planning",
+    "permalink": "/docs/chapter-7"
+  },
+  "next": {
+    "title": "Chapter 9: Task & Motion Planning",
+    "permalink": "/docs/chapter-9"
+  }
+}

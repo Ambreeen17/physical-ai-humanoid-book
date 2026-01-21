@@ -1,0 +1,141 @@
+================================================================================
+                        IMU SENSOR FUSION
+================================================================================
+
+    SENSOR CHARACTERISTICS:
+    ======================
+
+    +------------------+------------------+------------------+------------------+
+    |     PROPERTY     |   ACCELEROMETER  |    GYROSCOPE     |    MAGNETOMETER  |
+    +------------------+------------------+------------------+------------------+
+    | Measures         | Specific force   | Angular velocity | Magnetic field   |
+    |                  | (accel - gravity)|                  | (Earth's field)  |
+    +------------------+------------------+------------------+------------------+
+    | Bias Stability   | ~0.01-0.1 mg     | ~10-100 deg/hr   | ~0.1-1 deg       |
+    +------------------+------------------+------------------+------------------+
+    | Noise Density    | ~100-1000 ug/sqrt| ~0.005-0.05     | N/A              |
+    |                  |                  | deg/s/sqrt(Hz)   |                  |
+    +------------------+------------------+------------------+------------------+
+    | Bandwidth        | Up to 1 kHz      | Up to 1 kHz      | 50-100 Hz        |
+    +------------------+------------------+------------------+------------------+
+    | Drift            | None (with care) | Integration error| Magnetic declin. |
+    +------------------+------------------+------------------+------------------+
+    | Short-term       | Excellent        | Excellent        | Good             |
+    | Long-term        | Poor (bias)      | Poor (drift)     | Excellent        |
+    +------------------+------------------+------------------+------------------+
+
+    COMPLEMENTARY FILTER ARCHITECTURE:
+    ==================================
+
+                                COMPLEMENTARY FILTER
+    +-----------------------------------------------------------------------+
+    |                                                                       |
+    |   Accel + Mag                          Gyro Integration              |
+    |       |                                    |                           |
+    |       v                                    v                           |
+    +-------------+                      +----------------+                 |
+    |  Gravity    |                      |   Attitude     |                 |
+    |  Vector     |                      |   Integration  |                 |
+    |  Estimate   |                      |   (Euler/Quat) |                 |
+    +-------------+                      +----------------+                 |
+            |                                    |                           |
+            |         +----------------+         |                           |
+            +-------> |   COMPLEMENT   | <-------+                           |
+                      |   FILTER       |                                     |
+                      +----------------+                                     |
+                              |                                              |
+                              v                                              |
+                      +----------------+                                     |
+                      |   Fused        |                                     |
+                      |   Attitude     |                                     |
+                      +----------------+                                     |
+                              |                                              |
+    +-----------------------------------------------------------------------+
+
+        Hf(s) = tau*s / (1 + tau*s)     <- High-pass for accel
+        Hl(s) = 1 / (1 + tau*s)         <- Low-pass for gyro
+
+        Where tau = filter time constant (typically 0.5-2 seconds)
+
+    EXTENDED KALMAN FILTER (EKF) STATE ESTIMATOR:
+    =============================================
+
+    STATE VECTOR: x = [qx, qy, qz, qw, bx, by, bz, wx, wy, wz]^T
+                  = [quaternion, gyro bias, world accel]^T
+
+    STATE EQUATION:
+        x_k+1 = f(x_k, u_k) + w_k
+
+        where u_k = [omega_x, omega_y, omega_z] (gyro measurements)
+
+    MEASUREMENT MODEL:
+        z_k = h(x_k) + v_k
+
+        h(x) = [accel_meas, mag_meas]
+
+    EKF ALGORITHM:
+    +------------+
+
+    PREDICT (Time Update):
+        x_pred = f(x_est, u)
+        P_pred = F * P_est * F^T + Q
+
+    UPDATE (Measurement Update):
+        K = P_pred * H^T * (H * P_pred * H^T + R)^-1
+        x_est = x_pred + K * (z_meas - h(x_pred))
+        P_est = (I - K * H) * P_pred
+
+    WHERE:
+        F = Jacobian of state transition
+        H = Jacobian of measurement model
+        Q = Process noise covariance
+        R = Measurement noise covariance
+        K = Kalman gain
+
+    MARGINALIZED PARTICLE FILTER (MPF):
+    ===================================
+
+    Used for non-Gaussian noise or highly nonlinear systems.
+
+    State: x_k^i, weight: w_k^i for i=1...N particles
+
+    Algorithm:
+        1. Sample: x_k^i ~ q(x_k | x_k-1^i, z_k)
+        2. Weight: w_k^i = w_k-1^i * p(z_k | x_k^i) * p(x_k^i | x_k-1^i) / q(...)
+        3. Normalize: w_k^i = w_k^i / sum(w_k^j)
+        4. Resample: Multinomial or systematic resampling
+
+    ERROR-STATE KALMAN FILTER (Indirect Kalman Filter):
+    ====================================================
+
+    Instead of estimating absolute orientation, estimate ERROR in
+    current estimate, then correct.
+
+    State: delta_x = [delta_theta, delta_b, delta_v, delta_p]^T
+
+    Advantages:
+        - Error state is always small (linearization valid)
+        - Computationally more stable
+        - Easier to model error characteristics
+
+    FUSION ALGORITHM COMPARISON:
+    ============================
+
+    | ALGORITHM        | COMPLEXITY | ACCURACY | ROBUSTNESS | USE CASE       |
+    |------------------|------------|----------|------------|----------------|
+    | Complementary    | O(1)       | Good     | High       | Simple systems |
+    | Filter           |            |          |            |                |
+    |------------------|------------|----------|------------|----------------|
+    | EKF              | O(n^3)     | High     | Medium     | Standard rob.  |
+    |                  |            |          |            | applications   |
+    |------------------|------------|----------|------------|----------------|
+    | UKF              | O(n^3)     | Higher   | Medium     | Non-linear     |
+    |                  |            |          |            | applications   |
+    |------------------|------------|----------|------------|----------------|
+    | PF               | O(n*m)     | Highest  | Low        | Multi-modal    |
+    |                  |            |          |            | uncertainty    |
+    |------------------|------------|----------|------------|----------------|
+    | Error-State EKF  | O(n^3)     | High     | High       | Production     |
+    |                  |            |          |            | systems        |
+
+================================================================================

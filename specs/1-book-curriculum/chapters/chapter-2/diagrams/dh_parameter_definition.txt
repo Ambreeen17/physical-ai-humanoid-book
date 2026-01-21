@@ -1,0 +1,129 @@
+## Denavit-Hartenberg Parameter Definition
+
+### ASCII Representation
+
+```
+    Coordinate Frame on Robot Link
+    ===============================
+
+                    Z_{i-1} (Joint Axis i)
+                         ^
+                         |
+                         |      d_i (link offset)
+                         |      along Z_{i-1}
+                         |
+    Frame i-1  O---------+------> X_i (link direction)
+                |        |
+                |        | a_i (link length)
+                |        | along X_i
+                |        v
+                |   Frame i
+                |
+                |
+                v
+            Y_{i-1}
+
+    ============================================================
+
+    Side View (X-Z Plane)
+    =====================
+
+              Z_{i-1}
+               ^
+               |
+               |   theta_i (joint angle)
+               |   rotation about Z_{i-1}
+               |
+    Frame 0 ---O--------> X_i-1
+               \
+                \
+                 \ a_i (link length)
+                  \
+                   v
+                    X_i
+                     \
+                      \
+                       v
+                        Z_i (parallel to Z_{i-1} if alpha_i=0)
+                         ^
+                         |
+                         | alpha_i (link twist)
+                         | rotation about X_i
+                         |
+                         +----> Y_i
+
+    ============================================================
+
+    DH Parameters Summary
+    =====================
+
+    +-----------+------------------------------------------------+
+    | Parameter | Definition                                     |
+    +-----------+------------------------------------------------+
+    | theta_i   | Joint angle: rotation about Z_{i-1}            |
+    | d_i       | Link offset: translation along Z_{i-1}         |
+    | a_i       | Link length: translation along X_i             |
+    | alpha_i   | Link twist: rotation about X_i                 |
+    +-----------+------------------------------------------------+
+
+    ============================================================
+
+    Unitree G1 DH Parameters (First 4 Joints)
+    ========================================
+
+    Joint | theta  | d    | a     | alpha
+    ------|--------|------|-------|-------
+      1   | q1     | 0    | 0     | -pi/2   (shoulder yaw)
+      2   | q2     | 0    | 0.10  | pi/2    (shoulder pitch)
+      3   | q3     | 0    | 0.10  | -pi/2   (shoulder roll)
+      4   | q4     | 0    | 0.25  | -pi/2   (elbow)
+
+    ============================================================
+
+    Transformation Matrix
+    =====================
+
+    T_i = | cos(theta_i)   -sin(theta_i)*cos(alpha_i)   sin(theta_i)*sin(alpha_i)   a_i*cos(theta_i) |
+          | sin(theta_i)    cos(theta_i)*cos(alpha_i)  -cos(theta_i)*sin(alpha_i)   a_i*sin(theta_i) |
+          | 0               sin(alpha_i)                cos(alpha_i)                d_i              |
+          | 0               0                           0                           1                |
+```
+
+### Mermaid Diagram
+
+```mermaid
+graph TB
+    subgraph DH_Frame["DH Coordinate Frame"]
+        direction LR
+
+        Zi["Z<sub>i-1</sub><br/>Joint Axis<br/>↑"] -->|"d<sub>i</sub> (offset)"| Oi["O<sub>i-1</sub><br/>Origin<br/>●"]
+
+        Oi -->|"a<sub>i</sub> (length)"| Xi["X<sub>i</sub><br/>Link Direction<br/>→"]
+
+        Zi -.->|"theta<sub>i</sub> (angle)"| Rot["Rotation<br/>about Z<sub>i-1</sub>"]
+        Xi -.->|"alpha<sub>i</sub> (twist)"| Twist["Twist<br/>about X<sub>i</sub>"]
+    end
+
+    subgraph DH_Parameters["DH Parameters"]
+        P1["θ<sub>i</sub><br/>Joint Angle<br/>rotation about Z<sub>i-1</sub>"]
+        P2["d<sub>i</sub><br/>Link Offset<br/>translation along Z<sub>i-1</sub>"]
+        P3["a<sub>i</sub><br/>Link Length<br/>translation along X<sub>i</sub>"]
+        P4["α<sub>i</sub><br/>Link Twist<br/>rotation about X<sub>i</sub>"]
+    end
+
+    DH_Frame --> DH_Parameters
+
+    style DH_Frame fill:#e3f2fd
+    style DH_Parameters fill:#f3e5f5
+```
+
+### Description for Docusaurus
+
+**Alt Text:**
+Diagram showing the Denavit-Hartenberg coordinate frame convention with the four DH parameters: theta (joint angle), d (link offset), a (link length), and alpha (link twist). The Z-axis aligns with the joint axis, and X-axis points along the link to the next joint.
+
+**Caption:**
+The DH convention provides a systematic way to assign coordinate frames to robot links. Each joint has four parameters that fully describe the transformation from one frame to the next: theta_i (rotation about Z_{i-1}), d_i (translation along Z_{i-1}), a_i (translation along X_i), and alpha_i (rotation about X_i).
+
+**Explanation:**
+The Denavit-Hartenberg convention is the standard method for describing robot kinematics. Each link i has a coordinate frame {i} with Z-axis aligned with joint i+1's axis. The four DH parameters define the homogeneous transformation from frame {i-1} to frame {i}: theta_i is the joint variable (rotation about Z_{i-1}), d_i is the link offset (translation along Z_{i-1}), a_i is the link length (shortest distance between joint axes, along X_i), and alpha_i is the link twist (angle between consecutive Z-axes, about X_i). For the Unitree G1 arm, these parameters define the 6-DOF kinematic chain from shoulder to end-effector.

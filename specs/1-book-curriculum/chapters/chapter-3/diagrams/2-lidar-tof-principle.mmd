@@ -1,0 +1,34 @@
+flowchart TB
+    subgraph DToF["Direct ToF (Pulse-Based)"]
+        direction LR
+        Tx["TRANSMITTER<br/>LASER PULSE<br/>tÄ"]
+        Space["SPACE<br/>d = c∑t/2"]
+        Rx["RECEIVER<br/>PHOTODETECTOR<br/>tÅ"]
+        TDC["TDC<br/>ît = tÅ - tÄ"]
+        Dist["d = c∑ît/2"]
+    end
+
+    subgraph CWToF["CW-ToF (Phase-Based)"]
+        direction LR
+        Mod["MODULATOR<br/>f_mod sinusoid"]
+        Space2["SPACE<br/>Phase shift ∆"]
+        Demod["DEMODULATOR<br/>Phase detector"]
+        PhaseCalc["∆ = 4¿f∑d/c"]
+        Dist2["d = c∑∆/4¿f"]
+    end
+
+    Tx -->|Light pulse| Space
+    Space -->|Detected| Rx
+    Rx -->|Time diff| TDC
+    TDC -->|Calc| Dist
+
+    Mod -->|Modulated light| Space2
+    Space2 -->|Phase shift| Demod
+    Demod -->|Measure| PhaseCalc
+    PhaseCalc -->|Compute| Dist2
+
+    classDef pulse fill:#ffecb3,stroke:#ff6f00,stroke-width:2px
+    classDef phase fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+
+    class DToF,Tx,Space,Rx,TDC,Dist pulse
+    class CWToF,Mod,Space2,Demod,PhaseCalc,Dist2 phase

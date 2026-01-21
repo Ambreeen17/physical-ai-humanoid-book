@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "chapter": "Chapter 4: Bayesian Filtering and State Estimation",
+    "assessment_type": "Multiple Choice Questions",
+    "total_points": 4,
+    "questions_count": 2,
+    "difficulty_distribution": {
+      "foundational": 1,
+      "intermediate": 1,
+      "advanced": 0
+    }
+  },
+  "questions": [
+    {
+      "id": "MC-001",
+      "question_number": 1,
+      "stem": "In the Bayes filter algorithm, what does the PREDICT step compute?",
+      "options": [
+        {
+          "letter": "A",
+          "text": "The posterior probability distribution given the new observation",
+          "is_correct": false
+        },
+        {
+          "letter": "B",
+          "text": "The prior probability distribution by propagating the previous estimate through the motion model",
+          "is_correct": true
+        },
+        {
+          "letter": "C",
+          "text": "The likelihood of the current observation given the state",
+          "is_correct": false
+        },
+        {
+          "letter": "D",
+          "text": "The normalization constant for the probability distribution",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The PREDICT step (also called the prediction or propagation step) computes the prior distribution P(x_t | u_{1:t-1}, z_{1:t-1}) by applying the motion/control model to the previous posterior. The UPDATE step then incorporates the new observation to compute the posterior.",
+      "points": 2,
+      "difficulty": "Foundational",
+      "learning_objectives": [
+        "LO-4.1: Understand the two-step structure of Bayes filter (predict and update)",
+        "LO-4.2: Explain the purpose of each step in the Bayes filter algorithm"
+      ],
+      "capstone_alignment": {
+        "capstone_component": "State Estimation Module",
+        "relevance": "Understanding predict/update structure is foundational for implementing any Bayesian filter variant"
+      },
+      "common_misconceptions": [
+        "Confusing predict with update - students often think predict incorporates observations",
+        "Thinking predict computes the posterior instead of the prior"
+      ]
+    },
+    {
+      "id": "MC-002",
+      "question_number": 2,
+      "stem": "The Extended Kalman Filter (EKF) linearizes nonlinear functions using which method?",
+      "options": [
+        {
+          "letter": "A",
+          "text": "Unscented transformation with sigma points",
+          "is_correct": false
+        },
+        {
+          "letter": "B",
+          "text": "First-order Taylor series expansion around the current estimate",
+          "is_correct": true
+        },
+        {
+          "letter": "C",
+          "text": "Second-order Gaussian approximation",
+          "is_correct": false
+        },
+        {
+          "letter": "D",
+          "text": "Particle representation of the distribution",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The EKF linearizes nonlinear functions (transition and observation models) using first-order Taylor series expansion. It computes Jacobian matrices at the current state estimate to approximate the nonlinear functions as linear functions, then applies the standard Kalman filter equations to this linearized system.",
+      "points": 2,
+      "difficulty": "Intermediate",
+      "learning_objectives": [
+        "LO-4.3: Compare EKF and UKF approaches to handling nonlinearities",
+        "LO-4.4: Explain how linearization is performed in EKF"
+      ],
+      "capstone_alignment": {
+        "capstone_component": "Nonlinear State Estimation",
+        "relevance": "EKF is commonly used in robotics; understanding its linearization approach is essential"
+      },
+      "common_misconceptions": [
+        "Confusing EKF with UKF - thinking EKF uses sigma points",
+        "Believing EKF uses second-order Taylor series (it's first-order)",
+        "Thinking EKF samples points like a particle filter"
+      ]
+    }
+  ],
+  "scoring_instructions": {
+    "grading_method": "Partial credit not applicable - each question is all-or-nothing",
+    "passing_threshold": "2 out of 4 points (50%)",
+    "answer_key": {
+      "MC-001": "B",
+      "MC-002": "B"
+    }
+  },
+  "time_allocation": {
+    "estimated_minutes": 5,
+    "per_question_minutes": 2.5
+  }
+}

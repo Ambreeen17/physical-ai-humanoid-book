@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "collection_name": "robotics_textbook_ch2_kinematics_dynamics",
+    "version": "1.0",
+    "created_date": "2026-01-04",
+    "description": "RAG-ready vector collection for Chapter 2: Kinematics and Dynamics of Robot Manipulators",
+    "source": "specs/1-book-curriculum/chapters/chapter-2/content.md"
+  },
+  "collection_schema": {
+    "vector_size": 1536,
+    "distance_metric": "cosine",
+    "hnsw_config": {
+      "m": 16,
+      "ef_construct": 128,
+      "full_scan_threshold": 10000,
+      "max_indexing_threads": 4
+    },
+    "optimizers_config": {
+      "deleted_threshold": 0.2,
+      "vacuum_min_vectors": 1000,
+      "default_segment_number": 2,
+      "max_segment_size": 200000,
+      "memmap_threshold": 50000
+    },
+    "wal_config": {
+      "write_ahead_log": true,
+      "flush_interval_seconds": 5,
+      "flush_interval_ops": 100
+    }
+  },
+  "payload_schema": {
+    "chunk_id": {
+      "type": "keyword",
+      "index": true
+    },
+    "chapter": {
+      "type": "integer",
+      "index": true
+    },
+    "section": {
+      "type": "keyword",
+      "index": true
+    },
+    "subsection": {
+      "type": "keyword",
+      "index": false
+    },
+    "difficulty": {
+      "type": "keyword",
+      "index": true,
+      "values": ["beginner", "intermediate", "advanced"]
+    },
+    "content_type": {
+      "type": "keyword",
+      "index": true,
+      "values": ["theory", "math", "code", "lab"]
+    },
+    "title": {
+      "type": "text",
+      "index": true,
+      "analyzer": "english"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "keyword"
+      },
+      "index": true
+    },
+    "learning_objectives": {
+      "type": "array",
+      "items": {
+        "type": "keyword"
+      },
+      "index": true
+    },
+    "tokens": {
+      "type": "integer",
+      "index": false
+    },
+    "source_file": {
+      "type": "keyword",
+      "index": false
+    },
+    "line_range": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "index": false
+    },
+    "content": {
+      "type": "text",
+      "index": true,
+      "analyzer": "english"
+    }
+  },
+  "indexes": [
+    {
+      "field_name": "keywords",
+      "index_type": "keyword"
+    },
+    {
+      "field_name": "learning_objectives",
+      "index_type": "keyword"
+    },
+    {
+      "field_name": "difficulty",
+      "index_type": "keyword"
+    },
+    {
+      "field_name": "content_type",
+      "index_type": "keyword"
+    },
+    {
+      "field_name": "chapter",
+      "index_type": "integer"
+    }
+  ],
+  "suggesters": [
+    {
+      "name": "keyword_lookup",
+      "field": "keywords"
+    },
+    {
+      "name": "lo_lookup",
+      "field": "learning_objectives"
+    },
+    {
+      "name": "title_lookup",
+      "field": "title"
+    }
+  ],
+  "retention_policy": {
+    "enabled": false,
+    "max_vectors": 10000,
+    "ttl_days": 365
+  }
+}

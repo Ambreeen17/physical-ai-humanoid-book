@@ -1,0 +1,7 @@
+[INFO] [sensorimotor_loop_node]: Sensorimotor Loop Node started.
+[INFO] [sensorimotor_loop_node]: Boundary threshold set to X = 2.0
+[INFO] [sensorimotor_loop_node]: TurtleBot Position: x=1.0, y=5.5, theta=0.0
+[INFO] [sensorimotor_loop_node]: TurtleBot Position: x=1.5, y=5.5, theta=0.0
+[INFO] [sensorimotor_loop_node]: TurtleBot Position: x=2.1, y=5.5, theta=0.0
+[WARN] [sensorimotor_loop_node]: Robot past x=2.0 boundary, moving backward!
+[INFO] [sensorimotor_loop_node]: TurtleBot Position: x=1.9, y=5.5, theta=0.0

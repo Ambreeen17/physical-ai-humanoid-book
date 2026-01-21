@@ -1,0 +1,222 @@
+# Chapter 2: Kinematics & Dynamics - Short Answer Questions
+# 3 questions, 10 points each = 30 points total
+# Semi-auto-graded with detailed rubric
+
+assessment_metadata:
+  chapter: 2
+  title: "Kinematics & Dynamics Short Answer"
+  version: "1.0"
+  total_points: 30
+  total_questions: 3
+  time_limit_minutes: 45
+  passing_score: 21  # 70%
+
+questions:
+  # Question 1: DH Transformation Matrix Derivation
+  - id: ch2_sa_001
+    question: |
+      Derive the Denavit-Hartenberg transformation matrix for a single revolute joint.
+      Show all four elementary transformations and explain why the order matters.
+
+      Starting from frame {i-1} to frame {i}, express:
+      T_i = Rot(z, theta_i) * Trans(z, d_i) * Trans(x, a_i) * Rot(x, alpha_i)
+
+      Show:
+      1. The 4x4 matrix form
+      2. Physical interpretation of each transformation
+      3. Why this specific order is required by the DH convention
+    difficulty: intermediate
+    points: 10
+    learning_objectives: [LO2.2]
+    topic: DH_parameters
+    expected_answer_length: "200-350 words"
+    grading_notes: |
+      Full credit requires showing the matrix derivation and explaining the physical meaning
+      of each transformation step. Partial credit for matrix only or explanation only.
+    rubric:
+      excellent:
+        description: "Complete derivation with all four transformations shown in correct order.
+          Correct 4x4 matrix form with proper trigonometric functions. Clear explanation
+          of why each transformation is necessary and how the order ensures proper frame
+          alignment. Physical interpretation provided for each matrix element."
+        points: 10
+      proficient:
+        description: "Derivation mostly correct but may have minor errors in matrix elements
+          or incomplete explanation of transformation order. Shows understanding of DH
+          matrix structure."
+        points: 7
+      developing:
+        description: "Attempted derivation with significant errors. May show matrix but
+          not explain transformations, or confuse the order of operations."
+        points: 4
+      beginning:
+        description: "No clear derivation or major conceptual errors. Does not understand
+          DH matrix structure or transformation composition."
+        points: 0
+
+  # Question 2: Numerical IK Convergence Issues
+  - id: ch2_sa_002
+    question: |
+      Explain why numerical inverse kinematics (IK) methods, such as the Jacobian pseudo-inverse
+      method, may converge to incorrect solutions or fail to converge. Discuss at least
+      three factors that affect convergence behavior.
+
+      Include in your answer:
+      1. The role of the initial configuration guess
+      2. The relationship between joint limits and convergence
+      3. What happens near singularities during iterative IK
+      4. Potential issues with local minima
+    difficulty: advanced
+    points: 10
+    learning_objectives: [LO2.3]
+    topic: numerical_IK
+    expected_answer_length: "250-400 words"
+    grading_notes: |
+      Full credit requires discussing all four factors with clear physical intuition
+      and mathematical insight.
+    rubric:
+      excellent:
+        description: "Comprehensive explanation of convergence issues covering initial
+          guess sensitivity, joint limit constraints, singularity behavior, and local
+          minima. Provides specific examples and discusses damping techniques (Levenberg-Marquardt)
+          as solutions. Shows deep understanding of trade-offs."
+        points: 10
+      proficient:
+        description: "Addresses most convergence factors correctly but may lack depth
+          on one factor. Discusses initial guess and singularities but may not fully
+          explain joint limits or local minima."
+        points: 7
+      developing:
+        description: "Mentions some convergence issues but shows incomplete understanding.
+          May confuse numerical IK with analytical IK or miss key factors affecting
+          convergence."
+        points: 4
+      beginning:
+        description: "Does not understand numerical IK convergence issues or provides
+          incorrect information about iterative methods."
+        points: 0
+
+  # Question 3: Kinetic Energy Derivation for 2-Link Arm
+  - id: ch2_sa_003
+    question: |
+      Derive the kinetic energy for a 2-link planar robot arm with link lengths L1, L2
+      and masses m1, m2. Assume point masses at the ends of each link for simplicity.
+
+      Derive:
+      T = (1/2) * m1 * v1^2 + (1/2) * m2 * v2^2
+
+      Where v1 and v2 are the velocities of the centers of mass.
+
+      Show:
+      1. The position of each link's COM in Cartesian coordinates
+      2. The velocity expressions (derivatives of positions)
+      3. The complete kinetic energy expression in terms of q1, q2, q1_dot, q2_dot
+      4. Identify any coupling terms between the two joints
+    difficulty: advanced
+    points: 10
+    learning_objectives: [LO2.4]
+    topic: lagrangian_dynamics
+    expected_answer_length: "300-450 words"
+    grading_notes: |
+      Full credit requires complete derivation with velocity expressions and proper
+      coupling terms. Point mass simplification is acceptable.
+    rubric:
+      excellent:
+        description: "Complete derivation showing positions of both COMs, correct velocity
+        expressions including all components, and proper kinetic energy expression.
+        Identifies and explains the coupling term (cross-term involving q1_dot*q2_dot).
+        Shows how to construct the mass/inertia matrix from the KE expression."
+        points: 10
+      proficient:
+        description: "Derivation mostly correct with minor algebraic errors. Shows
+        positions and velocities but may have incomplete coupling term explanation."
+        points: 7
+      developing:
+        description: "Attempted derivation with significant errors. May compute only
+        one link's KE or miss velocity cross-components."
+        points: 4
+      beginning:
+        description: "No clear derivation or major conceptual errors in kinetic energy
+        or velocity calculation."
+        points: 0
+
+# Sample Model Answers for Reference (not shown to students)
+model_answers:
+  ch2_sa_001: |
+    The DH transformation matrix combines four elementary transformations:
+
+    1. Rotation about z_{i-1} by theta_i:
+       R_z(theta_i) = [[cos(theta_i), -sin(theta_i), 0, 0],
+                       [sin(theta_i),  cos(theta_i), 0, 0],
+                       [0,            0,            1, 0],
+                       [0,            0,            0, 1]]
+
+    2. Translation along z_{i-1} by d_i:
+       T_z(d_i) = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, d_i], [0, 0, 0, 1]]
+
+    3. Translation along new x_i by a_i:
+       T_x(a_i) = [[1, 0, 0, a_i], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+
+    4. Rotation about new x_i by alpha_i:
+       R_x(alpha_i) = [[1, 0,            0,             0],
+                       [0, cos(alpha_i), -sin(alpha_i), 0],
+                       [0, sin(alpha_i),  cos(alpha_i), 0],
+                       [0, 0,            0,             1]]
+
+    The combined matrix T_i = R_z * T_z * T_x * R_x produces the correct
+    frame alignment because the DH convention defines the common normal
+    between joint axes as the x_i axis.
+
+  ch2_sa_002: |
+    Numerical IK convergence issues:
+
+    1. Initial Guess Sensitivity: The solution found depends heavily on the
+       starting configuration. Different initial guesses may converge to
+       different solutions (e.g., elbow-up vs elbow-down for a 2-link arm).
+
+    2. Joint Limits: Iterative methods may propose solutions outside valid
+       joint ranges, requiring additional constraint handling or causing
+       convergence failure.
+
+    3. Singularity Behavior: Near singularities, the pseudo-inverse becomes
+       unstable, causing large joint velocity commands. Damped least squares
+       (lambda * I) regularization helps but introduces steady-state error.
+
+    4. Local Minima: The cost function (error minimization) may have multiple
+       local minima. Gradient descent can get stuck in suboptimal solutions
+       that are not the closest configuration to the target.
+
+    Solutions: Better initial guesses (workspace sampling), constraint
+    handling, damping, and global optimization techniques.
+
+  ch2_sa_003: |
+    Position of COMs (assuming point masses at link ends):
+    - Link 1 COM: x1 = L1*cos(q1), y1 = L1*sin(q1)
+    - Link 2 COM: x2 = L1*cos(q1) + L2*cos(q1+q2), y2 = L1*sin(q1) + L2*sin(q1+q2)
+
+    Velocities (derivatives):
+    - v1_x = -L1*q1_dot*sin(q1), v1_y = L1*q1_dot*cos(q1)
+    - v2_x = -L1*q1_dot*sin(q1) - L2*(q1_dot+q2_dot)*sin(q1+q2)
+    - v2_y = L1*q1_dot*cos(q1) + L2*(q1_dot+q2_dot)*cos(q1+q2)
+
+    Kinetic energy:
+    T = 0.5*m1*L1^2*q1_dot^2 + 0.5*m2*[L1^2*q1_dot^2 + L2^2*(q1_dot+q2_dot)^2
+          + 2*L1*L2*q1_dot*(q1_dot+q2_dot)*cos(q2)]
+
+    The coupling term 2*L1*L2*m2*q1_dot*q2_dot*cos(q2) represents dynamic
+    coupling - moving one joint affects the kinetic energy contribution
+    of the other joint.
+
+# Auto-grading hints for partial credit
+auto_grading_hints:
+  enable_partial_credit: true
+  keyword_weights:
+    DH: 1
+    transformation: 2
+    Jacobian: 2
+    singularity: 2
+    initial_guess: 1
+    local_minimum: 2
+    coupling: 2
+    kinetic_energy: 2
+    velocity: 2

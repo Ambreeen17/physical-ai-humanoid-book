@@ -1,0 +1,103 @@
+{
+  "chapter": 16,
+  "topic": "Capstone Project",
+  "total_chunks": 15,
+  "chunk_strategy": "semantic",
+  "embedding_model": "text-embedding-3-small",
+  "vector_db": "qdrant",
+  "collection_name": "textbook_chapter_16",
+  "metadata": {
+    "created_at": "2026-01-05T23:06:04.831647",
+    "chapter_title": "Capstone Project",
+    "learning_objectives": [
+      "Synthesize knowledge from all previous chapters into a cohesive project",
+      "Design and implement a complete robotic system with multiple capabilities",
+      "Integrate perception, planning, control, learning, and safety components",
+      "Deploy and validate the system in a real-world or simulated environment",
+      "Evaluate and present the project with technical documentation and analysis"
+    ],
+    "difficulty_level": "multi_level",
+    "target_audience": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ]
+  },
+  "chunks": [
+    {
+      "id": "ch16_001",
+      "type": "introduction",
+      "size": 512
+    },
+    {
+      "id": "ch16_002",
+      "type": "theory",
+      "size": 1024
+    },
+    {
+      "id": "ch16_003",
+      "type": "mathematical_foundation",
+      "size": 768
+    },
+    {
+      "id": "ch16_004",
+      "type": "hardware_considerations",
+      "size": 640
+    },
+    {
+      "id": "ch16_005",
+      "type": "software_implementation",
+      "size": 896
+    },
+    {
+      "id": "ch16_006",
+      "type": "code_example",
+      "size": 512
+    },
+    {
+      "id": "ch16_007",
+      "type": "simulation",
+      "size": 704
+    },
+    {
+      "id": "ch16_008",
+      "type": "testing",
+      "size": 640
+    },
+    {
+      "id": "ch16_009",
+      "type": "applications",
+      "size": 768
+    },
+    {
+      "id": "ch16_010",
+      "type": "challenges",
+      "size": 576
+    },
+    {
+      "id": "ch16_011",
+      "type": "beginner_content",
+      "size": 640
+    },
+    {
+      "id": "ch16_012",
+      "type": "intermediate_content",
+      "size": 704
+    },
+    {
+      "id": "ch16_013",
+      "type": "advanced_content",
+      "size": 768
+    },
+    {
+      "id": "ch16_014",
+      "type": "assessment_preparation",
+      "size": 512
+    },
+    {
+      "id": "ch16_015",
+      "type": "summary",
+      "size": 448
+    }
+  ]
+}

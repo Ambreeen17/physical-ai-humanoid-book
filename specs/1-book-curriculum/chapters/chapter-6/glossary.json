@@ -1,0 +1,57 @@
+{
+  "chapter": 6,
+  "topic": "Control Theory Fundamentals",
+  "glossary": {
+    "robotics": {
+      "english": "Robotics",
+      "urdu": "روبوٹکس",
+      "definition": "The interdisciplinary branch of engineering and science that includes mechanical engineering, electrical engineering, computer science, and others."
+    },
+    "ros": {
+      "english": "ROS",
+      "urdu": "ROS",
+      "definition": "Robot Operating System - a flexible framework for writing robot software."
+    },
+    "control_theory_fundamentals": {
+      "english": "Control Theory Fundamentals",
+      "urdu": "Control Theory Fundamentals",
+      "definition": "The main topic of Chapter 6, fundamental to robotics applications."
+    },
+    "sensor": {
+      "english": "Sensor",
+      "urdu": "سینسر",
+      "definition": "A device that detects and responds to some type of input from the physical environment."
+    },
+    "actuator": {
+      "english": "Actuator",
+      "urdu": "اکچویٹر",
+      "definition": "A component of a machine that is responsible for moving and controlling a mechanism."
+    },
+    "kinematics": {
+      "english": "Kinematics",
+      "urdu": "کنیمیٹکس",
+      "definition": "The branch of mechanics that deals with pure motion, without reference to force or mass."
+    },
+    "dynamics": {
+      "english": "Dynamics",
+      "urdu": "ڈائنامکس",
+      "definition": "The branch of mechanics concerned with the motion of bodies under the action of forces."
+    },
+    "unitree_g1": {
+      "english": "Unitree G1",
+      "urdu": "یونٹری جی1",
+      "definition": "An advanced humanoid robot platform used for research and development in robotics."
+    },
+    "mujoco": {
+      "english": "MuJoCo",
+      "urdu": "MuJoCo",
+      "definition": "Multi-Joint dynamics with Contact - a physics engine for detailed, accurate simulations."
+    },
+    "gazebo": {
+      "english": "Gazebo",
+      "urdu": "گزیبو",
+      "definition": "A 3D simulation environment for robotics applications."
+    }
+  },
+  "generated_at": "2026-01-05T23:06:03.709594"
+}

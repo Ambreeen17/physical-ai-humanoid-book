@@ -1,0 +1,64 @@
+{
+  "chapter": 2,
+  "title": "Kinematics & Dynamics",
+  "version": "1.0.0",
+  "status": "production_complete",
+  "created_date": "2026-01-04",
+  "last_updated": "2026-01-04",
+  "authors": ["AI Content Pipeline"],
+  "learning_objectives": [
+    "LO2.1: Define joint space and configuration space",
+    "LO2.2: Compute forward kinematics using DH parameters",
+    "LO2.3: Solve inverse kinematics analytically and numerically",
+    "LO2.4: Apply Lagrangian mechanics for equations of motion",
+    "LO2.5: Simulate robot dynamics in MuJoCo and Gazebo"
+  ],
+  "difficulty": {
+    "beginner": 3,
+    "intermediate": 5,
+    "advanced": 8
+  },
+  "estimated_read_time_minutes": 120,
+  "prerequisites": ["chapter-1"],
+  "target_audience": "Intermediate robotics students with calculus and linear algebra background",
+  "hardware_context": {
+    "primary_platform": "Unitree G1 Humanoid",
+    "arm_dof": 6,
+    "control_frequency_hz": 500,
+    "payload_kg": 5,
+    "reach_m": 0.8
+  },
+  "topics": [
+    "Joint Spaces and Configuration Spaces",
+    "Forward Kinematics",
+    "Inverse Kinematics",
+    "Lagrangian Dynamics",
+    "Newton-Euler Formulation",
+    "Multi-Body Dynamics Simulation"
+  ],
+  "artifacts": {
+    "content": "content.md",
+    "research_notes": "research_notes.md",
+    "diagrams": "diagrams/",
+    "labs": "lab/",
+    "assessments": "assessments/",
+    "variants": "variants/",
+    "localization": "localization/",
+    "rag": "rag/"
+  },
+  "keywords": [
+    "kinematics", "dynamics", "DH parameters", "forward kinematics",
+    "inverse kinematics", "Lagrangian", "Jacobian", "singularities",
+    "configuration space", "workspace", "MuJoCo", "Gazebo", "URDF"
+  ],
+  "assessment": {
+    "total_points": 28,
+    "bonus_points": 5,
+    "mcq_count": 11,
+    "short_answer_count": 3,
+    "coding_challenges": 1,
+    "lab_challenges": 1
+  },
+  "pipeline_version": "1.0.0",
+  "qa_status": "passed"
+}

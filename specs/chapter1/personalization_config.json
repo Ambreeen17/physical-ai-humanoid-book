@@ -1,0 +1,101 @@
+{
+  "chapterId": 1,
+  "chapterTitle": "Introduction to Physical AI",
+  "sections": [
+    {
+      "id": "1.1",
+      "title": "What is Embodied Intelligence?",
+      "variants": {
+        "beginner": {
+          "tag": "[BEGINNER: ...]",
+          "difficulty": "Low",
+          "readingTimeMinutes": 5,
+          "prerequisites": [],
+          "nextLevelId": "1.1_intermediate"
+        },
+        "intermediate": {
+          "tag": "[INTERMEDIATE: ...]",
+          "difficulty": "Medium",
+          "readingTimeMinutes": 7,
+          "prerequisites": ["Basic understanding of control loops"],
+          "nextLevelId": "1.1_advanced"
+        },
+        "advanced": {
+          "tag": "[ADVANCED: ...]",
+          "difficulty": "High",
+          "readingTimeMinutes": 10,
+          "prerequisites": ["Linear algebra", "Probability theory"],
+          "nextLevelId": null
+        }
+      }
+    },
+    {
+      "id": "1.2",
+      "title": "The Simulation-to-Real Gap",
+      "variants": {
+        "beginner": {
+          "tag": "[BEGINNER: ...]",
+          "difficulty": "Low",
+          "readingTimeMinutes": 4,
+          "prerequisites": [],
+          "nextLevelId": "1.2_intermediate"
+        },
+        "intermediate": {
+          "tag": "[INTERMEDIATE: ...]",
+          "difficulty": "Medium",
+          "readingTimeMinutes": 8,
+          "prerequisites": ["Python basics"],
+          "nextLevelId": "1.2_advanced"
+        },
+        "advanced": {
+          "tag": "[ADVANCED: ...]",
+          "difficulty": "High",
+          "readingTimeMinutes": 12,
+          "prerequisites": ["RL basics", "Domain adaptation theory"],
+          "nextLevelId": null
+        }
+      }
+    },
+    {
+      "id": "1.4",
+      "title": "ROS 2 Fundamentals",
+      "variants": {
+        "beginner": {
+          "tag": "[BEGINNER: ...]",
+          "difficulty": "Low",
+          "readingTimeMinutes": 6,
+          "prerequisites": [],
+          "nextLevelId": "1.4_intermediate"
+        },
+        "intermediate": {
+          "tag": "[INTERMEDIATE: ...]",
+          "difficulty": "Medium",
+          "readingTimeMinutes": 15,
+          "prerequisites": ["Python environment setup"],
+          "nextLevelId": "1.4_advanced"
+        },
+        "advanced": {
+          "tag": "[ADVANCED: ...]",
+          "difficulty": "High",
+          "readingTimeMinutes": 20,
+          "prerequisites": ["Distributed systems concepts"],
+          "nextLevelId": null
+        }
+      }
+    }
+  ],
+  "enrichmentTracks": [
+    {
+      "id": "1.1a",
+      "title": "Cybernetics and Control Theory",
+      "targetLevel": "advanced",
+      "type": "Deep Dive"
+    },
+    {
+      "id": "1.2a",
+      "title": "Information-Theoretic Perspectives on Sim-to-Real",
+      "targetLevel": "advanced",
+      "type": "Deep Dive"
+    }
+  ]
+}

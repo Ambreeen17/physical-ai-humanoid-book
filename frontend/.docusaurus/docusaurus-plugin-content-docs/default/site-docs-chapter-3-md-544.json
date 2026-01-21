@@ -1,0 +1,28 @@
+{
+  "id": "chapter-3",
+  "title": "Chapter 3: Sensors & Actuators",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-3.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-3",
+  "permalink": "/docs/chapter-3",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-3.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4,
+    "title": "Chapter 3: Sensors & Actuators"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 2: Kinematics & Dynamics",
+    "permalink": "/docs/chapter-2"
+  },
+  "next": {
+    "title": "Chapter 4: State Estimation",
+    "permalink": "/docs/chapter-4"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "chapter": "Chapter 4: Bayesian Filtering and State Estimation",
+    "assessment_type": "Short Answer",
+    "total_points": 3,
+    "questions_count": 1,
+    "difficulty": "Intermediate",
+    "cognitive_level": "Analysis/Evaluation"
+  },
+  "questions": [
+    {
+      "id": "SA-001",
+      "question_number": 1,
+      "stem": "Explain why the Unscented Kalman Filter (UKF) is often preferred over the Extended Kalman Filter (EKF) for highly nonlinear systems. Include at least two specific reasons related to how each filter handles nonlinearities.",
+      "expected_response": {
+        "key_points": [
+          {
+            "point": "Linearization errors in EKF",
+            "explanation": "EKF uses first-order Taylor series expansion which introduces linearization errors, especially for highly nonlinear functions where the true function deviates significantly from its tangent linear approximation",
+            "weight": 1
+          },
+          {
+            "point": "UKF uses deterministic sigma points",
+            "explanation": "UKF uses the unscented transformation with a set of deterministically selected sigma points that capture the true mean and covariance more accurately",
+            "weight": 1
+          },
+          {
+            "point": "UKF captures higher-order moments",
+            "explanation": "UKF can better approximate the true posterior distribution by propagating multiple points through the nonlinearity, capturing second-order and higher moments that EKF's linearization misses",
+            "weight": 1
+          },
+          {
+            "point": "Jacobian computation not required",
+            "explanation": "UKF does not require computing Jacobian matrices, which can be difficult or impossible for non-differentiable functions and adds computational complexity",
+            "weight": 0.5
+          }
+        ],
+        "minimum_acceptable_answer": "Students should mention at least two reasons: (1) EKF's linearization introduces errors for highly nonlinear systems, and (2) UKF uses sigma points that better capture the true distribution through the nonlinearity.",
+        "ideal_answer": "A complete answer explains both the limitations of EKF's first-order linearization and how UKF's sigma point approach overcomes these by propagating multiple points through the nonlinear function, capturing higher-order moments and avoiding Jacobian computation."
+      },
+      "rubric": {
+        "excellent": {
+          "description": "Provides comprehensive answer covering EKF's linearization errors and UKF's sigma point approach. Mentions at least 3 of the key points including comparison of how each handles nonlinearities, moments captured, and practical advantages.",
+          "points_range": "2.5-3",
+          "indicators": [
+            "Articulates why first-order Taylor series fails for strong nonlinearities",
+            "Explains deterministic sigma point sampling in UKF",
+            "Discusses higher-order moment capture",
+            "Mentions Jacobian avoidance benefit"
+          ]
+        },
+        "proficient": {
+          "description": "Covers the main comparison between EKF and UKF with at least 2 key points. Shows understanding that EKF linearizes while UKF propagates points.",
+          "points_range": "1.5-2.4",
+          "indicators": [
+            "States EKF uses linearization",
+            "States UKF uses sigma points",
+            "Connects both to handling of nonlinearities"
+          ]
+        },
+        "developing": {
+          "description": "Shows partial understanding. May identify that UKF is better for nonlinear systems but cannot articulate why, or confuses details about how each filter works.",
+          "points_range": "0.5-1.4",
+          "indicators": [
+            "Recognizes UKF is better for nonlinear systems",
+            "Attempts explanation but confuses EKF/UKF mechanisms",
+            "Mentions one correct point without elaboration"
+          ]
+        },
+        "beginning": {
+          "description": "Does not demonstrate understanding of the difference between EKF and UKF approaches to nonlinearities.",
+          "points_range": "0-0.4",
+          "indicators": [
+            "Cannot identify why EKF struggles with nonlinearities",
+            "Confuses UKF with particle filter or other methods",
+            "No meaningful comparison provided"
+          ]
+        }
+      },
+      "points": 3,
+      "learning_objectives": [
+        "LO-4.3: Compare EKF and UKF approaches to handling nonlinearities",
+        "LO-4.5: Evaluate trade-offs between different Bayesian filter variants"
+      ],
+      "capstone_alignment": {
+        "capstone_component": "Nonlinear State Estimation Selection",
+        "relevance": "Selecting appropriate filter type based on system nonlinearity is a critical design decision"
+      },
+      "common_misconceptions": [
+        "Believing UKF is just 'better EKF' without understanding the mechanism",
+        "Confusing UKF's sigma points with particle filter's random sampling",
+        "Thinking UKF avoids all approximations (it still makes Gaussian assumptions)"
+      ],
+      "time_allocation": {
+        "estimated_minutes": 8,
+        "suggested_length": "3-5 sentences"
+      }
+    }
+  ],
+  "scoring_instructions": {
+    "grading_method": "Holistic rubric scoring based on quality and completeness of explanation",
+    "passing_threshold": "2 out of 3 points (67%)",
+    "partial_credit": "Awarded based on rubric levels; see individual rubric for point ranges"
+  }
+}

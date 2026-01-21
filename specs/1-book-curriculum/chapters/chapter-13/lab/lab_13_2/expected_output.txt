@@ -1,0 +1,36 @@
+# Expected Output for lab_13_2
+
+## Expected Results
+
+When running the lab_13_2 node, you should see output similar to:
+
+```
+[INFO] [12345.789]: Intermediate System Integration - Implementation node initialized
+[INFO] [12345.790]: Received joint states: N joints
+[INFO] [12345.791]: Processing System Integration data
+```
+
+## Validation Criteria
+
+Your implementation should:
+1. Successfully subscribe to joint_states topic
+2. Process System Integration data correctly
+3. Publish results to lab_13_2/result topic
+4. Handle edge cases appropriately
+5. Maintain real-time performance requirements
+
+## Performance Benchmarks
+
+- Processing rate: >10 Hz
+- Memory usage: <100 MB
+- CPU usage: <20% on typical hardware
+
+## Common Issues
+
+1. **Topic not found**: Ensure ROS nodes are in the same domain
+2. **Performance issues**: Optimize algorithms for real-time execution
+3. **Integration errors**: Check message type compatibility
+
+---
+
+**Expected output documented**: 2026-01-05T23:06:04.475086

@@ -1,0 +1,94 @@
+# Chapter 4 Variants Configuration
+# Kalman Filters for State Estimation
+
+variant_order:
+  - beginner
+  - intermediate
+  - advanced
+
+variants:
+  beginner:
+    path: beginner/content.md
+    target_audience:
+      - Software experience: beginner
+      - Hardware familiarity: none
+      - AI/ML expertise: novice
+    content_coverage:
+      - 1D Kalman Filter only
+      - Skip EKF/UKF
+      - Heavy emphasis on visual intuition
+      - Skip all matrix forms
+    pedagogical_approach:
+      - Analogies-first (pumpkin weighing)
+      - Worked numerical examples
+      - Interactive visualization labs
+    estimated_completion_hours: 4-6
+
+  intermediate:
+    path: intermediate/content.md
+    target_audience:
+      - Software experience: intermediate
+      - Hardware familiarity: basic
+      - AI/ML expertise: intermediate
+    content_coverage:
+      - Standard KF derivation
+      - EKF linearization
+      - UKF unscented transform
+      - Particle filter basics
+      - Multi-sensor fusion concepts
+    pedagogical_approach:
+      - Balance of theory and implementation
+      - Python/MATLAB code examples
+      - Sensor fusion case studies
+    estimated_completion_hours: 10-15
+
+  advanced:
+    path: advanced/content.md
+    target_audience:
+      - Software experience: advanced
+      - Hardware familiarity: deep
+      - AI/ML expertise: expert
+    content_coverage:
+      - Information filters
+      - iSAM2 incremental smoothing
+      - MSCKF visual-inertial odometry
+      - Square-root filters
+      - Current research frontiers
+    pedagogical_approach:
+      - Mathematical rigor
+      - Research-oriented projects
+      - Paper reading and implementation
+    estimated_completion_hours: 20-30
+
+transformation_operations:
+  beginner:
+    - Removed: 2D/3D matrix Kalman Filter derivations
+    - Removed: EKF and UKF sections
+    - Removed: Particle filter complexity
+    - Added: Intuitive pumpkin weighing analogy
+    - Added: Step-by-step numerical worked examples
+    - Added: Visual uncertainty diagrams
+    - Added: Trust tradeoff table
+    - Replaced: Matrix math with scalar operations
+    - Labs: Single-concept tracking simulations
+
+  intermediate:
+    - Preserved: Standard KF with full derivation
+    - Added: EKF with Jacobian linearization
+    - Added: UKF with sigma point computation
+    - Added: Particle filter with resampling strategies
+    - Labs: Multi-sensor fusion projects
+
+  advanced:
+    - Preserved: Core KF intuition (condensed)
+    - Removed: Basic derivations (marked optional)
+    - Added: Information filter dual form
+    - Added: iSAM2 with Bayes Tree structure
+    - Added: MSCKF feature marginalization
+    - Added: Square-root filter numerical stability
+    - Added: Research frontiers and open problems
+    - Labs: Research-oriented implementation projects
+
+default_variant: intermediate
+version: "1.0.0"
+last_updated: "2026-01-04"

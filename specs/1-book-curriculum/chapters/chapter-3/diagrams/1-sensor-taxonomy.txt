@@ -1,0 +1,60 @@
+================================================================================
+                    SENSOR TAXONOMY CLASSIFICATION
+================================================================================
+
+                            EXTERNAL ENVIRONMENT
+                            (Sensing Domain)
+                                    |
+                                    v
+          +-------------------------+-------------------------+
+          |                                                   |
+    EXTEROCEPTIVE                                      PROPRIOCEPTIVE
+    (External State)                                   (Internal State)
+          |                                                   |
+          v                                                   v
+    +-----+-----+-----+-----+                       +---------+---------+
+    |           |           |                       |                   |
+  VISION     RANGE       LIGHT                       MOTOR             ACTUATOR
+    |           |           |                       ENCODERS           SENSORS
+    v           v           v                           |                   |
++-------+  +--------+  +--------+                 +----+----+        +----+----+
+| Mono  |  | LiDAR  |  |  CCD  |                 |Incremen|        |Current |
+|Camera |  | Scanner|  |  CMOS |                 |  tal   |        |Sensors |
++-------+  +--------+  +--------+                 +----+----+        +--------+
+    |           |           |
+    |           |           |
+    v           v           v
++-------+  +--------+  +--------+
+| Stereo|  | ToF    |  | Photodi|
+|Camera |  | Camera |  |  ode   |
++-------+  +--------+  +--------+
+
+          +-------------------------+
+          |                         |
+      VESTIBULAR              TEMPORAL
+      (Balance/Orientation)   (Time Reference)
+          |                         |
+          v                         v
+      +-------+                +---------+
+      | IMU   |                |Clocks   |
+      |  -    |                |Timers   |
+      |Accel  |                +---------+
+      |Gyro   |
+      +-------+
+
+================================================================================
+                         SENSOR MODALITY MATRIX
+================================================================================
+
+    SENSOR TYPE      | OUTPUT        | RANGE     | ACCURACY   | RATE
+    -----------------|---------------|-----------|------------|----------
+    Vision (Mono)    | 2D Image      | 0.1-100m  | ~1mm       | 30-120Hz
+    Vision (Stereo)  | 3D Point Cloud| 0.1-50m   | ~1mm       | 30-60Hz
+    LiDAR            | 3D Point Cloud| 1-200m    | ~5mm       | 10-40Hz
+    ToF Camera       | 3D Depth Map  | 0.1-10m   | ~10mm      | 30-90Hz
+    IMU (Accel)      | Acceleration  | +/-16g    | ~0.001g    | 100-1000Hz
+    IMU (Gyro)       | Angular Rate  | +/-2000dps| ~0.01dps   | 100-1000Hz
+    Motor Encoder    | Position      | Unlimited | ~0.001deg  | 1-10kHz
+    Force/Torque     | F/T Vector    | 0-500N    | ~0.5N      | 100-1000Hz
+
+================================================================================

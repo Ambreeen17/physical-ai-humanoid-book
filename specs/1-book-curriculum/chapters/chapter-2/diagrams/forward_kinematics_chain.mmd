@@ -1,0 +1,30 @@
+flowchart LR
+    subgraph Chain["Forward Kinematics Chain"]
+        direction LR
+
+        F0["Frame 0<br/>Base<br/>[0,0,0]"] -->|"T₀¹(q₁)"| F1["Frame 1<br/>J1 Shoulder<br/>Yaw"]
+        F1 -->|"T₁²(q₂)"| F2["Frame 2<br/>J2 Shoulder<br/>Pitch"]
+        F2 -->|"T₂³(q₃)"| F3["Frame 3<br/>J3 Shoulder<br/>Roll"]
+        F3 -->|"T₃⁴(q₄)"| F4["Frame 4<br/>J4 Elbow"]
+        F4 -->|"T₄⁵(q₅)"| F5["Frame 5<br/>J5 Wrist<br/>Pitch"]
+        F5 -->|"T₅⁶(q₆)"| F6["Frame 6<br/>J6 Wrist<br/>Roll"]
+        F6 -->|"T₆ᵉ"| EE["End-Effector<br/>Gripper"]
+    end
+
+    subgraph Equation["Mathematical Formulation"]
+        EQ["T₀ᵉ = T₀¹ × T₁² × T₂³ × T₃⁴ × T₄⁵ × T₅⁶<br/>
+            <br/>
+            Where Tᵢ = DH Transform(θᵢ, dᵢ, aᵢ, αᵢ)"]
+    end
+
+    Chain --> Equation
+
+    style F0 fill:#bbdefb
+    style F1 fill:#c8e6c9
+    style F2 fill:#c8e6c9
+    style F3 fill:#c8e6c9
+    style F4 fill:#c8e6c9
+    style F5 fill:#c8e6c9
+    style F6 fill:#c8e6c9
+    style EE fill:#ffecb3
+    style Equation fill:#f3e5f5

@@ -1,0 +1,26 @@
+{
+  "multiple_choice": {
+    "1.1": {
+      "answer": "B",
+      "explanation": "VLA models are trained on sensorimotor data (vision + language + action), allowing them to output physical actions, unlike text-only LLMs."
+    },
+    "1.2": {
+      "answer": "C",
+      "explanation": "Ignoring physics increases the gap. Effective strategies include System ID and Domain Randomization."
+    },
+    "1.3": {
+      "answer": "B",
+      "explanation": "Topics are named buses for many-to-many asynchronous communication in ROS 2."
+    }
+  },
+  "short_answer": {
+    "2.1": {
+      "criteria": [
+        "Mention of perception (sensing)",
+        "Mention of action (moving/motors)",
+        "Explanation of feedback (closed loop)",
+        "Alignment with physical constraints"
+      ]
+    }
+  }
+}

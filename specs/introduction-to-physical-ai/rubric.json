@@ -1,0 +1,28 @@
+{
+  "rubric_version": "1.0",
+  "chapter": "Introduction to Physical AI",
+  "grading_criteria": [
+    {
+      "category": "Conceptual Proficiency",
+      "max_points": 3,
+      "levels": {
+        "Excellent": "3 - Perfect score on MC and deep reflection",
+        "Satisfactory": "2 - 1 error in MC or shallow reflection",
+        "Developing": "1 - Multiple MC errors or missing reflection"
+      }
+    },
+    {
+      "category": "Technical Implementation",
+      "max_points": 7,
+      "levels": {
+        "Excellent": "7 - Working ROS 2 node, correct log patterns, clean code",
+        "Proficient": "5 - Node runs but logic has edge-case issues",
+        "Basic": "3 - Node runs but missing core logic",
+        "Needs Improvement": "0 - Code does not compile/run"
+      }
+    }
+  ],
+  "bonus": {
+    "safety_watchdog": 5
+  }
+}

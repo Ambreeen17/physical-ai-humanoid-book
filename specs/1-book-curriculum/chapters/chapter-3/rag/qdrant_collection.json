@@ -1,0 +1,91 @@
+{
+  "collection_name": "chapter3_sensors_actuators",
+  "description": "RAG collection for Chapter 3: Sensors and Actuators from the robotics curriculum",
+  "vector_size": 384,
+  "distance": "Cosine",
+  "hnsw_config": {
+    "m": 16,
+    "ef_construct": 64,
+    "full_scan_threshold": 10000,
+    "on_disk": false
+  },
+  "optimizers_config": {
+    "deleted_threshold": 0.2,
+    "vacuum_min_payload_size": 1000000,
+    "default_segment_number": 0
+  },
+  "wal_config": {
+    "write_ahead_log": true,
+    "flush_interval_sec": 5,
+    "buffer_size": 256
+  },
+  "payload_schema": {
+    "chunk_id": {
+      "type": "keyword",
+      "index": true
+    },
+    "chapter": {
+      "type": "keyword",
+      "index": true
+    },
+    "chapter_number": {
+      "type": "integer",
+      "index": true
+    },
+    "section": {
+      "type": "keyword",
+      "index": true
+    },
+    "section_number": {
+      "type": "integer",
+      "index": true
+    },
+    "subsection": {
+      "type": "keyword",
+      "index": true
+    },
+    "heading_level": {
+      "type": "integer",
+      "index": true
+    },
+    "parent_heading": {
+      "type": "text",
+      "index": true
+    },
+    "chunk_order": {
+      "type": "integer",
+      "index": true
+    },
+    "content_type": {
+      "type": "keyword",
+      "index": true
+    },
+    "difficulty": {
+      "type": "keyword",
+      "index": true
+    },
+    "keywords": {
+      "type": "array",
+      "index": true,
+      "schema": {
+        "type": "keyword"
+      }
+    },
+    "char_count": {
+      "type": "integer",
+      "index": false
+    },
+    "token_estimate": {
+      "type": "integer",
+      "index": false
+    }
+  },
+  "metadata": {
+    "source_file": "content.md",
+    "chapter_title": "Sensors and Actuators",
+    "total_chunks": 15,
+    "created_date": "2026-01-04",
+    "embedding_model": "all-MiniLM-L6-v2",
+    "source_path": "specs/1-book-curriculum/chapters/chapter-3/content.md"
+  }
+}

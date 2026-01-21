@@ -1,0 +1,178 @@
+## Lagrangian Dynamics Flowchart
+
+### ASCII Representation
+
+```
+    Lagrangian Dynamics Derivation
+    ==============================
+
+                              INPUTS
+    +------------------------------------------------------------------+
+    |  q      = [q1, q2, ..., qn]^T   (joint positions)               |
+    |  q_dot  = [q1, q2, ..., qn]^T   (joint velocities)               |
+    |  masses, inertias, lengths (physical parameters)                 |
+    +------------------------------------------------------------------+
+                                  |
+                                  v
+
+    +------------------------------------------------------------------+
+    |  STEP 1: Compute Kinetic Energy T                                 |
+    +------------------------------------------------------------------+
+    |                                                                  |
+    |    T = (1/2) * q_dot^T * M(q) * q_dot                            |
+    |                                                                  |
+    |    where M(q) is the n x n MASS MATRIX                           |
+    |                                                                  |
+    |    M(q) = sum over links k of:                                   |
+    |            [ m_k * J_vk^T * J_vk  +  J_wk^T * I_k * J_wk ]       |
+    |                                                                  |
+    |    Properties:                                                   |
+    |    - Symmetric positive definite                                 |
+    |    - Configuration dependent                                     |
+    |    - Size: n x n for n-DOF arm                                   |
+    +------------------------------------------------------------------+
+                                  |
+                                  v
+
+    +------------------------------------------------------------------+
+    |  STEP 2: Compute Potential Energy V                               |
+    +------------------------------------------------------------------+
+    |                                                                  |
+    |    V = sum over links k of:                                      |
+    |        m_k * g * h_k                                             |
+    |                                                                  |
+    |    where h_k is height of link k's COM above reference           |
+    |                                                                  |
+    |    Properties:                                                   |
+    |    - Configuration dependent only (not velocity)                 |
+    |    - Independent of joint velocities                             |
+    +------------------------------------------------------------------+
+                                  |
+                                  v
+
+    +------------------------------------------------------------------+
+    |  STEP 3: Compute Lagrangian L = T - V                             |
+    +------------------------------------------------------------------+
+                                  |
+                                  v
+
+    +------------------------------------------------------------------+
+    |  STEP 4: Apply Euler-Lagrange Equation                           |
+    +------------------------------------------------------------------+
+    |                                                                  |
+    |    d/dt(dL/dq_dot_i) - dL/dq_i = tau_i                           |
+    |                                                                  |
+    |    for each joint i = 1, ..., n                                  |
+    |                                                                  |
+    +------------------------------------------------------------------+
+                                  |
+                                  v
+
+    +------------------------------------------------------------------+
+    |  STEP 5: Expand to Canonical Form                                 |
+    +------------------------------------------------------------------+
+    |                                                                  |
+    |    M(q) * q_ddot  +  C(q, q_dot) * q_dot  +  g(q)  =  tau        |
+    |                                                                  |
+    |    Where:                                                        |
+    |    - M(q)      = mass matrix (n x n)                             |
+    |    - C(q,qdot) = Coriolis/centrifugal matrix (n x n)             |
+    |    - g(q)      = gravity vector (n x 1)                          |
+    |    - tau       = joint torques (n x 1)                           |
+    |    - q_ddot    = joint accelerations (n x 1)                     |
+    +------------------------------------------------------------------+
+
+    ============================================================
+
+    Key Properties
+    ==============
+
+    +----------------------------------------------------------+
+    | Property 1: Positive Definiteness                        |
+    | M(q) is always SPD, enabling unique acceleration:        |
+    | q_ddot = M(q)^(-1) * (tau - C*q_dot - g)                 |
+    +----------------------------------------------------------+
+
+    +----------------------------------------------------------+
+    | Property 2: Skew-Symmetry                                |
+    | (dM/dt - 2*C) is skew-symmetric, enabling passivity:     |
+    | q_dot^T * (dM/dt - 2*C) * q_dot = 0                      |
+    +----------------------------------------------------------+
+
+    +----------------------------------------------------------+
+    | Property 3: Linearity in Parameters                      |
+    | Dynamics can be written as:                              |
+    | Y(q, q_dot, q_ddot) * theta = tau                        |
+    | Enables adaptive control                                 |
+    +----------------------------------------------------------+
+
+    ============================================================
+
+    Computational Complexity
+    ========================
+
+    Naive mass matrix computation: O(n^3)
+    Efficient (recursive): O(n^2)
+    Newton-Euler formulation: O(n)
+```
+
+### Mermaid Diagram
+
+```mermaid
+flowchart TB
+    subgraph Inputs["System Inputs"]
+        direction LR
+        q["q<br/>Joint Positions"]
+        qd["q̇<br/>Joint Velocities"]
+        params["Physical Parameters<br/>masses, inertias, lengths"]
+    end
+
+    subgraph Energy["Energy Computation"]
+        T["T<br/>Kinetic Energy<br/>T = ½ q̇ᵀ M(q) q̇"]
+        V["V<br/>Potential Energy<br/>V = Σ mᵢ g hᵢ"]
+    end
+
+    L["L = T - V<br/>Lagrangian"]
+
+    subgraph Derivatives["Partial Derivatives"]
+        dL_dqd["∂L/∂q̇<br/>Generalized Momentum"]
+        dL_dq["∂L/∂q<br/>Generalized Force"]
+    end
+
+    EL["d/dt(∂L/∂q̇) - ∂L/∂q = τ<br/>Euler-Lagrange Equation"]
+
+    subgraph Dynamics["Dynamics Output"]
+        M["M(q)<br/>Mass Matrix<br/>n × n"]
+        C["C(q, q̇)<br/>Coriolis/Centrifugal<br/>n × n"]
+        g["g(q)<br/>Gravity Vector<br/>n × 1"]
+    end
+
+    Result["M(q) q̈ + C(q, q̇) q̇ + g(q) = τ<br/>Canonical Robot Dynamics Equation"]
+
+    Inputs --> Energy
+    Energy --> L
+    L --> Derivatives
+    Derivatives --> EL
+    EL --> Dynamics
+    Dynamics --> Result
+
+    style Inputs fill:#e3f2fd
+    style T fill:#c8e6c9
+    style V fill:#c8e6c9
+    style L fill:#fff3e0
+    style Derivatives fill:#f3e5f5
+    style EL fill:#ffecb3
+    style Dynamics fill:#ffcdd2
+    style Result fill:#bbdefb
+```
+
+### Description for Docusaurus
+
+**Alt Text:**
+Flowchart showing the Lagrangian dynamics derivation process. Starting from joint positions and velocities, we compute kinetic energy T and potential energy V, form the Lagrangian L = T - V, apply the Euler-Lagrange equation, and derive the canonical robot dynamics equation: M(q)q_ddot + C(q,q_dot)q_dot + g(q) = tau.
+
+**Caption:**
+The Lagrangian formulation provides an elegant, energy-based approach to robot dynamics. By computing kinetic and potential energies, forming the Lagrangian, and applying the Euler-Lagrange equation, we derive the standard dynamics equation used for robot control. The result includes the mass matrix M(q), Coriolis/centrifugal matrix C(q,q_dot), and gravity vector g(q).
+
+**Explanation:**
+The Lagrangian approach avoids free-body diagrams and constraint forces by working with energies. We first compute kinetic energy T = (1/2)q_dot^T M(q) q_dot, where M(q) is the configuration-dependent mass matrix. Potential energy V = sum(m_i g h_i) depends only on configuration. The Lagrangian L = T - V is the difference between these energies. Applying the Euler-Lagrange equation d/dt(dL/dq_dot_i) - dL/dq_i = tau_i for each joint yields the canonical form M(q)q_ddot + C(q,q_dot)q_dot + g(q) = tau. Key properties include positive definiteness of M(q) (enabling unique acceleration computation), skew-symmetry of dM/dt - 2C (enabling passivity proofs), and linearity in parameters (enabling adaptive control). The Unitree G1's 6-DOF dynamics follow this form with a 6x6 mass matrix.

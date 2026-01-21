@@ -1,0 +1,10 @@
+services:
+  ros2_lab:
+    build: .
+    volumes:
+      - .:/ros2_ws/src/hello_physical_ai
+    environment:
+      - DISPLAY=${DISPLAY}
+    network_mode: host
+    privileged: true
+    ipc: host

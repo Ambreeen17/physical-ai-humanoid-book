@@ -1,0 +1,28 @@
+{
+  "id": "chapter-14",
+  "title": "Chapter 14: Safety & Robustness",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-14.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-14",
+  "permalink": "/docs/chapter-14",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-14.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 15,
+  "frontMatter": {
+    "sidebar_position": 15,
+    "title": "Chapter 14: Safety & Robustness"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 13: System Integration",
+    "permalink": "/docs/chapter-13"
+  },
+  "next": {
+    "title": "Chapter 15: Deployment & Operations",
+    "permalink": "/docs/chapter-15"
+  }
+}

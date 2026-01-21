@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Simple simulation world for Ch 1 -->
+    <!-- In this introductory lab, we focus on the logic flow -->
+    <!-- using turtlesim as a lightweight starting point -->
+  </world>
+</sdf>

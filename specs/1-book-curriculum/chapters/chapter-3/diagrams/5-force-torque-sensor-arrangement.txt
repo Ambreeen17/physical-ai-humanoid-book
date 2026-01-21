@@ -1,0 +1,269 @@
+================================================================================
+                    FORCE-TORQUE SENSOR ARRANGEMENT
+================================================================================
+
+    SIX-AXIS F/T SENSOR ARCHITECTURE
+    =================================
+
+                         CROSS-SECTIONAL VIEW
+                         ═════════════════════
+
+                              ┌─────────────────┐
+                              │                 │
+                              │   TOP FLANGE    │
+                              │   (Mounting     │
+                              │    Interface)   │
+                              └────────┬────────┘
+                                       │
+                              ┌────────┴────────┐
+                              │                 │
+                              │   FLEXURE       │
+                              │   STRUCTURE     │
+                              │   (Strain       │
+                              │    Gauges)      │
+                              │                 │
+                              └────────┬────────┘
+                                       │
+                              ┌────────┴────────┐
+                              │                 │
+                              │   BODY/         │
+                              │   HOUSING       │
+                              │   (Electronics) │
+                              │                 │
+                              └────────┬────────┘
+                                       │
+                              ┌────────┴────────┐
+                              │                 │
+                              │   BOTTOM FLANGE │
+                              │   (Tool Mount)  │
+                              │                 │
+                              └─────────────────┘
+
+
+================================================================================
+                    STRAIN GAUGE BRIDGE CONFIGURATION
+================================================================================
+
+    FULL BRIDGE CONFIGURATION (Most Common for F/T Sensors)
+    ════════════════════════════════════════════════════════
+
+    TOP VIEW OF FLEXURE SHOWING STRAIN GAUGE PLACEMENT
+    ───────────────────────────────────────────────────
+
+                    ┌─────────────────────────────┐
+                    │                             │
+                    │         GAUGE 1 (+)         │    ┌── Tension (+)
+                    │             ▲               │    │   Compression (-)
+                    │             │               │    │
+                    │             │               │    ▼
+                    │    ─────────┼─────────      │
+                    │             │               │
+                    │             │               │    ┌── Left side of
+                    │   GAUGE 2   │   GAUGE 4     │    │   flexure beam
+                    │   (+)       │   (-)         │    │
+                    │    ▼        │      ▲        │    │
+                    │    ─────────┼─────────      │    │
+                    │             │               │    │
+                    │             │               │    │
+                    │         GAUGE 3 (-)         │    │
+                    │             ▼               │
+                    │                             │
+                    └─────────────────────────────┘
+
+
+    WHEATSTONE BRIDGE CIRCUIT
+    ═════════════════════════
+
+            V_EXC ──┬─────────────────┬───────────────── V_OUT
+                    │                 │
+                    R1 (+)           R2 (-)
+                   (G1)             (G3)
+                    │                 │
+                    ├─── V_OUT (+) ──┤
+                    │                 │
+                    R4 (-)           R3 (+)
+                   (G4)             (G2)
+                    │                 │
+                    └─────────────────┴───────────────── GND
+
+
+    FORCE COMPONENTS (Axes)
+    ═══════════════════════
+
+        F_z (Normal Force)     F_x, F_y (Shear Forces)    M_x, M_y, M_z (Torques)
+
+        ┌────────────────┐     ┌────────────────┐         ┌────────────────┐
+        │                │     │                │         │                │
+        │       ▲        │     │     ←── F_y    │         │       ↻ M_z    │
+        │       │ F_z    │     │                │         │                │
+        │       │        │     │   ┌───┐        │         │    ┌───────┐   │
+        │   ┌───┴───┐    │     │   │   │        │         │    │   ◯   │   │
+        │   │       │    │     │   │ ↑ │        │         │    │       │   │
+        │   │       │    │     │   │ F_x│        │         │    │       │   │
+        │   │       │    │     │   │   │        │         │    │       │   │
+        │   │       │    │     │   └───┘        │         │    │       │   │
+        │   │       │    │     │                │         │    └───────┘   │
+        │   └───────┘    │     │                │         │                │
+        │                │     │                │         │                │
+        └────────────────┘     └────────────────┘         └────────────────┘
+
+
+================================================================================
+                    SENSOR ARRAYS IN ROBOTICS
+================================================================================
+
+    SINGLE F/T SENSOR (Wrist Mounted)
+    ══════════════════════════════════
+
+        ┌─────────────────────────────────────────────┐
+        │                     TOOL                    │
+        │                                             │
+        │                                             │
+        └─────────────────────────────────┬───────────┘
+                                          │
+                                          ▼
+                              ┌───────────────────┐
+                              │     F/T SENSOR    │
+                              │                   │
+                              │   Fx Fy Fz        │
+                              │   Mx My Mz        │
+                              │   (6 DOF)         │
+                              └─────────┬─────────┘
+                                        │
+                                        ▼
+                              ┌───────────────────┐
+                              │   ROBOT WRIST     │
+                              │   (Joint 6)       │
+                              └───────────────────┘
+
+
+    DISTRIBUTED SENSOR ARRAY (Tactile Sensing)
+    ══════════════════════════════════════════
+
+         ┌───────────────────────────────────────────────────────┐
+         │                    ROBOT HAND                         │
+         │                                                           │
+         │    ┌─────┐     ┌─────┐     ┌─────┐     ┌─────┐        │
+         │    │ ◯   │     │ ◯   │     │ ◯   │     │ ◯   │        │
+         │    │F/T  │     │F/T  │     │F/T  │     │F/T  │        │
+         │    └─────┘     └─────┘     └─────┘     └─────┘        │
+         │     FINGER 1   FINGER 2   FINGER 3   FINGER 4         │
+         │         │           │           │           │          │
+         │         ▼           ▼           ▼           ▼          │
+         │     ┌─────────────────────────────────────────────┐   │
+         │     │         DISTRIBUTED DATA PROCESSING         │   │
+         │     │                                             │   │
+         │     │   Local F/T → Global Force Estimation       │   │
+         │     │   Grasp Stability Analysis                  │   │
+         │     │   Slip Detection                            │   │
+         │     └─────────────────────────────────────────────┘   │
+         └───────────────────────────────────────────────────────┘
+
+
+    MULTI-SENSOR CALIBRATION NETWORK
+    ═════════════════════════════════
+
+        SENSOR 1 ──────┐
+                      │
+                      │    ┌─────────────────────────────────┐
+        SENSOR 2 ─────┼───►│      CALIBRATION SYSTEM         │
+                      │    │                                 │
+                      │    │   1. Load cell verification     │
+        SENSOR 3 ─────┤    │   2. Cross-talk compensation    │
+                      │    │   3. Temperature drift model    │
+                      │    │   4. Transformation matrix      │
+        SENSOR N ─────┘    │   5. Uncertainty propagation    │
+                           └─────────────────────────────────┘
+                                        │
+                                        ▼
+                           ┌────────────────────────┐
+                           │   CALIBRATED OUTPUT    │
+                           │   F_measured = K ·     │
+                           │         (V_raw - V0)   │
+                           └────────────────────────┘
+
+
+================================================================================
+                    FORCE MEASUREMENT PRINCIPLE
+================================================================================
+
+    STRAIN-TO-FORCE CONVERSION
+    ══════════════════════════
+
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                          │
+    │   MECHANICAL → ELECTRICAL CONVERSION CHAIN                              │
+    │                                                                          │
+    │   External     Strain in    Resistance      Bridge      Calibrated      │
+    │   Force ──►    Flexure      Change       Output      Force/Torque      │
+    │   (F, M)       (ε)          (ΔR)          (V)        (F̂, M̂)          │
+    │                                                                          │
+    │          ┌───────┐  ┌───────────┐  ┌──────────┐  ┌─────────────┐        │
+    │          │  F/M  │►│    ε =     │►│   ΔR/R   │►│     V/V      │        │
+    │          │       │  │  M·c/E·I  │  │ = G·ε   │  │   = S·F     │        │
+    │          └───────┘  └───────────┘  └──────────┘  └─────────────┘        │
+    │               │           │            │               │                 │
+    │               │           │            │               │                 │
+    │               ▼           ▼            ▼               ▼                 │
+    │         ┌─────────┐ ┌─────────┐ ┌─────────┐     ┌─────────────┐         │
+    │         │  Load   │ │Strain   │ │ Wheat-  │     │ Calibration │         │
+    │         │Applied  │ │Gauge    │ │ stone   │     │ Lookup/     │         │
+    │         │to Beam  │ │Bonded   │ │ Bridge  │     │ Matrix      │         │
+    │         └─────────┘ └─────────┘ └─────────┘     └─────────────┘         │
+    │                                                                          │
+    └─────────────────────────────────────────────────────────────────────────┘
+
+
+    CALIBRATION MATRIX (K)
+    ══════════════════════
+
+              ┌                     ┐
+              │  K_Fx   0    0  ... │   ┌          ┐
+    F_meas =  │   0    K_Fy  0  ... │ × │ V_raw    │
+              │   0     0   K_Fz ... │   │ - V_bias │
+              │   .     .    .   .  │   │          │
+              │   0     0    0  K_Mz│   └          ┘
+              └                     ┘
+
+    Where:
+        K_Fx, K_Fy, K_Fz = Force sensitivities (N/V)
+        K_Mx, K_My, K_Mz = Torque sensitivities (Nm/V)
+
+
+================================================================================
+                    CROSS-TALK AND DECOUPLING
+================================================================================
+
+    CROSS-TALK PHENOMENON
+    ═════════════════════
+
+    IDEAL (No Cross-Talk)              REAL (With Cross-Talk)
+    ─────────────────────              ─────────────────────
+
+    F_z ─────────────────► F_z          F_z ──┬────────► F_z
+                                              │         ▲
+                                              │         │
+                                              ▼         │
+    M_y ─────────────────► M_y          M_y ──┴────────► M_y
+
+    Effect: Applying force in one axis causes apparent readings
+            in other axes due to mechanical coupling.
+
+
+    DECOUPLING APPROACHES
+    ═════════════════════
+
+    1. MECHANICAL (Preferred)
+       - Symmetric flexure design
+       - Decoupled beam structures
+       - Strain isolation
+
+    2. MATHEMATICAL (Compensation)
+       - Full coupling matrix K (6×6)
+       - Off-diagonal elements represent cross-talk
+       - Inverse matrix for decoupling:
+
+         F_true = K⁻¹ × F_measured
+
+
+================================================================================

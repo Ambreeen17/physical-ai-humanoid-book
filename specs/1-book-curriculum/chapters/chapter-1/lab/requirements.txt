@@ -1,0 +1,5 @@
+# Required for ROS 2 package discovery
+# In a full ROS 2 environment, these would be in a package.xml
+rclpy
+geometry_msgs
+turtlesim

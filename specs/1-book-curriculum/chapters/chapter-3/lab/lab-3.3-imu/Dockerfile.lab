@@ -1,0 +1,31 @@
+# Lab 3.3: IMU Complementary Filter
+# ROS 2 Humble container with tf_transformations for IMU processing
+
+FROM osrf/ros:humble-desktop-full
+
+# Install Python dependencies for IMU processing
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-numpy \
+    python3-pip \
+    ros-humble-tf-transformations \
+    ros-humble-imu-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install tf-transformations Python package
+RUN pip3 install --no-cache-dir transforms3d
+
+# Create workspace
+WORKDIR /root/ros2_lab
+
+# Copy package files
+COPY ./src/imu_processing/package.xml /root/ros2_lab/src/imu_processing/
+COPY ./src/imu_processing/setup.py /root/ros2_lab/src/imu_processing/
+COPY ./src/imu_processing/setup.cfg /root/ros2_lab/src/imu_processing/
+COPY ./src/imu_processing/imu_processing/ /root/ros2_lab/src/imu_processing/imu_processing/
+
+# Build the package
+RUN . /opt/ros/humble/setup.sh && \
+    cd /root/ros2_lab && \
+    colcon build --packages-select imu_processing
+
+ENTRYPOINT ["/bin/bash"]

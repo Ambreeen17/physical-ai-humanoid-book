@@ -1,0 +1,46 @@
+{
+  "chapter": "Chapter 3: Robotic Sensors and Perception",
+  "total_points": 7,
+  "questions": [
+    {
+      "id": "MCQ-001",
+      "type": "multiple_choice",
+      "question": "Which sensor is classified as exteroceptive?",
+      "options": [
+        "LiDAR",
+        "IMU (Inertial Measurement Unit)",
+        "Wheel Encoder",
+        "Motor Current Sensor"
+      ],
+      "correct_answer": "LiDAR",
+      "explanation": "LiDAR is an exteroceptive sensor because it measures external environmental properties (distance to objects, environmental structure) rather than the robot's own motion or state. IMU and wheel encoders are proprioceptive sensors.",
+      "difficulty": "foundational",
+      "points": 2,
+      "learning_objectives": [
+        "LO-3.1: Distinguish between proprioceptive and exteroceptive sensors",
+        "LO-3.2: Identify examples of each sensor category"
+      ],
+      "capstone_alignment": "Foundational sensor selection for robot perception systems"
+    },
+    {
+      "id": "MCQ-002",
+      "type": "multiple_choice",
+      "question": "What does calibration correct in RGB-D cameras?",
+      "options": [
+        "The color temperature of RGB images",
+        "The spatial offset between the RGB sensor and the depth sensor",
+        "The frame rate synchronization",
+        "The exposure time for low-light conditions"
+      ],
+      "correct_answer": "The spatial offset between the RGB sensor and the depth sensor",
+      "explanation": "RGB-D cameras have separate sensors for color and depth that are physically offset from each other. Calibration determines the transformation between these sensors so that depth values can be correctly mapped to the corresponding color pixels.",
+      "difficulty": "intermediate",
+      "points": 2,
+      "learning_objectives": [
+        "LO-3.3: Explain the principles of RGB-D camera operation",
+        "LO-3.4: Understand calibration requirements for multi-sensor systems"
+      ],
+      "capstone_alignment": "Sensor fusion setup for perception pipeline integration"
+    }
+  ]
+}

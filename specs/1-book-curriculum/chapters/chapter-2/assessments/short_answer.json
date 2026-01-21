@@ -1,0 +1,73 @@
+{
+  "assessment_type": "short_answer",
+  "chapter": 2,
+  "total_points": 6,
+  "questions": [
+    {
+      "id": "ch2_sa_001",
+      "question": "Explain why inverse kinematics may have multiple solutions. Give a physical example.",
+      "difficulty": "intermediate",
+      "points": 2,
+      "learning_objectives": ["LO2.3"],
+      "tags": ["inverse_kinematics", "multiple_solutions", "elbow_up_down"],
+      "answer_template": "Inverse kinematics can have multiple solutions because [EXPLANATION]. A physical example is [EXAMPLE].",
+      "expected_answer": {
+        "key_points": [
+          "The same end-effector position can be reached through different joint angle combinations",
+          "For a 2-link planar arm, there are typically two solutions: elbow-up and elbow-down configurations",
+          "The arm can fold in different ways to reach the same point"
+        ],
+        "example": "A 2-DOF planar arm with links L1 and L2 trying to reach a point at distance R from origin where |L1-L2| < R < L1+L2. The elbow-up solution has the second joint angle positive (curving upward), while elbow-down has it negative (curving downward). Both reach the same Cartesian position."
+      },
+      "rubric": {
+        "excellent_2pts": "Explains the mathematical reason (redundancy in joint space) and provides a clear physical example with specific reference to elbow-up/elbow-down configurations",
+        "proficient_1pt": "Mentions multiple solutions exist but may not fully explain why, or provides example without clear reasoning",
+        "beginning_0pts": "Does not address the question or provides incorrect information about IK solutions"
+      }
+    },
+    {
+      "id": "ch2_sa_002",
+      "question": "Differentiate between joint space and workspace. Why is this distinction important for robot programming?",
+      "difficulty": "intermediate",
+      "points": 2,
+      "learning_objectives": ["LO2.1"],
+      "tags": ["joint_space", "workspace", "robot_programming"],
+      "answer_template": "Joint space is [DEFINITION], while workspace is [DEFINITION]. The distinction is important because [REASON].",
+      "expected_answer": {
+        "key_points": [
+          "Joint space: the space of joint angles/positions (q1, q2, ..., qn)",
+          "Workspace: the set of all reachable end-effector positions and orientations in Cartesian space",
+          "Important because robots are controlled in joint space but tasks are specified in Cartesian space",
+          "Trajectory planning must convert between these spaces (IK and FK)"
+        ]
+      },
+      "rubric": {
+        "excellent_2pts": "Clearly defines both spaces, explains the dimensional difference, and articulates why the distinction matters for robot control and trajectory planning",
+        "proficient_1pt": "Defines both spaces but may not fully explain the practical importance or makes minor errors in definition",
+        "beginning_0pts": "Confuses the concepts or cannot differentiate between them"
+      }
+    },
+    {
+      "id": "ch2_sa_003",
+      "question": "Describe the canonical form of robot manipulator dynamics: M(q)q̈ + C(q, q̇)q̇ + g(q) = τ. What does each term represent?",
+      "difficulty": "advanced",
+      "points": 2,
+      "learning_objectives": ["LO2.4"],
+      "tags": ["dynamics", "lagrangian", "mass_matrix", "equations_of_motion"],
+      "answer_template": "The equation represents [OVERVIEW]. M(q) is [M], C(q, q̇) is [C], and g(q) is [G].",
+      "expected_answer": {
+        "key_points": [
+          "M(q): Mass/inertia matrix - depends on configuration, describes how joint accelerations relate to torques",
+          "C(q, q̇): Coriolis and centrifugal terms - depends on velocities, captures coupling between joints during motion",
+          "g(q): Gravity vector - configuration-dependent, represents torque required to counteract gravity",
+          "τ: Joint torques/forces - the control inputs"
+        ]
+      },
+      "rubric": {
+        "excellent_2pts": "Correctly identifies all four terms with clear physical interpretations, demonstrates understanding of configuration-dependent nature",
+        "proficient_1pt": "Identifies most terms correctly but may have minor confusion about physical meaning",
+        "beginning_0pts": "Cannot identify the terms or provides incorrect interpretations"
+      }
+    }
+  ]
+}

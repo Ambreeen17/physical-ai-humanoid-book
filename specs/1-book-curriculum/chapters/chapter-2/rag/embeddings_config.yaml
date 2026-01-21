@@ -1,0 +1,100 @@
+# RAG Embeddings Configuration for Chapter 2: Kinematics and Dynamics
+# Generated: 2026-01-04
+
+version: "1.0"
+chapter: 2
+title: "Kinematics and Dynamics of Robot Manipulators"
+
+# Embedding Model Configuration
+embedding_model:
+  provider: "openai"  # or "huggingface", "cohere", "anthropic"
+  model: "text-embedding-3-small"  # optimal for 512-token chunks
+  dimensions: 1536
+  max_tokens_per_chunk: 512
+  overlap_tokens: 50
+  overlap_strategy: "heading_boundary"
+
+# Preprocessing Configuration
+preprocessing:
+  normalize_text: true
+  remove_whitespace: true
+  preserve_formulas: true  # Keep math equations readable
+  preserve_code_blocks: true
+  split_strategy: "semantic"  # semantic | recursive | heading
+
+# Chunking Configuration (per production spec)
+chunking:
+  theory:
+    min_tokens: 300
+    max_tokens: 500
+    target_tokens: 400
+  math:
+    min_tokens: 200
+    max_tokens: 400
+    target_tokens: 300
+  code:
+    min_tokens: 100
+    max_tokens: 300
+    target_tokens: 200
+  lab:
+    min_tokens: 150
+    max_tokens: 300
+    target_tokens: 225
+
+# Content Type Detection
+content_type_rules:
+  - pattern: "^```python|^```cpp|^```matlab"
+    type: "code"
+  - pattern: "^##.*Derivation|^##.*Math"
+    type: "math"
+  - pattern: "^Lab|^Exercise|^Challenge"
+    type: "lab"
+  - pattern: "default"
+    type: "theory"
+
+# Quality Thresholds
+quality:
+  min_chunk_tokens: 100
+  max_chunk_tokens: 512
+  min_keywords: 3
+  max_keywords: 8
+  required_metadata_fields:
+    - chunk_id
+    - chapter
+    - section
+    - difficulty
+    - content_type
+    - keywords
+    - learning_objectives
+
+# Keyword Extraction Configuration
+keyword_extraction:
+  method: "hybrid"  # hybrid | ner | statistical
+  max_keywords: 6
+  min_word_length: 3
+  include_named_entities: true
+  include_domain_terms: true
+  domain_term_file: "domain_terms.json"
+
+# Learning Objective Mapping
+learning_objectives:
+  LO2.1: "Joint space and configuration space definition"
+  LO2.2: "Forward kinematics with DH parameters"
+  LO2.3: "Inverse kinematics (analytical and numerical)"
+  LO2.4: "Lagrangian mechanics for dynamics"
+  LO2.5: "Simulation of multi-body dynamics"
+
+# Output Configuration
+output:
+  format: "json"
+  include_content: true
+  include_embeddings: false  # Generate separately
+  compression: false
+
+# Validation Rules
+validation:
+  check_token_bounds: true
+  check_keyword_coverage: true
+  check_learning_objective_coverage: true
+  check_semantic_coherence: true
+  require_unique_ids: true

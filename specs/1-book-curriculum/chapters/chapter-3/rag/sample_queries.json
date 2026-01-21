@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "description": "Sample queries for testing RAG retrieval from Chapter 3: Sensors and Actuators",
+    "version": "1.0",
+    "collection": "chapter3_sensors_actuators",
+    "total_queries": 15,
+    "query_categories": {
+      "conceptual": 4,
+      "technical": 5,
+      "practical": 3,
+      "comparison": 3
+    },
+    "created_date": "2026-01-04"
+  },
+  "queries": [
+    {
+      "query_id": "q001",
+      "query": "What is the difference between proprioceptive and exteroceptive sensors? Give examples from the Unitree G1 robot.",
+      "category": "conceptual",
+      "expected_keywords": ["proprioceptive", "exteroceptive", "Unitree G1", "encoders", "IMU", "RGB-D camera"],
+      "expected_sections": ["Sensor Taxonomy"],
+      "expected_difficulty": "beginner",
+      "target_chunk_ids": ["ch3-sec1-proprio-extero"]
+    },
+    {
+      "query_id": "q002",
+      "query": "Explain the time-of-flight principle used in LiDAR sensors and how distance is calculated from the round-trip time.",
+      "category": "conceptual",
+      "expected_keywords": ["time-of-flight", "LiDAR", "distance", "speed of light", "pulsed LiDAR", "phase-shift LiDAR"],
+      "expected_sections": ["LiDAR Sensors"],
+      "expected_difficulty": "intermediate",
+      "target_chunk_ids": ["ch3-sec2-lidar-principles"]
+    },
+    {
+      "query_id": "q003",
+      "query": "What are the key performance metrics for evaluating sensors including resolution, accuracy, precision, range, field of view, and latency?",
+      "category": "conceptual",
+      "expected_keywords": ["resolution", "accuracy", "precision", "range", "field of view", "latency", "sensor specifications"],
+      "expected_sections": ["Sensor Taxonomy"],
+      "expected_difficulty": "intermediate",
+      "target_chunk_ids": ["ch3-sec1-metrics"]
+    },
+    {
+      "query_id": "q004",
+      "query": "How do active sensors differ from passive sensors in robotics? What are the trade-offs?",
+      "category": "conceptual",
+      "expected_keywords": ["active sensors", "passive sensors", "LiDAR", "structured light", "power consumption"],
+      "expected_sections": ["Sensor Taxonomy"],
+      "expected_difficulty": "beginner",
+      "target_chunk_ids": ["ch3-sec1-active-passive"]
+    },
+    {
+      "query_id": "q005",
+      "query": "Write Python code using PCL (Point Cloud Library) to process LiDAR point clouds including statistical outlier removal, voxel grid downsampling, and RANSAC plane segmentation.",
+      "category": "technical",
+      "expected_keywords": ["PCL", "Point Cloud Library", "outlier removal", "voxel grid", "RANSAC", "plane segmentation", "Python"],
+      "expected_sections": ["LiDAR Sensors"],
+      "expected_difficulty": "advanced",
+      "target_chunk_ids": ["ch3-sec2-pcl-processing"]
+    },
+    {
+      "query_id": "q006",
+      "query": "How do you calibrate an RGB-D camera using OpenCV and a checkerboard pattern to obtain the intrinsic matrix and distortion coefficients?",
+      "category": "technical",
+      "expected_keywords": ["camera calibration", "intrinsic matrix", "OpenCV", "checkerboard", "distortion coefficients", "cornerSubPix"],
+      "expected_sections": ["RGB-D Cameras"],
+      "expected_difficulty": "advanced",
+      "target_chunk_ids": ["ch3-sec3-calibration"]
+    },
+    {
+      "query_id": "q007",
+      "query": "Implement a complementary filter in Python that combines accelerometer and gyroscope data for IMU orientation estimation.",
+      "category": "technical",
+      "expected_keywords": ["complementary filter", "sensor fusion", "IMU", "accelerometer", "gyroscope", "orientation", "Python"],
+      "expected_sections": ["Inertial Measurement Units"],
+      "expected_difficulty": "advanced",
+      "target_chunk_ids": ["ch3-sec4-complementary-filter"]
+    },
+    {
+      "query_id": "q008",
+      "query": "Explain the Madgwick filter for 3D orientation estimation using quaternions and provide the key equations.",
+      "category": "technical",
+      "expected_keywords": ["Madgwick filter", "quaternion", "sensor fusion", "3D orientation", "gradient descent", "AHRS"],
+      "expected_sections": ["Inertial Measurement Units"],
+      "expected_difficulty": "advanced",
+      "target_chunk_ids": ["ch3-sec4-madgwick-filter"]
+    },
+    {
+      "query_id": "q009",
+      "query": "What are the fundamental equations governing DC motor behavior including back EMF and torque constants?",
+      "category": "technical",
+      "expected_keywords": ["DC motor", "back EMF", "torque constant", "motor equations", "electrical time constant", "mechanical time constant"],
+      "expected_sections": ["Actuators"],
+      "expected_difficulty": "advanced",
+      "target_chunk_ids": ["ch3-sec6-actuator-fundamentals"]
+    },
+    {
+      "query_id": "q010",
+      "query": "What are the three main technologies used in RGB-D cameras: structured-light, stereo vision, and time-of-flight?",
+      "category": "conceptual",
+      "expected_keywords": ["RGB-D cameras", "structured light", "stereo vision", "time-of-flight", "RealSense", "depth sensing"],
+      "expected_sections": ["RGB-D Cameras"],
+      "expected_difficulty": "intermediate",
+      "target_chunk_ids": ["ch3-sec3-rgbd-overview"]
+    },
+    {
+      "query_id": "q011",
+      "query": "Write a ROS 2 Python node that subscribes to Unitree G1 Mid-360 LiDAR PointCloud2 data and detects obstacles within a safety zone.",
+      "category": "practical",
+      "expected_keywords": ["ROS 2", "PointCloud2", "LiDAR", "obstacle detection", "Unitree Mid-360", "ROS 2 node"],
+      "expected_sections": ["LiDAR Sensors"],
+      "expected_difficulty": "advanced",
+      "target_chunk_ids": ["ch3-sec2-ros2-integration"]
+    },
+    {
+      "query_id": "q012",
+      "query": "How do force-torque sensors work using strain gauges and Wheatstone bridge circuits? Include Python code for calibration and gravity compensation.",
+      "category": "practical",
+      "expected_keywords": ["force-torque sensor", "strain gauge", "Wheatstone bridge", "wrench", "gravity compensation", "calibration"],
+      "expected_sections": ["Force-Torque Sensors"],
+      "expected_difficulty": "advanced",
+      "target_chunk_ids": ["ch3-sec5-ft-sensors"]
+    },
+    {
+      "query_id": "q013",
+      "query": "Write Python code to integrate Intel RealSense D435i RGB-D camera with ROS 2, including depth to point cloud conversion.",
+      "category": "practical",
+      "expected_keywords": ["RealSense D435i", "RGB-D", "ROS 2", "cv_bridge", "depth image", "point cloud", "Unitree G1"],
+      "expected_sections": ["RGB-D Cameras"],
+      "expected_difficulty": "advanced",
+      "target_chunk_ids": ["ch3-sec3-realsense"]
+    },
+    {
+      "query_id": "q014",
+      "query": "Compare structured-light cameras like Intel RealSense D400 series with stereo cameras and time-of-flight cameras for robotic applications.",
+      "category": "comparison",
+      "expected_keywords": ["structured light", "stereo vision", "time-of-flight", "RGB-D comparison", "depth accuracy", "range"],
+      "expected_sections": ["RGB-D Cameras"],
+      "expected_difficulty": "intermediate",
+      "target_chunk_ids": ["ch3-sec3-rgbd-overview"]
+    },
+    {
+      "query_id": "q015",
+      "query": "What are the differences between servo motors, stepper motors, and direct-drive actuators in robotics? When would you use each?",
+      "category": "comparison",
+      "expected_keywords": ["servo motor", "stepper motor", "direct-drive", "actuator", "torque-speed curve", "open-loop control", "Unitree G1"],
+      "expected_sections": ["Actuators"],
+      "expected_difficulty": "intermediate",
+      "target_chunk_ids": ["ch3-sec6-actuator-fundamentals"]
+    }
+  ],
+  "retrieval_tests": [
+    {
+      "test_id": "rt001",
+      "description": "Test retrieval by section filter",
+      "filter": {"section": "LiDAR Sensors"},
+      "expected_min_results": 4,
+      "expected_chunk_ids": ["ch3-sec2-lidar-principles", "ch3-sec2-pcl-processing", "ch3-sec2-ros2-integration"]
+    },
+    {
+      "test_id": "rt002",
+      "description": "Test retrieval by difficulty level",
+      "filter": {"difficulty": "beginner"},
+      "expected_min_results": 3,
+      "expected_chunk_ids": ["ch3-sec1-intro", "ch3-sec1-proprio-extero", "ch3-sec1-active-passive"]
+    },
+    {
+      "test_id": "rt003",
+      "description": "Test retrieval by content type",
+      "filter": {"content_type": "code"},
+      "expected_min_results": 8,
+      "description": "Should return all code-heavy chunks"
+    },
+    {
+      "test_id": "rt004",
+      "description": "Test retrieval by keyword array",
+      "filter": {"keywords": ["LiDAR", "IMU", "RGB-D camera"]},
+      "expected_min_results": 5,
+      "description": "Should find chunks containing any of the specified keywords"
+    },
+    {
+      "test_id": "rt005",
+      "description": "Test semantic similarity search",
+      "query": "How do IMUs measure acceleration and angular velocity?",
+      "expected_min_results": 3,
+      "expected_chunk_ids": ["ch3-sec4-imu-principles", "ch3-sec4-complementary-filter"],
+      "description": "Should retrieve IMU-related chunks based on semantic meaning"
+    }
+  ]
+}

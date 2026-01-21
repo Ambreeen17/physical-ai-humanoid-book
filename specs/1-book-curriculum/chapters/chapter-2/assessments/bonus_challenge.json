@@ -1,0 +1,111 @@
+{
+  "assessment_type": "simulation_challenge",
+  "chapter": 2,
+  "total_bonus_points": 5,
+  "estimated_time_minutes": 60,
+  "difficulty": "advanced",
+  "learning_objectives": ["LO2.4", "LO2.5"],
+  "tags": ["PD_control", "trajectory_tracking", "dynamics_simulation", "control_tuning"],
+  "prerequisites": ["lab2_3_starter.py", "dynamics_derivation", "numerical_integration"],
+  "description": "Implement a PD controller for a 2-link planar arm to track a circular trajectory. Tune the proportional (Kp) and derivative (Kd) gains to achieve smooth, accurate tracking.",
+  "task_statement": "Implement a PD controller that computes joint torques to make the 2-link arm follow a circular path in the workspace. The controller must be tuned to minimize tracking error while avoiding oscillations and instability.",
+  "success_metrics": {
+    "tracking_error": {
+      "criterion": "Maximum trajectory tracking error < 5 cm",
+      "measurement": "Euclidean distance between desired and actual end-effector positions sampled at 100 Hz"
+    },
+    "smoothness": {
+      "criterion": "Smooth motion with no oscillations",
+      "measurement": "Joint velocities should not show high-frequency chatter; settling time < 0.5s after trajectory direction changes"
+    },
+    "visualization": {
+      "criterion": "Plots of desired vs actual trajectory",
+      "measurement": "Time-series plot showing both trajectories, with error shaded or overlayed"
+    }
+  },
+  "specifications": {
+    "arm_parameters": {
+      "L1": 1.0,
+      "L2": 0.8,
+      "m1": 1.0,
+      "m2": 1.0,
+      "g": 9.81
+    },
+    "trajectory": {
+      "center": [1.0, 0.5],
+      "radius": 0.3,
+      "period": 4.0,
+      "duration": 12.0
+    },
+    "control_law": {
+      "torque_computation": "tau = Kp * (q_desired - q) + Kd * (q_dot_desired - q_dot)",
+      "expected_output": "joint_torques array of shape (n_joints,)"
+    },
+    "simulation": {
+      "integrator": "RK4 (Runge-Kutta 4th order)",
+      "dt": 0.001,
+      "control_frequency": 500
+    }
+  },
+  "expected_outputs": {
+    "trajectory_plot": "matplotlib figure showing desired circle and actual traced path",
+    "error_plot": "Time series of tracking error",
+    "joint_plot": "Joint angles and velocities over time",
+    "torque_plot": "Control torques over time",
+    "metrics_summary": "Maximum error, RMS error, settling characteristics"
+  },
+  "evaluation_criteria": {
+    "tracking_accuracy": {
+      "weight": "40%",
+      "levels": {
+        "excellent_2pts": "Max error < 3 cm, RMS error < 1.5 cm",
+        "good_1.5pts": "Max error < 5 cm, RMS error < 2.5 cm",
+        "partial_1pts": "Max error < 8 cm with significant overshoot",
+        "minimal_0.5pts": "Tracks trajectory but with errors > 8 cm"
+      }
+    },
+    "smoothness": {
+      "weight": "30%",
+      "levels": {
+        "excellent_1.5pts": "No visible oscillations, smooth transitions, well-tuned Kp/Kd",
+        "good_1pts": "Minor oscillations but acceptable, good settling",
+        "partial_0.5pts": "Noticeable oscillations or slow settling",
+        "minimal_0.25pts": "Significant oscillations or instability"
+      }
+    },
+    "visualization": {
+      "weight": "20%",
+      "levels": {
+        "excellent_1pt": "Professional plots with all required elements, clear labels, multiple informative views",
+        "good_0.75pts": "Clear plots with most required elements",
+        "partial_0.5pts": "Basic plots present but unclear or missing key information",
+        "minimal_0.25pts": "Plots incomplete or difficult to interpret"
+      }
+    },
+    "code_quality": {
+      "weight": "10%",
+      "levels": {
+        "excellent_0.5pts": "Well-documented, modular, follows best practices",
+        "good_0.35pts": "Mostly clear code with comments",
+        "partial_0.25pts": "Functional but poorly documented",
+        "minimal_0pts": "Difficult to understand or follow"
+      }
+    }
+  },
+  "tuning_guidance": {
+    "Kp_selection": "Start with Kp = 100 * identity_matrix, increase until response is fast but not oscillatory",
+    "Kd_selection": "Try Kd = 2 * sqrt(Kp) for critical damping, adjust based on overshoot",
+    "common_issues": [
+      "Too high Kp causes oscillations and instability",
+      "Too low Kp results in slow tracking and large steady-state error",
+      "Too low Kd causes overshoot and ringing",
+      "No D term (Kd=0) typically leads to instability"
+    ]
+  },
+  "extension_opportunities": [
+    "Implement feedforward term for improved tracking",
+    "Add gravity compensation for vertical trajectories",
+    "Test with disturbance inputs",
+    "Compare PD with computed-torque control"
+  ]
+}

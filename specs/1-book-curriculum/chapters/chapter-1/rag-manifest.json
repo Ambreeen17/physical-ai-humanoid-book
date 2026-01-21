@@ -1,0 +1,155 @@
+{
+  "chapter": 1,
+  "chapter_title": "Introduction to Physical AI",
+  "total_chunks": 12,
+  "total_tokens": 620,
+  "embedding_model": "text-embedding-3-small",
+  "embedding_dimension": 1536,
+  "created_at": "2025-12-30T20:27:50.427683Z",
+  "chunks": [
+    {
+      "chunk_id": "ch1_Introduction_000",
+      "section": "Introduction",
+      "content_preview": "Introduction: The 'Glass Wall' of AI. For the last decade, AI development has largely happened behin...",
+      "tokens": 56,
+      "difficulty": "beginner",
+      "keywords": [
+        "disembodied AI",
+        "glass wall"
+      ]
+    },
+    {
+      "chunk_id": "ch1_What is Embodied Intelligence?_001",
+      "section": "What is Embodied Intelligence?",
+      "content_preview": "1.1 What is Embodied Intelligence? Embodied Intelligence refers to AI that is grounded in a physical...",
+      "tokens": 58,
+      "difficulty": "beginner",
+      "keywords": [
+        "embodied intelligence",
+        "sensorimotor loop",
+        "actuators"
+      ]
+    },
+    {
+      "chunk_id": "ch1_The Simulation-to-Real Gap_002",
+      "section": "The Simulation-to-Real Gap",
+      "content_preview": "1.2 The Simulation-to-Real Gap. Friction, lighting, and gravity in the real world are never exactly ...",
+      "tokens": 43,
+      "difficulty": "beginner",
+      "keywords": [
+        "sim-to-real",
+        "Gazebo",
+        "simulation"
+      ]
+    },
+    {
+      "chunk_id": "ch1_Current Humanoid Platforms_003",
+      "section": "Current Humanoid Platforms",
+      "content_preview": "1.3 Current Humanoid Platforms (2025). Leaders include Tesla Optimus, Figure AI, and Boston Dynamics...",
+      "tokens": 38,
+      "difficulty": "beginner",
+      "keywords": [
+        "humanoid",
+        "Tesla Optimus",
+        "Figure AI",
+        "Atlas"
+      ]
+    },
+    {
+      "chunk_id": "ch1_ROS 2 Fundamentals_004",
+      "section": "ROS 2 Fundamentals",
+      "content_preview": "1.4 ROS 2 Fundamentals. ROS 2 middleware organizes software into Nodes communicating via Topics usin...",
+      "tokens": 40,
+      "difficulty": "intermediate",
+      "keywords": [
+        "ROS 2",
+        "Nodes",
+        "Topics",
+        "Pub/Sub"
+      ]
+    },
+    {
+      "chunk_id": "ch1_Lab 1: Hello Physical AI_005",
+      "section": "Lab 1: Hello Physical AI",
+      "content_preview": "# Lab 1: Hello Physical AI: Your First Sensorimotor Loop\nIn this lab, you create a control system th...",
+      "tokens": 99,
+      "difficulty": "beginner",
+      "keywords": [
+        "lab",
+        "sensorimotor loop",
+        "hands-on"
+      ]
+    },
+    {
+      "chunk_id": "ch1_Implementation: Node Logic_006",
+      "section": "Implementation: Node Logic",
+      "content_preview": "class SensorimotorLoopNode(Node):\n    def __init__(self):\n        self.cmd_publisher = self.create_p...",
+      "tokens": 106,
+      "difficulty": "intermediate",
+      "keywords": [
+        "python",
+        "ROS 2",
+        "code"
+      ]
+    },
+    {
+      "chunk_id": "ch1_Assessment: Conceptual_007",
+      "section": "Assessment: Conceptual",
+      "content_preview": "Q: What is the primary difference between an LLM and a VLA model? A: VLA (Vision-Language-Action) mo...",
+      "tokens": 39,
+      "difficulty": "beginner",
+      "keywords": [
+        "assessment",
+        "VLA",
+        "LLM"
+      ]
+    },
+    {
+      "chunk_id": "ch1_Assessment: ROS 2_008",
+      "section": "Assessment: ROS 2",
+      "content_preview": "Q: In ROS 2, what is a 'Topic'? A: An information channel where nodes broadcast and consume data asy...",
+      "tokens": 28,
+      "difficulty": "beginner",
+      "keywords": [
+        "assessment",
+        "ROS 2",
+        "topic"
+      ]
+    },
+    {
+      "chunk_id": "ch1_Visuals: Sensorimotor Loop_009",
+      "section": "Visuals: Sensorimotor Loop",
+      "content_preview": "Figure 1.1: Sensorimotor Loop. Circular relationship between World -> Sensors -> Brain -> Actuators ...",
+      "tokens": 27,
+      "difficulty": "beginner",
+      "keywords": [
+        "diagram",
+        "feedback loop"
+      ]
+    },
+    {
+      "chunk_id": "ch1_Personalization: Beginner_010",
+      "section": "Personalization: Beginner",
+      "content_preview": "Beginner Concept: Think of embodied intelligence like a thermostat: senses temp, triggers furnace, f...",
+      "tokens": 44,
+      "difficulty": "beginner",
+      "keywords": [
+        "analogy",
+        "thermostat",
+        "egg analogy"
+      ]
+    },
+    {
+      "chunk_id": "ch1_Personalization: Intermediate_011",
+      "section": "Personalization: Intermediate",
+      "content_preview": "Intermediate Concept: Formalized loop Perception(t) -> Action(t) -> World Response(t+dt). Domain Ran...",
+      "tokens": 42,
+      "difficulty": "intermediate",
+      "keywords": [
+        "math",
+        "feedback loop",
+        "robustness"
+      ]
+    }
+  ]
+}

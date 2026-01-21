@@ -1,0 +1,208 @@
+# Chapter 2: Kinematics & Dynamics - Variant Configuration
+# Generated: 2026-01-04
+
+chapter: 2
+title: Kinematics and Dynamics of Robot Manipulators
+base_content: ../content.md
+
+variants:
+  beginner:
+    variant: beginner
+    difficulty_score: 3
+    estimated_read_time: 90
+    prerequisites:
+      - Chapter 1 (Physical AI fundamentals)
+      - Basic algebra
+      - Basic Python programming (provided starter code)
+    learning_objectives:
+      - Explain joint space and configuration space intuitively
+      - Compute forward kinematics for 2-DOF planar arm using DH parameters
+      - Solve inverse kinematics analytically for simple arms
+      - Visualize robot motion in simulation
+    keywords:
+      - joint space
+      - configuration space
+      - forward kinematics
+      - inverse kinematics
+      - Denavit-Hartenberg
+      - workspace
+      - singularities
+    content_modifications:
+      scope_reduction: 2-DOF planar arm only
+      derivations_removed:
+        - Newton-Euler full derivation
+        - Lagrangian step-by-step derivation
+        - Screw theory mathematical proofs
+      sections_removed:
+        - 2.5 Newton-Euler (removed)
+        - 2.6 MuJoCo simulation (removed)
+      sections_added:
+        - Visual analogies for joint space
+        - Step-by-step DH table walkthrough
+        - Complete starter code with comments
+        - PyBullet reference (optional)
+      examples_added:
+        - L-shaped arm visualization
+        - Interactive IK solver framework
+        - Workspace boundary visualization
+      code_style: verbose with extensive comments
+    lab_options:
+      - Visualize Forward Kinematics (30 min)
+      - Implement and Test IK (45 min)
+      - Workspace Visualization (60 min)
+      - Interactive IK Solver (30 min, bonus)
+    notes: |
+      Focus on geometric intuition before equations. Skip all advanced
+      mathematical derivations. Provide complete working code that students
+      can run immediately.
+
+  intermediate:
+    variant: intermediate
+    difficulty_score: 5
+    estimated_read_time: 120
+    prerequisites:
+      - Chapter 1 (Physical AI fundamentals)
+      - Calculus (derivatives, chain rule)
+      - Linear algebra (matrices, vectors, matrix multiplication)
+      - Basic programming in Python
+    learning_objectives:
+      - Define joint space and configuration space for robot manipulators
+      - Compute forward kinematics using Denavit-Hartenberg parameters
+      - Solve inverse kinematics analytically for simple arms
+      - Solve inverse kinematics numerically for general manipulators
+      - Derive equations of motion using Lagrangian mechanics
+      - Simulate robot dynamics in physics engines
+    keywords:
+      - joint space
+      - configuration space
+      - forward kinematics
+      - inverse kinematics
+      - Denavit-Hartenberg
+      - Jacobian
+      - Lagrangian dynamics
+      - physics simulation
+    content_modifications: []
+    lab_options:
+      - Forward Kinematics for 2-DOF Arm (30 min)
+      - Analytical and Numerical IK (45 min)
+      - MuJoCo Dynamics Simulation (60 min)
+    notes: |
+      Baseline curriculum. All sections 2.1-2.6 from main content apply.
+      Standard difficulty appropriate for undergraduate robotics courses.
+
+  advanced:
+    variant: advanced
+    difficulty_score: 8
+    estimated_read_time: 180
+    prerequisites:
+      - Chapter 1
+      - Multivariable calculus
+      - Linear algebra (Strang level)
+      - Differential equations
+      - Graduate-level programming
+      - Optimization theory
+    learning_objectives:
+      - Derive forward and inverse kinematics using DH, PoE, and screw theory
+      - Implement Newton-Euler algorithm for O(n) dynamics computation
+      - Analyze singularities using Jacobian and understand topological implications
+      - Derive Lagrangian dynamics equations from first principles
+      - Apply screw theory to robot kinematics
+      - Formulate optimal control problems for trajectory generation
+      - Critically evaluate research literature on contact-rich manipulation
+    keywords:
+      - configuration space topology
+      - Lie groups
+      - se(3) algebra
+      - screw theory
+      - product of exponentials
+      - Newton-Euler recursion
+      - manipulability
+      - optimal control
+      - iLQR/DDP
+      - contact-rich manipulation
+    content_modifications:
+      scope_expansion: 6-DOF arms with full mathematical treatment
+      sections_added:
+        - 2.7: Screw Theory and Product of Exponentials (full derivation)
+        - 2.8: Optimal Control for Trajectory Planning
+      derivations_added:
+        - Complete Lagrangian derivation with all algebra
+        - Newton-Euler full forward/backward pass derivation
+        - PoE exponential map derivation
+        - iLQR backward/forward pass derivation
+        - Riccati equation derivation
+      advanced_topics:
+        - Configuration space obstacles (exponential complexity)
+        - Lie group structure of SE(3)
+        - Adjoint representations
+        - Mixed-integer optimal control for contact
+        - Research papers on contact-rich manipulation
+      code_style: Minimal starter code, students build from scratch
+    lab_options:
+      - Implement PoE Forward Kinematics (45 min)
+      - Complete Newton-Euler Algorithm (60 min)
+      - iLQR Trajectory Optimization (90 min)
+      - Contact-Rich Manipulation Planning (120 min)
+      - Reproduce a Paper Result (research)
+    notes: |
+      Graduate-level treatment with full mathematical rigor. Includes
+      advanced topics (screw theory, optimal control) and research
+      references. Minimal scaffolding—students expected to derive and
+      implement independently.
+
+    references_added:
+      - Murray, Li, & Sastry (1994)
+      - Spong et al. (2006)
+      - Recent papers on:
+        - MPC for manipulation
+        - Learning-based cost functions
+        - Contact-rich planning
+        - Whole-body optimization
+
+variant_selection_guide:
+  beginner:
+    audience: |
+      High school students, hobbyists, or anyone new to robotics with
+      minimal math background. Visual learners who benefit from analogies.
+    prerequisites_met: |
+      Basic algebra and willingness to learn Python. No calculus or
+      linear algebra required.
+    expected_outcome: |
+      Intuitive understanding of robot kinematics. Can implement FK/IK
+      for simple arms. Ready for trajectory planning at beginner level.
+
+  intermediate:
+    audience: |
+      Undergraduate engineering/computer science students. Standard
+      curriculum for robotics courses.
+    prerequisites_met: |
+      Calculus and linear algebra at undergraduate level. Basic
+      programming experience.
+    expected_outcome: |
+      Complete foundation in kinematics and dynamics. Can implement
+      algorithms from scratch and understand physics simulation.
+
+  advanced:
+    audience: |
+      Graduate students, researchers, or advanced undergraduates.
+      Preparation for research in robotics or controls.
+    prerequisites_met: |
+      Strong mathematical background including differential equations
+      and optimization. Research-level programming skills.
+    expected_outcome: |
+      Deep understanding enabling original research. Can derive new
+      algorithms, critique literature, and implement advanced methods.
+
+comparison_table:
+  | Feature                  | Beginner | Intermediate | Advanced |
+  |--------------------------|----------|--------------|----------|
+  | Difficulty Score         | 3/10     | 5/10         | 8/10     |
+  | Estimated Reading Time   | 90 min   | 120 min      | 180 min  |
+  | Robot DOF                | 2        | 6            | 6        |
+  | Forward Kinematics       | DH       | DH           | DH + PoE |
+  | Inverse Kinematics       | Analytical only | Analytical + Numerical | Both + Global |
+  | Dynamics                 | Conceptual | Lagrangian   | Lagrangian + N-E |
+  | Screw Theory             | No       | No           | Yes      |
+  | Optimal Control          | No       | No           | Yes      |
+  | Research Papers          | No       | No           | Yes      |
+  | Code Style               | Complete | Standard     | Minimal  |

@@ -1,0 +1,121 @@
+================================================================================
+                      LiDAR TIME-OF-FLIGHT PRINCIPLE
+================================================================================
+
+    DIRECT PULSE (DToF) PRINCIPLE:
+    ==============================
+
+    TRANSMITTER                              RECEIVER
+        |                                       |
+        v                                       ^
+    +--------+                               +--------+
+    |  LASER |                               |PHOTODET|
+    |  PULSE |------------------------------>|  ECTOR |
+    +--------+                               +--------+
+        |                                       |
+        |          d = (c * t) / 2              |
+        |                                       |
+        |<----------- Ttravel ----------------->|
+        |                                       |
+        |<---------- Ttotal ------------------->|
+        |                                       |
+        v                                       ^
+    +-------------------------------------------+
+    |           TIME MEASUREMENT UNIT           |
+    |         (TDC - Time to Digital            |
+    |          Converter)                       |
+    +-------------------------------------------+
+                                                   |
+                                                   v
+                                            +-------------+
+                                            |  Distance   |
+                                            |   OUTPUT    |
+                                            |  d = v*t/2  |
+                                            +-------------+
+
+    TIMING DIAGRAM:
+    ===============
+
+    Time -->
+    |
+    |   Tx Pulse           Rx Pulse
+    |   +-------+          +-------+
+    |   |       |          |       |
+    |   |       |          |       |
+    |---+       +----------+       +-----> Signal
+    |
+    |   t0       |<--dt--->|  t1
+    |            Ttravel
+    |
+    |   |<------ Ttotal ------->|
+    |
+    |   Distance = (c * Ttravel) / 2
+    |   Where c = 299,792,458 m/s (speed of light)
+
+    CONTINUOUS WAVE (CW-ToF) PRINCIPLE:
+    ===================================
+
+    TRANSMITTER                                    RECEIVER
+        |                                             |
+    +--------+     Sinusoidal Modulation          +--------+
+    |  LASER |    at frequency f_mod              |PHOTODET|
+    |  LED   |---------------------------------->|  ECTOR |
+    +--------+                                   +--------+
+        |                                             |
+        |           Phase Difference                  |
+        |            (phi) measures                   |
+        |           time of flight                    |
+        v                                             ^
+    +--------+                                   +--------+
+    |  MODUL |                                   |  DEMOD |
+    |  ULATOR|                                   |  ULATOR|
+    +--------+                                   +--------+
+        |                                             |
+        +---------------------+-----------------------+
+                              |
+                              v
+                      +---------------+
+                      |  Distance     |
+                      |  d = (c * phi)|
+                      |      / (4*pi  |
+                      |       * f_mod)|
+                      +---------------+
+
+    PHASE MEASUREMENT:
+    =================
+
+        Tx Signal:  A * sin(2*pi*f*t)
+        Rx Signal:  B * sin(2*pi*f*t + phi)
+
+        phi = 2*pi*f*Ttravel = 2*pi*f*(2d/c)
+        d = (c * phi) / (4*pi*f)
+
+    where:
+        phi = phase difference (radians)
+        f = modulation frequency
+        c = speed of light
+        d = distance to target
+
+    MULTI-FREQUENCY PHASE UNWRAPPING:
+    =================================
+
+    Lower frequency resolves ambiguity but reduces precision.
+    Higher frequency provides precision but creates ambiguity.
+
+        f1 = 10 MHz  ->  Ambiguity range: 15m
+        f2 = 100 MHz ->  Ambiguity range: 1.5m
+        f3 = 1 GHz   ->  Ambiguity range: 0.15m
+
+    ADVANTAGES / DISADVANTAGES:
+    ===========================
+
+    | METHOD          | ADVANTAGES          | DISADVANTAGES         |
+    |-----------------|---------------------|-----------------------|
+    | Direct ToF      | Long range (200m+)  | Requires TDC          |
+    |                 | Simple signal proc  | High peak power       |
+    |-----------------|---------------------|-----------------------|
+    | CW-ToF          | Low avg power       | Phase ambiguity       |
+    |                 | Eye safe            | Sensitive to ambient  |
+    |                 | High frame rate     |                       |
+
+================================================================================

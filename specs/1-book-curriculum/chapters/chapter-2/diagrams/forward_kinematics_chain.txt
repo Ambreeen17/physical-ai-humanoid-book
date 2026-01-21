@@ -1,0 +1,139 @@
+## Forward Kinematics Chain
+
+### ASCII Representation
+
+```
+    Forward Kinematics Transformation Chain
+    ========================================
+
+    Frame 0      Frame 1       Frame 2       Frame 3       Frame 4      End-Effector
+    (Base)       (J1)          (J2)          (J3)          (J4)         (Gripper)
+       |           |            |            |            |               |
+       |           |            |            |            |               |
+       v           v            v            v            v               v
+
+    +-------+  +-------+    +-------+    +-------+    +-------+     +---------+
+    |       |  |       |    |       |    |       |    |       |     |         |
+    | T_00  |->| T_01  | -> | T_12  | -> | T_23  | -> | T_34  | ->  |  T_0e   |
+    |       |  |       |    |       |    |       |    |       |     |         |
+    +-------+  +-------+    +-------+    +-------+    +-------+     +---------+
+       =I         =DH(q1)     =DH(q2)     =DH(q3)     =DH(q4)        =Product
+
+    ============================================================
+
+    Matrix Multiplication Chain
+    ===========================
+
+           T_0^1 = DH(q1)      (Joint 1 transform)
+                *
+           T_1^2 = DH(q2)      (Joint 2 transform)
+                *
+           T_2^3 = DH(q3)      (Joint 3 transform)
+                *
+           T_3^4 = DH(q4)      (Joint 4 transform)
+                *
+           ---------------------
+                =
+           T_0^e = T_0^1 * T_1^2 * T_2^3 * T_3^4  (End-effector pose)
+
+    ============================================================
+
+    Unitree G1 Arm: 6-DOF Chain
+    ===========================
+
+    T_0^e = T_0^1(q1) * T_1^2(q2) * T_2^3(q3) * T_3^4(q4) * T_4^5(q5) * T_5^6(q6)
+
+    Where each T_i is computed from DH parameters:
+
+    | cos(theta)  -sin(theta)*cos(alpha)   sin(theta)*sin(alpha)   a*cos(theta) |
+    | sin(theta)   cos(theta)*cos(alpha)  -cos(theta)*sin(alpha)   a*sin(theta) |
+    | 0            sin(alpha)              cos(alpha)               d            |
+    | 0            0                       0                        1            |
+
+    ============================================================
+
+    Python Implementation Flow
+    ==========================
+
+    joint_angles = [q1, q2, q3, q4, q5, q6]
+
+           |
+           v
+    +--------------------+
+    | dh_transform()     |  Compute each 4x4 matrix
+    | for each joint     |
+    +--------------------+
+           |
+           v
+    T_total = identity_matrix
+           |
+           v
+    +--------------------+
+    | For each DH param: |
+    | T_total = T_total @ T_i  |
+    +--------------------+
+           |
+           v
+    +--------------------+
+    | Extract:           |
+    | - Position: T[:3,3] |
+    | - Orientation: T[:3,:3] |
+    +--------------------+
+
+    ============================================================
+
+    Result
+    ======
+
+    T_0^e = | R_ee   t_ee |
+            |  0       1  |
+
+    Position: (x, y, z) of end-effector in base frame
+    Orientation: 3x3 rotation matrix
+```
+
+### Mermaid Diagram
+
+```mermaid
+flowchart LR
+    subgraph Chain["Forward Kinematics Chain"]
+        direction LR
+
+        F0["Frame 0<br/>Base<br/>[0,0,0]"] -->|"T₀¹(q₁)"| F1["Frame 1<br/>J1 Should<br/>Yaw"]
+        F1 -->|"T₁²(q₂)"| F2["Frame 2<br/>J2 Shoulder<br/>Pitch"]
+        F2 -->|"T₂³(q₃)"| F3["Frame 3<br/>J3 Shoulder<br/>Roll"]
+        F3 -->|"T₃⁴(q₄)"| F4["Frame 4<br/>J4 Elbow"]
+        F4 -->|"T₄⁵(q₅)"| F5["Frame 5<br/>J5 Wrist<br/>Pitch"]
+        F5 -->|"T₅⁶(q₆)"| F6["Frame 6<br/>J6 Wrist<br/>Roll"]
+        F6 -->|"T₆ᵉ"| EE["End-Effector<br/>Gripper"]
+    end
+
+    subgraph Equation["Mathematical Formulation"]
+        EQ["T₀ᵉ = T₀¹ × T₁² × T₂³ × T₃⁴ × T₄⁵ × T₅⁶<br/>
+            <br/>
+            Where Tᵢ = DH Transform(θᵢ, dᵢ, aᵢ, αᵢ)"]
+    end
+
+    Chain --> Equation
+
+    style F0 fill:#bbdefb
+    style F1 fill:#c8e6c9
+    style F2 fill:#c8e6c9
+    style F3 fill:#c8e6c9
+    style F4 fill:#c8e6c9
+    style F5 fill:#c8e6c9
+    style F6 fill:#c8e6c9
+    style EE fill:#ffecb3
+    style Equation fill:#f3e5f5
+```
+
+### Description for Docusaurus
+
+**Alt Text:**
+Flow diagram showing the forward kinematics chain for the Unitree G1 arm. Each joint contributes a 4x4 homogeneous transformation matrix computed from DH parameters. The end-effector pose is the product of all individual transforms from base to gripper.
+
+**Caption:**
+Forward kinematics computes the end-effector pose by chaining homogeneous transformations. For the Unitree G1's 6-DOF arm, we multiply six DH transform matrices: T_0^e = T_0^1 * T_1^2 * ... * T_5^6. The result is a 4x4 matrix containing the 3x3 rotation matrix and 3x1 translation vector.
+
+**Explanation:**
+The forward kinematics problem maps joint angles to end-effector pose. Using the DH convention, each joint i has a transformation matrix T_i computed from its four parameters (theta, d, a, alpha). The base-to-end transformation is the matrix product T_0^e = T_0^1 * T_1^2 * ... * T_5^6. For the Unitree G1, this produces a 4x4 homogeneous transformation where the upper 3x3 block is the rotation matrix (orientation) and the last column is the translation vector (position). The computation is efficient (O(n) for n joints) and always produces a unique solution for any configuration.

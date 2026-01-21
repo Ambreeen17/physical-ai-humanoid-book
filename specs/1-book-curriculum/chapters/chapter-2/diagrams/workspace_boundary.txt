@@ -1,0 +1,162 @@
+## Workspace Boundary
+
+### ASCII Representation
+
+```
+    Workspace of a Robot Arm
+    ========================
+
+                         z (vertical)
+                          ^
+                          |      Dexterous Workspace
+                          |      (smaller region, all orientations)
+                          |      *****************************
+                          |    *                               *
+                          |   *                                 *
+                          |  *                                   *
+                          | *          +--------------------+     *
+                          |*           |                    |      *
+                          |*   +-------+      Reachable     +-------*
+                          |*   |       |      Workspace     |       |
+                          |*   |       |                    |       |
+                          |*   +-------+--------------------+-------+**
+                          | *   *                                  *  *
+                          |  *   *                                *  *
+                          |   *   *                              *   *
+                          |    *   *                            *    *
+                          |     *   *                          *     *
+                          |      *   *                        *      *
+                          |       *   *                      *       *
+                          |        *   *                    *        *
+                          |         *   *                  *         *
+                          |          *   *                *          *
+                          |           *   *              *           *
+                          |            *   *            *            *
+                          |             *   *          *             *
+                          |              *   *        *              *
+                          |               *   *      *               *
+                          |                *   *    *                *
+                          |                 *   *  *                 *
+                          |                  *   **                  *
+                          +-------------------+---+------------------> y
+                                     |       |   |
+                                     |       |   |
+                                     |       |   L_max (max reach)
+                                     |       |
+                                     |       +-- Shoulder position
+
+    ============================================================
+
+    Unitree G1 Arm Workspace
+    ========================
+
+    Specifications:
+    - Link lengths: L1 = 0.1m, L2 = 0.25m, L3 = 0.12m (wrist offset)
+    - Maximum reach: L_max = L1 + L2 + L3 = 0.47m (approximately)
+
+    +----------------------------------------------------------+
+    |  Reachable Workspace Volume                              |
+    |  - Sphere of radius 0.47m centered at shoulder           |
+    |  - Inner boundary: min reach = 0.12m (wrist offset)      |
+    +----------------------------------------------------------+
+
+    +----------------------------------------------------------+
+    |  Dexterous Workspace Volume                              |
+    |  - Smaller than reachable workspace                      |
+    |  - Limited by wrist DOF (2-DOF)                          |
+    |  - Can only achieve arbitrary orientations in inner zone |
+    +----------------------------------------------------------+
+
+    ============================================================
+
+    Singularity Analysis
+    ====================
+
+    +------------------+----------------------------------------+
+    | Singularity Type | Location                              |
+    +------------------+----------------------------------------+
+    | Shoulder         | Arm fully extended in certain dirs     |
+    | Wrist            | Wrist joints axes become parallel      |
+    | Elbow            | 2-link arm fully extended              |
+    +------------------+----------------------------------------+
+
+    At singularities:
+    - Jacobian matrix J loses rank
+    - det(J * J^T) -> 0
+    - Joint velocities become unbounded for some Cartesian motions
+
+    ============================================================
+
+    Cross-Section View (2D Slice)
+    =============================
+
+           z
+           ^
+           |        Outer circle: max reach (0.47m)
+           |      ***********************
+           |    *                         *
+           |   *                           *
+           |  *  Inner boundary            *
+           |  *  (min reach)               *
+           |  *  --------                  *
+           |  *      *                     *
+           |  *      *  Shaded: reachable  *
+           |  *      *  but not dexterous  *
+           |  *      *                     *
+           |  *      *                     *
+           |   *     *                    *
+           |    *    *                   *
+           |     *   *                  *
+           |      *  *                 *
+           |       * *                *
+           +--------*+----------------+----> y
+                    Shoulder
+                    (origin)
+```
+
+### Mermaid Diagram
+
+```mermaid
+flowchart TB
+    subgraph Workspace["Workspace Analysis"]
+        direction TB
+
+        RW["Reachable Workspace<br/>All points arm can touch<br/>Radius ≈ 0.47m"]
+        DW["Dexterous Workspace<br/>Points with any orientation<br/>Smaller than reachable"]
+    end
+
+    subgraph Boundaries["Workspace Boundaries"]
+        MaxReach["Maximum Reach<br/>L₁ + L₂ + L₃ = 0.47m<br/>Outer boundary"]
+        MinReach["Minimum Reach<br/>Wrist offset = 0.12m<br/>Inner boundary"]
+    end
+
+    subgraph Singularities["Singularity Types"]
+        S1["Shoulder Singularity<br/>Arm fully extended"]
+        S2["Wrist Singularity<br/>Axes parallel"]
+        S3["Elbow Singularity<br/>2-link arm extended"]
+    end
+
+    RW --> MaxReach
+    DW --> MinReach
+
+    Workspace --> Singularities
+
+    style RW fill:#fff3e0
+    style DW fill:#c8e6c9
+    style MaxReach fill:#ffecb3
+    style MinReach fill:#ffecb3
+    style S1 fill:#ffcdd2
+    style S2 fill:#ffcdd2
+    style S3 fill:#ffcdd2
+```
+
+### Description for Docusaurus
+
+**Alt Text:**
+Diagram showing the reachable and dexterous workspace of a robot arm. The reachable workspace is a sphere of approximately 0.47m radius (maximum reach of the Unitree G1 arm). The dexterous workspace is smaller, representing points where any orientation can be achieved. Singularity locations are marked where the Jacobian loses rank.
+
+**Caption:**
+The workspace defines what positions the robot can achieve. The Unitree G1 arm with link lengths summing to 0.47m has a spherical reachable workspace of that radius. The dexterous workspace is smaller because fully extended poses cannot achieve arbitrary orientations. Singularities occur at workspace boundaries and internally where axes align.
+
+**Explanation:**
+Workspace analysis is critical for robot design and motion planning. The reachable workspace is the set of all points the end-effector can touch, forming roughly a sphere for a serial arm. For the Unitree G1, maximum reach is about 0.47m (sum of shoulder-to-elbow 0.35m plus elbow-to-wrist 0.12m). The dexterous workspace is smaller because fully extended poses cannot achieve arbitrary orientations. Singularities occur where the Jacobian loses rank: at the workspace boundary (shoulder singularity when fully extended), internally (wrist singularity when wrist axes align), and at elbow-straight poses. At singularities, the robot loses mobility in certain directions and joint velocities become unbounded for some Cartesian commands.

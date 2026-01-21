@@ -1,0 +1,55 @@
+flowchart TB
+    subgraph Circuit["Equivalent Circuit"]
+        direction LR
+        Vin["V_in<br/>Source Voltage"]
+        Ra["R_a<br/>Armature Resistance"]
+        La["L_a<br/>Armature Inductance"]
+        Eb["E_b<br/>Back EMF"]
+        Load["LOAD<br/>T_m, ω"]
+    end
+
+    subgraph Equations["Governing Equations"]
+        direction TB
+        Elec["V_in = I_a·R_a + L_a·dI_a/dt + E_b"]
+        Mech["T_m = K_t·I_a<br/>E_b = K_e·ω"]
+        Steady["V_in = I_a·R_a + K_e·ω"]
+    end
+
+    subgraph TorqueSpeed["Torque-Speed Relationship"]
+        direction TB
+        Derived["ω = (V_in/K_e) - (R_a/(K_e·K_t))·T_m"]
+        NoLoad["ω_no_load = V_in/K_e"]
+        Stall["T_stall = V_in·K_t/R_a"]
+    end
+
+    subgraph Power["Power Analysis"]
+        direction TB
+        MechPower["P_m = T_m·ω"]
+        MaxPower["P_max = V_in²/(4R_a)<br/>at T_max_power = T_stall/2"]
+    end
+
+    Vin --> Ra --> La --> Eb
+    Eb --> Load
+
+    Ra --> Elec
+    La --> Elec
+    Eb --> Elec
+
+    Elec --> Steady
+    Mech --> Steady
+
+    Steady --> Derived
+    Derived --> NoLoad
+    Derived --> Stall
+
+    MechPower --> MaxPower
+
+    classDef circuit fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef equations fill:#fff9c4,stroke:#f9a825,stroke-width:2px
+    classDef relationship fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    classDef power fill:#ffcdd2,stroke:#c62828,stroke-width:2px
+
+    class Vin,Ra,La,Eb,Load circuit
+    class Elec,Mech,Steady equations
+    class Derived,NoLoad,Stall relationship
+    class MechPower,MaxPower power

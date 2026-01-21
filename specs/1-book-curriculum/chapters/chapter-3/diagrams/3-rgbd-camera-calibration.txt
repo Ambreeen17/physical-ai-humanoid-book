@@ -1,0 +1,260 @@
+================================================================================
+                    RGB-D CAMERA CALIBRATION
+================================================================================
+
+    DUAL-CAMERA SYSTEM ARCHITECTURE
+    ===============================
+
+              ┌─────────────────────────────────────────────────────────────┐
+              │                      RGB-D CAMERA                          │
+              │                                                             │
+    ┌─────────┴─────────┐                                      ┌───────────┴───────────┐
+    │                   │                                      │                       │
+    │   RGB CAMERA      │                                      │   DEPTH CAMERA        │
+    │   (Color)         │                                      │   (IR/ToF)            │
+    │                   │                                      │                       │
+    │   Resolution:     │                                      │   Resolution:         │
+    │   1920×1080       │                                      │   640×480             │
+    │                   │                                      │                       │
+    │   Focal Length:   │                                      │   Focal Length:       │
+    │   fx=5.8mm        │                                      │   fx=1.88mm           │
+    │   fy=5.8mm        │                                      │   fy=1.88mm           │
+    │                   │                                      │                       │
+    │   Principal Pt:   │                                      │   Principal Pt:       │
+    │   (cx, cy)        │                                      │   (cx, cy)            │
+    │                   │                                      │                       │
+    │   Distortion:     │                                      │   Distortion:         │
+    │   k1, k2, k3,     │                                      │   Minimal (IR)        │
+    │   p1, p2          │                                      │                       │
+    └────────┬──────────┘                                      └───────────┬───────────┘
+             │                                                            │
+             │                     ┌─────────────────┐                    │
+             │                     │   EXTRINSIC     │                    │
+             │                     │   CALIBRATION   │                    │
+             │                     │                 │                    │
+             └────────────────────►│   R (rotation)  │◄───────────────────┘
+                                   │   T (translation)│
+                                   │                 │
+                                   │   ┌─────────┐  │
+                                   │   │R = [r11 │  │
+                                   │   │  r12 r13│  │
+                                   │   │  r21 ...│  │
+                                   │   │  r33 ] │  │
+                                   │   └─────────┘  │
+                                   │                 │
+                                   │   ┌─────────┐  │
+                                   │   │T = [tx  │  │
+                                   │   │  ty tz] │  │
+                                   │   └─────────┘  │
+                                   └────────┬────────┘
+                                            │
+                                            ▼
+                                   ┌─────────────────┐
+                                   │   POINT CLOUD   │
+                                   │   ALIGNMENT     │
+                                   │                 │
+                                   │   3D Coordinates│
+                                   │   + RGB Color   │
+                                   └─────────────────┘
+
+
+================================================================================
+                    INTRINSIC PARAMETERS (Per Camera)
+================================================================================
+
+    PINHOLE CAMERA MODEL
+    ────────────────────
+
+                         (cx, cy)
+                             │
+          ───────────────────┼────────────────────
+                    ╱        │        ╲
+               ╱            │            ╲
+          ╱                 │                ╲
+      (u,v)◄───────────────┼──────────────►(image plane)
+      pixel                │                  (3D world point)
+      coords               │                      X
+                     ┌──────┴──────┐
+                     │   CAMERA    │
+                     │   CENTER    │
+                     │   (optical) │
+                     └─────────────┘
+                             │
+                             │ focal length f
+                             │
+                             ▼
+                        ┌────┴────┐
+                        │   3D    │
+                        │  WORLD  │
+                        │  POINT  │
+                        │   (X,Y,Z)│
+                        └─────────┘
+
+
+    CAMERA MATRIX (Intrinsic Parameters)
+    ═══════════════════════════════════
+
+              ┌                     ┐
+              │   fx   0    cx     │
+    K     =   │    0   fy   cy     │   ← 3×3 Intrinsic Matrix
+              │    0    0    1     │
+              └                     ┘
+
+    Where:
+        fx, fy = focal lengths (pixels)
+        cx, cy = principal point coordinates (pixels)
+
+
+    DISTORTION COEFFICIENTS
+    ═══════════════════════
+
+    Radial Distortion:        Tangential Distortion:
+        k1, k2, k3                 p1, p2
+
+    x_corrected = x(1 + k1·r² + k2·r⁴ + k3·r⁶)
+                  + 2·p1·x·y + p2·(r² + 2·x²)
+
+    y_corrected = y(1 + k1·r² + k2·r⁴ + k3·r⁶)
+                  + p1·(r² + 2·y²) + 2·p2·x·y
+
+    Where r² = x² + y²
+
+
+================================================================================
+                    EXTRINSIC PARAMETERS (Camera-to-Camera)
+================================================================================
+
+    RGB CAMERA                    DEPTH CAMERA
+    COORDINATE                    COORDINATE
+    FRAME                        FRAME
+
+         Z_rgb                         Z_depth
+          ╱                            ╱
+         ╱                            ╱
+        ╱                            ╱
+       ╱   X_rgb                    ╱   X_depth
+       │                            │
+       │    ┌───────┐               │    ┌───────┐
+       │    │       │               │    │       │
+       └───►│  RGB  │               └───►│ DEPTH │
+            │ CAM   │                    │ CAM   │
+            └───────┘                    └───────┘
+                │                             │
+                │         ┌─────────┐         │
+                └────────►│   [R|t] │◄────────┘
+                          │  3×4    │
+                          │ Matrix  │
+                          └─────────┘
+
+
+    TRANSFORMATION MATRIX (Extrinsic Parameters)
+    ════════════════════════════════════════════
+
+              ┌                     ┐
+              │   r11  r12  r13  tx │
+    [R|t] =   │   r21  r22  r23  ty │   ← 3×4 Transformation Matrix
+              │   r31  r32  r33  tz │
+              │    0    0    0   1  │
+              └                     ┘
+
+
+    COORDINATE TRANSFORMATION
+    ════════════════════════
+
+    P_rgb = R × P_depth + t
+
+    Where:
+        P_rgb  = point in RGB camera frame
+        P_depth = point in Depth camera frame
+        R     = rotation matrix (3×3)
+        t     = translation vector (3×1)
+
+
+================================================================================
+                    CALIBRATION WORKFLOW
+================================================================================
+
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                         CALIBRATION PROCESS                              │
+    └─────────────────────────────────────────────────────────────────────────┘
+
+                           ┌───────────────────┐
+                           │ 1. CAPTURE IMAGES │
+                           │    OF CHESSBOARD  │
+                           │    (Multiple      │
+                           │     poses)        │
+                           └─────────┬─────────┘
+                                     │
+                                     ▼
+                           ┌───────────────────┐
+                           │ 2. DETECT CORNER  │
+                           │    FEATURES       │
+                           │    (Harris/       │
+                           │     Shi-Tomasi)   │
+                           └─────────┬─────────┘
+                                     │
+                                     ▼
+                           ┌───────────────────┐
+                           │ 3. ESTIMATE COR- │
+                           │    RESPONDENCE   │
+                           │    BETWEEN       │
+                           │    CAMERAS       │
+                           └─────────┬─────────┘
+                                     │
+                                     ▼
+                           ┌───────────────────┐
+                           │ 4. SOLVE FOR      │
+                           │    INTRINSICS     │
+                           │    (K_rgb, K_dep) │
+                           └─────────┬─────────┘
+                                     │
+                                     ▼
+                           ┌───────────────────┐
+                           │ 5. SOLVE FOR      │
+                           │    EXTRINSICS     │
+                           │    (R, t)         │
+                           └─────────┬─────────┘
+                                     │
+                                     ▼
+                           ┌───────────────────┐
+                           │ 6. BUNDLE         │
+                           │    ADJUSTMENT     │
+                           │    (Refinement)   │
+                           └─────────┬─────────┘
+                                     │
+                                     ▼
+                           ┌───────────────────┐
+                           │ 7. GENERATE       │
+                           │    LOOKUP TABLE   │
+                           │    (Depth → RGB)  │
+                           └───────────────────┘
+
+
+================================================================================
+                    DEPTH-TO-RGB ALIGNMENT
+================================================================================
+
+    RAW DEPTH FRAME              ALIGNED COLOR + DEPTH
+    ─────────────────            ─────────────────────
+
+    ┌─────────────┐              ┌─────────────┐
+    │ ░░░░░░░░░░░░│              │ ████  ░░░░░░│
+    │ ░░▓▓▓▓▓▓▓▓░░│              │ ████████░░░░│
+    │ ░░▓▓▓▓▓▓▓▓░░│              │ ████████░░░░│
+    │ ░░▓▓░░░░▓▓░░│      ─────►  │ ████░░░░░░░░│
+    │ ░░▓▓░░░░▓▓░░│              │ ████████░░░░│
+    │ ░░░░░░░░░░░░│              │ ░░░░░░░░░░░░│
+    └─────────────┘              └─────────────┘
+     Depth values only            Color + Depth
+
+
+    ALIGNMENT FORMULA
+    ═════════════════
+
+    1. Get 3D point from depth: P = [x, y, z] where z = depth(u,v)
+    2. Transform to RGB frame: P_rgb = R × P + t
+    3. Project to RGB image: u_rgb = fx × (x/z) + cx, v_rgb = fy × (y/z) + cy
+    4. Copy RGB color: Color(u,v) = Color_rgb(u_rgb, v_rgb)
+
+
+================================================================================

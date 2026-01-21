@@ -1,0 +1,636 @@
+{
+  "chapter": "Chapter 3: Robotic Sensors and Perception",
+  "version": "1.0",
+  "last_updated": "2026-01-04",
+  "rubrics": [
+    {
+      "id": "RUBRIC-MCQ",
+      "name": "Multiple Choice Question Rubric",
+      "assessment_type": "multiple_choice",
+      "scoring_method": "automatic",
+      "total_points": 4,
+      "criteria": [
+        {
+          "criterion_id": "MCQ-CORRECTNESS",
+          "description": "Selection of correct answer",
+          "weight": 1.0,
+          "levels": [
+            {
+              "level": "correct",
+              "score": 2,
+              "description": "Correct answer selected",
+              "indicators": ["Selected the one correct answer"]
+            },
+            {
+              "level": "incorrect",
+              "score": 0,
+              "description": "Incorrect answer selected",
+              "indicators": ["Selected wrong answer or no selection"]
+            }
+          ]
+        }
+      ],
+      "partial_credit": false,
+      "automatic_grading": true
+    },
+    {
+      "id": "RUBRIC-SA-001",
+      "name": "Short Answer Question: Sensor Fusion Rationale",
+      "assessment_type": "short_answer",
+      "scoring_method": "manual",
+      "total_points": 3,
+      "criteria": [
+        {
+          "criterion_id": "SA-ACCELEROMETER",
+          "description": "Understanding of accelerometer role in orientation",
+          "weight": 0.25,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 0.75,
+              "description": "Clear explanation of accelerometer measuring gravity vector and providing tilt reference",
+              "indicators": [
+                "Mentions gravity vector detection",
+                "Describes proper acceleration",
+                "Explains orientation reference"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 0.5,
+              "description": "Basic understanding that accelerometer helps with orientation",
+              "indicators": [
+                "States accelerometer measures tilt",
+                "Mentions gravity without full explanation"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 0.25,
+              "description": "Partial understanding of accelerometer purpose",
+              "indicators": [
+                "Mentions acceleration or tilt",
+                "No clear connection to orientation"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "Little or no understanding demonstrated",
+              "indicators": [
+                "No mention of accelerometer role",
+                "Incorrect understanding"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion_id": "SA-GYROSCOPE",
+          "description": "Understanding of gyroscope role in orientation",
+          "weight": 0.25,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 0.75,
+              "description": "Clear explanation of gyroscope measuring angular velocity and integration for orientation",
+              "indicators": [
+                "Mentions angular velocity measurement",
+                "Describes integration for orientation",
+                "Identifies drift as a limitation"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 0.5,
+              "description": "Basic understanding of gyroscope tracking rotation",
+              "indicators": [
+                "States gyroscope measures rotation",
+                "Mentions angular rate"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 0.25,
+              "description": "Partial understanding of gyroscope purpose",
+              "indicators": [
+                "Mentions rotation tracking",
+                "No mention of integration or drift"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "Little or no understanding demonstrated",
+              "indicators": [
+                "No mention of gyroscope role",
+                "Incorrect understanding"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion_id": "SA-COMPENSATION",
+          "description": "Understanding of how sensors compensate for each other",
+          "weight": 0.25,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 0.75,
+              "description": "Clear explanation of accelerometer correcting gyroscope drift and gyroscope filtering accelerometer noise",
+              "indicators": [
+                "Explains drift correction mechanism",
+                "Describes noise filtering",
+                "Mentions sensor fusion benefit"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 0.5,
+              "description": "Basic understanding that sensors help each other",
+              "indicators": [
+                "States one sensor compensates for other",
+                "Mentions complementary nature"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 0.25,
+              "description": "Partial understanding of sensor relationship",
+              "indicators": [
+                "Mentions combining sensors",
+                "No explanation of compensation mechanism"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "Little or no understanding demonstrated",
+              "indicators": [
+                "No explanation of relationship",
+                "Treats sensors as independent"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion_id": "SA-COHERENCE",
+          "description": "Clarity and coherence of explanation",
+          "weight": 0.25,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 0.75,
+              "description": "Well-structured, coherent explanation with clear logical flow",
+              "indicators": [
+                "Logical organization",
+                "Clear topic sentences",
+                "Good transitions between ideas"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 0.5,
+              "description": "Mostly clear explanation with minor organizational issues",
+              "indicators": [
+                "Understandable flow",
+                "Some structure present"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 0.25,
+              "description": "Somewhat unclear or disorganized explanation",
+              "indicators": [
+                "Hard to follow at times",
+                "Ideas not well connected"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "Unclear or poorly organized explanation",
+              "indicators": [
+                "Difficult to understand",
+                "No clear structure"
+              ]
+            }
+          ]
+        }
+      ],
+      "partial_credit": true,
+      "automatic_grading": false,
+      "grading_notes": [
+        "Award partial credit when students show partial understanding",
+        "Focus on conceptual understanding over terminology",
+        "Accept equivalent valid explanations"
+      ]
+    },
+    {
+      "id": "RUBRIC-LAB-001",
+      "name": "Lab Task: LiDAR Obstacle Avoidance",
+      "assessment_type": "coding_challenge",
+      "scoring_method": "automatic_with_manual",
+      "total_points": 10,
+      "criteria": [
+        {
+          "criterion_id": "LAB-FUNCTIONALITY",
+          "description": "Correct implementation of obstacle avoidance functionality",
+          "weight": 0.50,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 5,
+              "description": "All functional requirements met, all test cases pass",
+              "indicators": [
+                "Processes scan data correctly",
+                "Detects obstacles within safety zone",
+                "Outputs correct navigation commands",
+                "Handles all edge cases"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 3.5,
+              "description": "Most requirements met, majority of test cases pass",
+              "indicators": [
+                "Core functionality works",
+                "Minor edge case issues",
+                "Navigation commands mostly correct"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 2,
+              "description": "Some requirements met, basic functionality works",
+              "indicators": [
+                "Partial scan processing",
+                "Basic obstacle detection",
+                "Some incorrect commands"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "Requirements not met, functionality broken",
+              "indicators": [
+                "Code does not run",
+                "Incorrect output format",
+                "No obstacle detection"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion_id": "LAB-ALGORITHM",
+          "description": "Algorithm design and correctness",
+          "weight": 0.20,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 2,
+              "description": "Efficient, correct algorithms with proper edge case handling",
+              "indicators": [
+                "Correct polar to Cartesian conversion",
+                "Efficient obstacle detection",
+                "Clear logic flow"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 1.5,
+              "description": "Correct algorithms with minor inefficiencies",
+              "indicators": [
+                "Working conversions",
+                "Reasonably efficient"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 1,
+              "description": "Algorithmic errors or inefficiencies",
+              "indicators": [
+                "Incorrect calculations",
+                "Inefficient but functional"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "Major algorithmic errors",
+              "indicators": [
+                "Fundamental math errors",
+                "Broken logic"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion_id": "LAB-CODE_QUALITY",
+          "description": "Code quality, readability, and documentation",
+          "weight": 0.15,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 1.5,
+              "description": "Well-documented, clean code with good naming and structure",
+              "indicators": [
+                "Clear variable names",
+                "Docstrings present",
+                "Logical organization",
+                "Comments for complex logic"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 1,
+              "description": "Readable code with basic documentation",
+              "indicators": [
+                "Understandable naming",
+                "Some documentation"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 0.5,
+              "description": "Readable but poorly documented",
+              "indicators": [
+                "Confusing names",
+                "No documentation"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "Poor code quality",
+              "indicators": [
+                "Unreadable code",
+                "No structure"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion_id": "LAB-EDGE_CASES",
+          "description": "Handling of edge cases and error conditions",
+          "weight": 0.15,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 1.5,
+              "description": "All edge cases handled gracefully with appropriate error messages",
+              "indicators": [
+                "Handles empty scans",
+                "Handles NaN/invalid readings",
+                "Handles completely blocked scenarios",
+                "Graceful degradation"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 1,
+              "description": "Most edge cases handled",
+              "indicators": [
+                "Handles common edge cases",
+                "Some error handling"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 0.5,
+              "description": "Some edge cases cause errors or incorrect behavior",
+              "indicators": [
+                "Crashes on some inputs",
+                "Incomplete handling"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "No edge case handling",
+              "indicators": [
+                "Crashes on invalid input",
+                "No error handling"
+              ]
+            }
+          ]
+        }
+      ],
+      "partial_credit": true,
+      "automatic_grading": true,
+      "grading_notes": [
+        "Run automated tests first to verify functionality",
+        "Review code quality manually for edge case and documentation criteria",
+        "Consider design decisions when awarding partial credit"
+      ],
+      "automated_test_weights": {
+        "TC-001_Clear_Path": 2,
+        "TC-002_Obstacle_Ahead": 2,
+        "TC-003_Obstacle_Right": 2,
+        "TC-004_Obstacle_Left": 2,
+        "Edge_Case_Bonus": 2
+      }
+    },
+    {
+      "id": "RUBRIC-CHALLENGE-001",
+      "name": "Challenge: IMU + Wheel Odometry Sensor Fusion",
+      "assessment_type": "coding_challenge",
+      "scoring_method": "manual",
+      "total_points": 5,
+      "bonus": true,
+      "criteria": [
+        {
+          "criterion_id": "CHAL-FUSION_ALGORITHM",
+          "description": "Correct implementation of sensor fusion algorithm",
+          "weight": 0.40,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 2,
+              "description": "Working complementary filter or Kalman filter that fuses IMU and odometry correctly",
+              "indicators": [
+                "Filter converges correctly",
+                "Compensates for drift",
+                "Stable output"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 1.5,
+              "description": "Working filter with minor issues",
+              "indicators": [
+                "Basic fusion works",
+                "Some drift compensation"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 1,
+              "description": "Partial implementation",
+              "indicators": [
+                "Attempt at fusion",
+                "Major issues remain"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "No working fusion",
+              "indicators": [
+                "No fusion implemented",
+                "Sensors used independently"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion_id": "CHAL-STATE_ESTIMATION",
+          "description": "Correct state estimation (position, orientation, velocity)",
+          "weight": 0.30,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 1.5,
+              "description": "All state variables estimated correctly with appropriate integration",
+              "indicators": [
+                "Position converges to expected",
+                "Orientation stable",
+                "Velocity estimates reasonable"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 1,
+              "description": "Most state variables correct",
+              "indicators": [
+                "Basic state estimation",
+                "Some errors present"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 0.5,
+              "description": "Partial state estimation",
+              "indicators": [
+                "Only position or orientation",
+                "Integration errors"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "No valid state estimation",
+              "indicators": [
+                "Incorrect state output",
+                "NaN values"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion_id": "CHAL-IMPLEMENTATION",
+          "description": "Code implementation quality",
+          "weight": 0.30,
+          "levels": [
+            {
+              "level": "excellent",
+              "score": 1.5,
+              "description": "Clean, well-documented implementation",
+              "indicators": [
+                "Clear algorithm implementation",
+                "Good documentation",
+                "Modular design"
+              ]
+            },
+            {
+              "level": "proficient",
+              "score": 1,
+              "description": "Working implementation with basic documentation",
+              "indicators": [
+                "Functional code",
+                "Some documentation"
+              ]
+            },
+            {
+              "level": "developing",
+              "score": 0.5,
+              "description": "Functional but poorly structured",
+              "indicators": [
+                "Works but hard to understand",
+                "No documentation"
+              ]
+            },
+            {
+              "level": "beginning",
+              "score": 0,
+              "description": "Non-functional or unreadable",
+              "indicators": [
+                "Does not run",
+                "Unreadable code"
+              ]
+            }
+          ]
+        }
+      ],
+      "partial_credit": true,
+      "automatic_grading": false,
+      "grading_notes": [
+        "This is a bonus challenge - focus on conceptual correctness",
+        "Accept different valid approaches (complementary filter, Kalman filter, etc.)",
+        "Test with synthetic data to verify convergence",
+        "Award credit for reasonable attempts even if not fully working"
+      ]
+    },
+    {
+      "id": "RUBRIC-GENERAL",
+      "name": "General Assessment Standards",
+      "assessment_type": "all",
+      "scoring_method": "n/a",
+      "total_points": 0,
+      "criteria": [
+        {
+          "criterion_id": "GEN-ACADEMIC_INTEGRITY",
+          "description": "Academic integrity and original work",
+          "weight": 0,
+          "levels": [
+            {
+              "level": "passing",
+              "score": 0,
+              "description": "Original work with proper attribution",
+              "indicators": [
+                "Student's own code",
+                "Proper citations for external resources"
+              ]
+            },
+            {
+              "level": "failing",
+              "score": 0,
+              "description": "Plagiarism or cheating",
+              "indicators": [
+                "Copied code without attribution",
+                "Unauthorized collaboration"
+              ]
+            }
+          ]
+        }
+      ],
+      "partial_credit": false,
+      "automatic_grading": false,
+      "grading_notes": [
+        "Academic integrity is a prerequisite - no points awarded or deducted",
+        "Report suspected violations to instructor"
+      ]
+    }
+  ],
+  "grade_distributions": {
+    "A_range": "8.5-10 points",
+    "B_range": "7-8.4 points",
+    "C_range": "5.5-6.9 points",
+    "D_range": "4-5.4 points",
+    "F_range": "0-3.9 points"
+  },
+  "bonus_point_rules": {
+    "challenge_eligibility": "Available to all students",
+    "maximum_bonus": 5 points can be added to final chapter score",
+    "application": "Added to chapter total, can exceed 100%"
+  }
+}

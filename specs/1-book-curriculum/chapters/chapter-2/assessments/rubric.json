@@ -1,0 +1,271 @@
+{
+  "rubric_version": "1.0",
+  "chapter": 2,
+  "assessment_suite": "Kinematics & Dynamics",
+  "total_possible_points": 28,
+  "rubrics": {
+    "conceptual_understanding": {
+      "description": "Evaluates depth of understanding of kinematics and dynamics concepts",
+      "levels": {
+        "excellent": {
+          "score_range": "90-100%",
+          "characteristics": [
+            "Demonstrates complete understanding of all concepts",
+            "Can explain relationships between joint space, workspace, and C-space",
+            "Correctly identifies singularities and their causes",
+            "Articulates the meaning of DH parameters and transformation chains",
+            "Understands Lagrangian formulation and its physical interpretation"
+          ],
+          "indicators": [
+            "Accurate definitions with correct terminology",
+            "Can connect concepts to physical examples",
+            "Identifies nuances and edge cases",
+            "Explains 'why' not just 'what'"
+          ]
+        },
+        "proficient": {
+          "score_range": "75-89%",
+          "characteristics": [
+            "Understands most concepts with minor gaps",
+            "Can define key terms correctly",
+            "Recognizes singular configurations",
+            "Understands DH parameter roles"
+          ],
+          "indicators": [
+            "Mostly accurate responses",
+            "Minor conceptual errors that don't affect overall understanding",
+            "Can solve standard problems"
+          ]
+        },
+        "developing": {
+          "score_range": "60-74%",
+          "characteristics": [
+            "Partial understanding with significant gaps",
+            "May confuse related concepts",
+            "Incomplete understanding of transformations"
+          ],
+          "indicators": [
+            "Some correct responses mixed with errors",
+            "Difficulty connecting concepts",
+            "Needs prompting for complete answers"
+          ]
+        },
+        "beginning": {
+          "score_range": "0-59%",
+          "characteristics": [
+            "Limited understanding of core concepts",
+            "Cannot distinguish between key terms",
+            "Fundamental misunderstandings"
+          ],
+          "indicators": [
+            "Mostly incorrect responses",
+            "No clear understanding of relationships",
+            "Cannot apply concepts to new situations"
+          ]
+        }
+      }
+    },
+    "code_quality": {
+      "description": "Evaluates correctness, efficiency, and readability of code implementations",
+      "levels": {
+        "excellent": {
+          "score_range": "90-100%",
+          "characteristics": [
+            "Code compiles and runs correctly on first attempt",
+            "Efficient algorithms with appropriate complexity",
+            "Clear variable names and comprehensive comments",
+            "Handles all edge cases and error conditions",
+            "Follows PEP 8 or equivalent style guidelines"
+          ]
+        },
+        "proficient": {
+          "score_range": "75-89%",
+          "characteristics": [
+            "Code works correctly with minor bugs easily fixed",
+            "Reasonable efficiency, minor optimization possible",
+            "Generally clear with some comments"
+          ]
+        },
+        "developing": {
+          "score_range": "60-74%",
+          "characteristics": [
+            "Code has bugs that require debugging",
+            "Inefficient but functional approach",
+            "Inconsistent naming and sparse comments"
+          ]
+        },
+        "beginning": {
+          "score_range": "0-59%",
+          "characteristics": [
+            "Code does not compile or has major logical errors",
+            "Very inefficient or incorrect approach",
+            "Poor readability and documentation"
+          ]
+        }
+      }
+    },
+    "problem_solving": {
+      "description": "Evaluates analytical approach to kinematics and dynamics problems",
+      "levels": {
+        "excellent": {
+          "score_range": "90-100%",
+          "characteristics": [
+            "Identifies problem requirements clearly",
+            "Selects appropriate methods (analytical vs numerical)",
+            "Anticipates edge cases and constraints",
+            "Justifies approach with reasoning",
+            "Validates results for correctness"
+          ]
+        },
+        "proficient": {
+          "score_range": "75-89%",
+          "characteristics": [
+            "Understands problem requirements",
+            "Selects reasonable approach",
+            "Handles most constraints correctly"
+          ]
+        },
+        "developing": {
+          "score_range": "60-74%",
+          "characteristics": [
+            "Partial understanding of requirements",
+            "Approach needs refinement",
+            "Misses some constraints"
+          ]
+        },
+        "beginning": {
+          "score_range": "0-59%",
+          "characteristics": [
+            "Misunderstands problem requirements",
+            "Incorrect approach selection",
+            "Does not address constraints"
+          ]
+        }
+      }
+    },
+    "visualization": {
+      "description": "Evaluates quality of plots, diagrams, and visual outputs",
+      "levels": {
+        "excellent": {
+          "score_range": "90-100%",
+          "characteristics": [
+            "Clear, professional visualizations",
+            "All required elements present and labeled",
+            "Appropriate color schemes and legends",
+            "Multiple informative views when needed"
+          ]
+        },
+        "proficient": {
+          "score_range": "75-89%",
+          "characteristics": [
+            "Clear plots with most required elements",
+            "Adequate labels and legends"
+          ]
+        },
+        "developing": {
+          "score_range": "60-74%",
+          "characteristics": [
+            "Basic plots present",
+            "Missing some labels or clarity issues"
+          ]
+        },
+        "beginning": {
+          "score_range": "0-59%",
+          "characteristics": [
+            "Plots incomplete or absent",
+            "Difficult to interpret or misleading"
+          ]
+        }
+      }
+    },
+    "mathematical_derivation": {
+      "description": "Evaluates correctness of mathematical derivations for dynamics",
+      "levels": {
+        "excellent": {
+          "score_range": "90-100%",
+          "characteristics": [
+            "Correctly derives M(q), C(q, q̇), g(q) matrices",
+            "Proper application of Euler-Lagrange equation",
+            "Clear step-by-step derivation",
+            "Correct matrix dimensions throughout"
+          ]
+        },
+        "proficient": {
+          "score_range": "75-89%",
+          "characteristics": [
+            "Mostly correct derivation with minor algebraic errors",
+            "Correct setup of Lagrangian"
+          ]
+        },
+        "developing": {
+          "score_range": "60-74%",
+          "characteristics": [
+            "Partial derivation with significant errors",
+            "Incorrect application of formulas"
+          ]
+        },
+        "beginning": {
+          "score_range": "0-59%",
+          "characteristics": [
+            "Incorrect approach to derivation",
+            "Cannot set up equations correctly"
+          ]
+        }
+      }
+    },
+    "control_performance": {
+      "description": "Evaluates PD control implementation and trajectory tracking",
+      "levels": {
+        "excellent": {
+          "score_range": "90-100%",
+          "characteristics": [
+            "Error < 3cm max, < 1.5cm RMS",
+            "No oscillations, smooth tracking",
+            "Professional visualization",
+            "Well-tuned gains with justification"
+          ]
+        },
+        "proficient": {
+          "score_range": "75-89%",
+          "characteristics": [
+            "Error < 5cm max, < 2.5cm RMS",
+            "Minor oscillations acceptable",
+            "Clear visualization"
+          ]
+        },
+        "developing": {
+          "score_range": "60-74%",
+          "characteristics": [
+            "Error < 8cm, noticeable overshoot",
+            "Some oscillations present",
+            "Basic visualization"
+          ]
+        },
+        "beginning": {
+          "score_range": "0-59%",
+          "characteristics": [
+            "Error > 8cm or unstable",
+            "Significant oscillations",
+            "Incomplete or missing visualization"
+          ]
+        }
+      }
+    }
+  },
+  "grading_scale": {
+    "A": "90-100%",
+    "B": "80-89%",
+    "C": "70-79%",
+    "D": "60-69%",
+    "F": "0-59%"
+  },
+  "partial_credit_policy": {
+    "enabled": true,
+    "description": "Partial credit is awarded when a response demonstrates partial understanding but is incomplete or contains errors"
+  },
+  "regrade_policy": {
+    "available": true,
+    "deadline_days": 7,
+    "process": "Submit written request explaining specific concerns"
+  }
+}

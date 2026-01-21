@@ -1,0 +1,28 @@
+{
+  "id": "chapter-1",
+  "title": "Chapter 1: Introduction to Physical AI",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-1.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-1",
+  "permalink": "/docs/chapter-1",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-1.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2,
+    "title": "Chapter 1: Introduction to Physical AI"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Welcome to Physical AI & Humanoid Robotics",
+    "permalink": "/docs/intro"
+  },
+  "next": {
+    "title": "Chapter 2: Kinematics & Dynamics",
+    "permalink": "/docs/chapter-2"
+  }
+}

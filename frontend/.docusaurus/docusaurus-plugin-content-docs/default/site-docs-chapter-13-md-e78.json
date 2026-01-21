@@ -1,0 +1,28 @@
+{
+  "id": "chapter-13",
+  "title": "Chapter 13: System Integration",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-13.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-13",
+  "permalink": "/docs/chapter-13",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-13.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 14,
+  "frontMatter": {
+    "sidebar_position": 14,
+    "title": "Chapter 13: System Integration"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 12: Vision-Language-Action Models",
+    "permalink": "/docs/chapter-12"
+  },
+  "next": {
+    "title": "Chapter 14: Safety & Robustness",
+    "permalink": "/docs/chapter-14"
+  }
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<!--
+  MuJoCo XML Model for 2-Link Planar Arm
+  Used in Lab 2.3: Dynamics Simulation
+
+  Features:
+  - Two revolute joints (hinge type)
+  - Link geometries defined as capsules
+  - No friction for passive dynamics testing
+  - Zero gravity for planar motion
+-->
+<mujoco model="2link_arm">
+  <!--
+    Simulation Options:
+    - timestep: 0.001s (1ms) for accurate integration
+    - gravity: 0 0 0 (planar motion, no gravitational effects)
+    - cone: pyramidal contact cone model
+    - iterations: solver iterations for constraint satisfaction
+  -->
+  <option timestep="0.001" gravity="0 0 0" cone="pyramidal" iterations="100" tolerance="1e-10"/>
+
+  <!-- Default properties for all elements -->
+  <default>
+    <!-- Capsule geometry with default density -->
+    <geom type="capsule" density="1000" friction="0" solimp="0.9 0.95 0.001" solref="0.02 1"/>
+    <!-- Hinge joint with no friction or damping -->
+    <joint type="hinge" damping="0" frictionloss="0" armature="0" stiffness="0" limited="false"/>
+    <!-- Motor actuator with control limits -->
+    <motor ctrlrange="-10 10" ctrllimited="true"/>
+  </default>
+
+  <!-- World Body containing the robot -->
+  <worldbody>
+    <!-- Base link (fixed at origin) -->
+    <body name="base" pos="0 0 0">
+      <!-- Base geometry -->
+      <geom type="cylinder" size="0.05 0.05" density="1000"/>
+
+      <!-- Joint 1: Connects base to link 1 -->
+      <!-- Axis 0 0 1 means rotation about z-axis (out of plane) -->
+      <joint name="j1" type="hinge" axis="0 0 1" stiffness="0" damping="0"/>
+
+      <!-- Link 1: First arm segment -->
+      <body name="link1" pos="0.5 0 0">
+        <!--
+          Capsule geometry for link 1:
+          - fromto: from (0,0,0) to (0.5,0,0) in link1's local frame
+          - size: radius of capsule (0.03m)
+          - mass: 1.0 kg
+        -->
+        <geom type="capsule" fromto="0 0 0 0.5 0 0" size="0.03" mass="1.0"/>
+
+        <!-- Joint 2: Connects link 1 to link 2 -->
+        <!-- Positioned at the end of link 1 (0.5, 0, 0) -->
+        <joint name="j2" type="hinge" axis="0 0 1" pos="0.5 0 0" stiffness="0" damping="0"/>
+
+        <!-- Link 2: Second arm segment -->
+        <body name="link2" pos="0.5 0 0">
+          <!--
+            Capsule geometry for link 2:
+            - fromto: from (0,0,0) to (0.4,0,0) in link2's local frame
+            - size: radius of capsule (0.025m)
+            - mass: 0.8 kg
+          -->
+          <geom type="capsule" fromto="0 0 0 0.4 0 0" size="0.025" mass="0.8"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <!-- Actuators for motor control -->
+  <actuator>
+    <!-- Motor for joint 1 -->
+    <motor name="motor1" joint="j1" ctrlrange="-10 10" ctrllimited="true"/>
+    <!-- Motor for joint 2 -->
+    <motor name="motor2" joint="j2" ctrlrange="-10 10" ctrllimited="true"/>
+  </actuator>
+</mujoco>

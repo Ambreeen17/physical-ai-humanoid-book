@@ -1,0 +1,103 @@
+{
+  "chapter": 7,
+  "topic": "Motion Planning",
+  "total_chunks": 15,
+  "chunk_strategy": "semantic",
+  "embedding_model": "text-embedding-3-small",
+  "vector_db": "qdrant",
+  "collection_name": "textbook_chapter_7",
+  "metadata": {
+    "created_at": "2026-01-05T23:06:03.817891",
+    "chapter_title": "Motion Planning",
+    "learning_objectives": [
+      "Implement sampling-based motion planning algorithms (PRM, RRT, RRT*)",
+      "Apply optimization-based planning methods (CHOMP, STOMP, TrajOpt)",
+      "Design real-time replanning systems for dynamic environments",
+      "Integrate perception and planning for obstacle avoidance",
+      "Evaluate planning performance in terms of completeness, optimality, and efficiency"
+    ],
+    "difficulty_level": "multi_level",
+    "target_audience": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ]
+  },
+  "chunks": [
+    {
+      "id": "ch7_001",
+      "type": "introduction",
+      "size": 512
+    },
+    {
+      "id": "ch7_002",
+      "type": "theory",
+      "size": 1024
+    },
+    {
+      "id": "ch7_003",
+      "type": "mathematical_foundation",
+      "size": 768
+    },
+    {
+      "id": "ch7_004",
+      "type": "hardware_considerations",
+      "size": 640
+    },
+    {
+      "id": "ch7_005",
+      "type": "software_implementation",
+      "size": 896
+    },
+    {
+      "id": "ch7_006",
+      "type": "code_example",
+      "size": 512
+    },
+    {
+      "id": "ch7_007",
+      "type": "simulation",
+      "size": 704
+    },
+    {
+      "id": "ch7_008",
+      "type": "testing",
+      "size": 640
+    },
+    {
+      "id": "ch7_009",
+      "type": "applications",
+      "size": 768
+    },
+    {
+      "id": "ch7_010",
+      "type": "challenges",
+      "size": 576
+    },
+    {
+      "id": "ch7_011",
+      "type": "beginner_content",
+      "size": 640
+    },
+    {
+      "id": "ch7_012",
+      "type": "intermediate_content",
+      "size": 704
+    },
+    {
+      "id": "ch7_013",
+      "type": "advanced_content",
+      "size": 768
+    },
+    {
+      "id": "ch7_014",
+      "type": "assessment_preparation",
+      "size": 512
+    },
+    {
+      "id": "ch7_015",
+      "type": "summary",
+      "size": 448
+    }
+  ]
+}

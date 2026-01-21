@@ -1,0 +1,103 @@
+{
+  "chapter": 3,
+  "topic": "Sensors & Actuators",
+  "total_chunks": 15,
+  "chunk_strategy": "semantic",
+  "embedding_model": "text-embedding-3-small",
+  "vector_db": "qdrant",
+  "collection_name": "textbook_chapter_3",
+  "metadata": {
+    "created_at": "2026-01-05T21:42:50.826118",
+    "chapter_title": "Sensors & Actuators",
+    "learning_objectives": [
+      "Characterize sensor performance (resolution, noise, latency)",
+      "Process LiDAR point clouds for obstacle detection",
+      "Calibrate RGB-D cameras for depth estimation",
+      "Select actuators based on torque, speed, and precision requirements",
+      "Implement sensor fusion using Kalman filters"
+    ],
+    "difficulty_level": "multi_level",
+    "target_audience": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ]
+  },
+  "chunks": [
+    {
+      "id": "ch3_001",
+      "type": "introduction",
+      "size": 512
+    },
+    {
+      "id": "ch3_002",
+      "type": "theory",
+      "size": 1024
+    },
+    {
+      "id": "ch3_003",
+      "type": "mathematical_foundation",
+      "size": 768
+    },
+    {
+      "id": "ch3_004",
+      "type": "hardware_considerations",
+      "size": 640
+    },
+    {
+      "id": "ch3_005",
+      "type": "software_implementation",
+      "size": 896
+    },
+    {
+      "id": "ch3_006",
+      "type": "code_example",
+      "size": 512
+    },
+    {
+      "id": "ch3_007",
+      "type": "simulation",
+      "size": 704
+    },
+    {
+      "id": "ch3_008",
+      "type": "testing",
+      "size": 640
+    },
+    {
+      "id": "ch3_009",
+      "type": "applications",
+      "size": 768
+    },
+    {
+      "id": "ch3_010",
+      "type": "challenges",
+      "size": 576
+    },
+    {
+      "id": "ch3_011",
+      "type": "beginner_content",
+      "size": 640
+    },
+    {
+      "id": "ch3_012",
+      "type": "intermediate_content",
+      "size": 704
+    },
+    {
+      "id": "ch3_013",
+      "type": "advanced_content",
+      "size": 768
+    },
+    {
+      "id": "ch3_014",
+      "type": "assessment_preparation",
+      "size": 512
+    },
+    {
+      "id": "ch3_015",
+      "type": "summary",
+      "size": 448
+    }
+  ]
+}

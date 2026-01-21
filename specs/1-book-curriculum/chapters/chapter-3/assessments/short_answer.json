@@ -1,0 +1,39 @@
+{
+  "chapter": "Chapter 3: Robotic Sensors and Perception",
+  "total_points": 3,
+  "questions": [
+    {
+      "id": "SA-001",
+      "type": "short_answer",
+      "question": "Why is it beneficial to combine accelerometer and gyroscope data for determining robot orientation? Explain the complementary nature of these sensors.",
+      "expected_answer_length": "100-200 words",
+      "rubric_reference": "SA-001",
+      "difficulty": "intermediate",
+      "points": 3,
+      "learning_objectives": [
+        "LO-3.5: Understand IMU sensor characteristics and limitations",
+        "LO-3.6: Explain sensor fusion principles for improved accuracy"
+      ],
+      "capstone_alignment": "IMU integration in mobile robot localization systems",
+      "key_concepts_to_evaluate": [
+        {
+          "concept": "Accelerometer role",
+          "description": "Measures proper acceleration including gravity, useful for detecting tilt/roll/pitch angles relative to gravity vector"
+        },
+        {
+          "concept": "Gyroscope role",
+          "description": "Measures angular velocity/rate of rotation, useful for tracking rotational movement over time"
+        },
+        {
+          "concept": "Complementary relationship",
+          "description": "Accelerometer provides stable long-term orientation but is noisy and sensitive to linear acceleration; gyroscope provides smooth short-term rates but drifts over time"
+        },
+        {
+          "concept": "Sensor fusion benefit",
+          "description": "Combining both corrects individual weaknesses: accelerometer limits gyroscope drift, gyroscope filters accelerometer noise from linear motion"
+        }
+      ],
+      "sample_model_answer": "The accelerometer and gyroscope provide complementary measurements that, when combined through sensor fusion, overcome individual sensor limitations. The accelerometer measures proper acceleration including the gravity vector, allowing determination of orientation relative to the vertical, but it is sensitive to linear accelerations (not just orientation) and produces noisy readings. The gyroscope measures angular velocity, which can be integrated to track orientation changes smoothly in the short term, but it suffers from drift errors that accumulate over time. By fusing these sensors using algorithms like complementary filters or Kalman filters, we can use the accelerometer's gravity reference to correct gyroscope drift while using the gyroscope's smooth rate measurements to filter out accelerometer noise from linear motion. This results in accurate, drift-free orientation estimates for robot navigation."
+    }
+  ]
+}

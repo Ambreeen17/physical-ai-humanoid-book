@@ -1,0 +1,178 @@
+================================================================================
+                    FORCE-TORQUE SENSOR ARRANGEMENT
+================================================================================
+
+    F/T SENSOR MOUNTING LOCATIONS:
+    ==============================
+
+    ROBOT ARM CONFIGURATION:
+
+        WRIST MOUNTING                    FLANGE MOUNTING
+        (Most Common)                    (Task-oriented)
+
+            +---------+                      +---------+
+            |  TOOL   |                      |  TOOL   |
+            +----+----+                      +----+----+
+                 |                               |
+          +------+------+                 +------+------+
+          | F/T SENSOR |                 |             |
+          +------+------+                 |      +------+------+
+                 |                        |      | F/T SENSOR |
+            +----+----+                   |      +------+------+
+            | WRIST    |                   |             |
+            | JOINT    |                   |      +-----+-----+
+            +----+-----+                   |      | WRIST     |
+                 |                         |      | JOINT     |
+            +----+----+                    |      +-----+-----+
+            |        |                     |            |
+            |  ARM   |                     |      +-----+-----+
+            | LINK   |                     |      |         |
+            |        |                     |      |  ARM    |
+            +---+----+                     |      |  LINK   |
+                |                          |      |         |
+            +---+----+                     |      +-----+-----+
+            |        |                     |            |
+            |  ARM   |                     |      +-----+-----+
+            | LINK   |                     |      |         |
+            |        |                     |      |  ARM    |
+            +---+----+                     |      |  LINK   |
+                |                          |      |         |
+            +---+----+                     |      +-----+-----+
+            |  BASE   |                    |            |
+            +---------+                    |      +-----+-----+
+                                          |      |  BASE    |
+                                          |      +---------+
+                                          |
+
+    STRAIN GAUGE CONFIGURATION (6-Axis F/T Sensor):
+    ==============================================
+
+    TOP VIEW (Cross-section):
+
+                    +-------------------+
+                    |     TOP PLATE     |
+                    |  (Mounted to Tool)|
+                    +--------+----------+
+                             |
+                    +--------+--------+
+                    |                 |
+                    |   STRAIN GAUGE  |
+                    |     ARRAY       |
+                    |                 |
+                    |  +--+   +--+    |
+                    |  |1 |   |4 |    |
+                    |  +--+   +--+    |
+                    |  +--+   +--+    |
+                    |  |2 |   |5 |    |
+                    |  +--+   +--+    |
+                    |     +--+        |
+                    |     |3 |        |
+                    |     +--+        |
+                    |                 |
+                    +--------+--------+
+                             |
+                    +--------+--------+
+                    |   BOTTOM PLATE  |
+                    | (Mounted to Arm)|
+                    +-----------------+
+
+    GAUGE ORIENTATION:
+
+        Shear gauges (F_x, F_y, M_z):
+                    |
+            +-------+-------+
+            |       |       |
+            |  NW   |  NE   |    Gauges at 45 degrees
+            | (+/-) | (+/-) |    to measure shear strain
+            |       |       |
+            +-------+-------+
+                    |
+        Shear gauges (F_x, F_y, M_z):
+                    |
+            +-------+-------+
+            |       |       |
+            |  SW   |  SE   |    Second set at 90 degrees
+            | (+/-) | (+/-) |    for redundancy
+            |       |       |
+            +-------+-------+
+                    |
+
+    MOMENT GAUGES (M_x, M_y):
+
+        Bending gauges (paired on opposite sides):
+
+        +-------+       +-------+
+        | TOP   |       | BOTTOM |
+        | (+)   |       |  (-)   |   -> Measures bending
+        +-------+       +-------+      from M_x, M_y
+
+        +-------+       +-------+
+        | FRONT |       | BACK  |
+        | (+)   |       |  (-)   |   -> Measures bending
+        +-------+       +-------+      from M_y, M_x
+
+    SIGNAL CONDITIONING:
+    ===================
+
+    +----------------------------------------------------------+
+    |                  F/T SENSOR ELECTRONICS                   |
+    +----------------------------------------------------------+
+    |                                                               |
+    |   Strain Gauges (6 or more)                                  |
+    |   +---+  +---+  +---+  +---+  +---+  +---+                  |
+    |   | 1 |  | 2 |  | 3 |  | 4 |  | 5 |  | 6 |                  |
+    |   +---+  +---+  +---+  +---+  +---+  +---+                  |
+    |       |      |      |      |      |      |                   |
+    |       +------+------+------+------+------+                   |
+    |                    |                                       |
+    |                    v                                       |
+    |           +----------------+                               |
+    |           | WHEATSTONE     |                               |
+    |           | BRIDGE         |                               |
+    |           | CONFIGURATION  |                               |
+    |           +----------------+                               |
+    |                    |                                       |
+    |                    v                                       |
+    |           +----------------+                               |
+    |           | INSTRUMENT.    |                               |
+    |           | AMPLIFIER      |                               |
+    |           +----------------+                               |
+    |                    |                                       |
+    |                    v                                       |
+    |           +----------------+                               |
+    |           | A/D            |                               |
+    |           | CONVERTER      |                               |
+    |           +----------------+                               |
+    |                    |                                       |
+    |                    v                                       |
+    |           +----------------+                               |
+    |           | CALIBRATION    |                               |
+    |           | MATRIX         |                               |
+    |           +----------------+                               |
+    |                    |                                       |
+    v                    v                                       v
+    +----------------------------------------------------------+
+    |              RAW F/T VECTOR OUTPUT                         |
+    |    [F_x, F_y, F_z, M_x, M_y, M_z]^T                        |
+    +----------------------------------------------------------+
+
+    CALIBRATION MATRIX:
+
+        F_raw = C * V_raw
+
+        Where C is a 6xN calibration matrix (N = number of strain gauges)
+
+        Typically C is determined by applying known forces and torques
+        and solving least squares: C = F_known * V_raw^T * (V_raw * V_raw^T)^-1
+
+    FORCE/TORQUE RESOLUTION:
+    =======================
+
+        F_z Resolution = (Strain Gauge Sensitivity) * (Amplifier Gain) / A/D bits
+
+        Typical values:
+            - Force resolution: 0.1 - 1 N
+            - Torque resolution: 0.01 - 0.1 Nm
+            - Sampling rate: 100 - 1000 Hz
+
+================================================================================

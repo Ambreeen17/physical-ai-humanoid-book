@@ -1,0 +1,269 @@
+# Chapter 2: Kinematics & Dynamics - Lab Challenge
+# 50 points total
+# Implementation + Analysis + Visualization assessment
+
+assessment_metadata:
+  chapter: 2
+  title: "3-DOF Robot Arm FK/IK Implementation Challenge"
+  version: "1.0"
+  total_points: 50
+  estimated_time_hours: 3
+  passing_score: 35  # 70%
+  deliverable_format: "Python scripts + visualization + analysis report"
+
+# Challenge Overview
+challenge_overview:
+  title: "Implement Forward and Inverse Kinematics for a 3-DOF Planar-Rotational Arm"
+  context: |
+    You are tasked with implementing the kinematics pipeline for a 3-DOF robot arm
+    consisting of a 2-DOF planar arm (shoulder and elbow) plus a wrist rotation joint.
+    This arm will be used in a pick-and-place application.
+  learning_objectives:
+    - LO2.2: Compute forward kinematics using DH parameters
+    - LO2.3: Solve inverse kinematics analytically and numerically
+    - LO2.1: Understand configuration space vs workspace
+  real_world_relevance: |
+    This challenge mirrors the kinematics implementation needed for industrial
+    pick-and-place robots, CNC machines, and surgical robots. The 3-DOF configuration
+    is a common simplification of 6-DOF industrial arms.
+
+# Problem Specification
+arm_specification:
+  name: "Planar-Rotational 3-DOF Arm"
+  dh_parameters:
+    - joint: "shoulder (revolute)"
+      theta: "q1 (variable)"
+      d: "0"
+      a: "L1 = 0.3m"
+      alpha: "0 (all joints in same plane)"
+    - joint: "elbow (revolute)"
+      theta: "q2 (variable)"
+      d: "0"
+      a: "L2 = 0.25m"
+      alpha: "0"
+    - joint: "wrist (revolute)"
+      theta: "q3 (variable)"
+      d: "0"
+      a: "L3 = 0.1m"
+      alpha: "90 degrees (out of plane)"
+  joint_limits:
+    - q1: [-180, 180] degrees
+    - q2: [-135, 135] degrees
+    - q3: [-180, 180] degrees
+
+# Task Breakdown
+tasks:
+  # Task 1: Forward Kinematics (12 points)
+  - id: task_1
+    title: "Forward Kinematics Implementation"
+    points: 12
+    difficulty: foundational
+    description: |
+      Implement the forward kinematics function that computes the end-effector pose
+      (position + orientation) given joint angles [q1, q2, q3].
+    requirements:
+      - Implement DH parameter to transformation matrix conversion
+      - Chain transformations: T_total = T1 * T2 * T3
+      - Return both position (x, y, z) and orientation (quaternion or Euler angles)
+      - Handle edge cases (zero angles, all same angle)
+    input_spec:
+      - joint_angles: array of 3 floats in radians
+      - returns: dictionary with position and orientation
+    output_spec: |
+      {
+        "position": {"x": float, "y": float, "z": float},
+        "orientation": {"qx": float, "qy": float, "qz": float, "qw": float},
+        "transformation_matrix": [[4x4 matrix as nested list]]
+      }
+    test_cases:
+      - name: "Home position"
+        input: [0, 0, 0]
+        expected_position: [0.65, 0, 0]  # L1 + L2 + L3 along x-axis
+        tolerance: 0.001
+      - name: "90 degree shoulder"
+        input: [1.5708, 0, 0]
+        expected_position: [0, 0.65, 0]
+        tolerance: 0.001
+      - name: "Elbow bent"
+        input: [0, 1.5708, 0]
+        expected_position: [0.3, 0.25, 0]
+        tolerance: 0.001
+    auto_grading_criteria:
+      correctness: 6
+      code_quality: 3
+      edge_case_handling: 3
+
+  # Task 2: Analytical Inverse Kinematics (13 points)
+  - id: task_2
+    title: "Analytical Inverse Kinematics for 2-DOF Base"
+    points: 13
+    difficulty: intermediate
+    description: |
+      Implement analytical IK for the 2-DOF planar portion (q1, q2) to reach a target
+      (x, y) position in the plane. The wrist angle q3 will be computed separately.
+    requirements:
+      - Use geometric approach for 2-link planar arm
+      - Return all valid solutions (elbow-up and elbow-down)
+      - Handle unreachable positions (too close or too far)
+      - Document the derivation
+    input_spec:
+      - target_position: [x, y, z] in meters
+      - wrist_angle: desired end-effector orientation (radians)
+      - preferred_solution: "elbow_up" or "elbow_down" (optional)
+    output_spec: |
+      {
+        "solutions": [
+          {"q1": float, "q2": float, "q3": float, "configuration": "elbow_up"},
+          {"q1": float, "q2": float, "q3": float, "configuration": "elbow_down"}
+        ],
+        "reachable": boolean,
+        "reason": "explanation if not reachable"
+      }
+    test_cases:
+      - name: "Within workspace"
+        input: {"target": [0.5, 0.3, 0], "wrist_angle": 0}
+        expected: "Two solutions, both reachable"
+      - name: "At maximum reach"
+        input: {"target": [0.65, 0, 0], "wrist_angle": 0}
+        expected: "Single solution, q2 = 0"
+      - name: "Outside workspace"
+        input: {"target": [1.0, 0.5, 0], "wrist_angle": 0}
+        expected: "reachable = false"
+      - name: "Inside minimum circle"
+        input: {"target": [0.05, 0.05, 0], "wrist_angle": 0}
+        expected: "reachable = false"
+    math_verification: |
+      For a 2-link arm with L1, L2:
+      c2 = (x^2 + y^2 - L1^2 - L2^2) / (2*L1*L2)  # cos(q2)
+      s2 = sqrt(1 - c2^2)  # two solutions: +sqrt and -sqrt
+      q2 = atan2(s2, c2)
+      q1 = atan2(y, x) - atan2(L2*s2, L1 + L2*c2)
+    auto_grading_criteria:
+      correctness: 7
+      workspace_reasoning: 3
+      multiple_solutions: 3
+
+  # Task 3: Jacobian and Singularity Analysis (10 points)
+  - id: task_3
+    title: "Jacobian Computation and Singularity Analysis"
+    points: 10
+    difficulty: advanced
+    description: |
+      Implement the geometric Jacobian for the 3-DOF arm and analyze singular configurations.
+    requirements:
+      - Compute 6x3 Jacobian matrix
+      - Detect singularities using determinant or singular value decomposition
+      - Find at least 3 singular configurations
+      - Visualize manipulability ellipsoid
+    input_spec:
+      - joint_angles: array of 3 floats in radians
+      - returns: Jacobian matrix and singularity status
+    output_spec: |
+      {
+        "jacobian": [[6 rows, 3 columns as nested list]],
+        "is_singular": boolean,
+        "manipulability_index": float,
+        "singular_values": [s1, s2, s3],
+        "recommendation": "safe/caution/unsafe based on manipulability"
+      }
+    expected_singular_configurations:
+      - config_1: "Arm fully extended: [0, 0, 0] - max reach singularity"
+      - config_2: "Arm folded: [0, 3.14159, 0] - min reach singularity"
+      - config_3: "Shoulder at 90, elbow at 0: [1.57, 0, 0]"
+    analysis_questions:
+      - "At which configuration is manipulability highest? Why?"
+      - "How does the singularity affect Cartesian velocity control?"
+      - "What happens to joint velocities near singularities?"
+    auto_grading_criteria:
+      jacobian_correctness: 4
+      singularity_detection: 3
+      analysis_quality: 3
+
+  # Task 4: Visualization and Validation (15 points)
+  - id: task_4
+    title: "Visualization and Workspace Validation"
+    points: 15
+    difficulty: intermediate
+    description: |
+      Create a visualization that shows:
+      1. The robot arm in various configurations
+      2. The reachable workspace (2D slice and 3D)
+      3. A trajectory from start to target
+    requirements:
+      - Use matplotlib or equivalent for visualization
+      - Show at least 50 random configurations
+      - Highlight singular configurations
+      - Animate at least one trajectory
+      - Compare FK vs IK results
+    visualization_spec:
+      arm_view:
+        - "2D side view showing link angles"
+        - "3D view with all three joints"
+      workspace_view:
+        - "2D slice at z=0 showing reachable region"
+        - "3D volume (sweep q1 from -180 to 180)"
+      trajectory_view:
+        - "Animation of arm following a path"
+        - "Start (green) and goal (red) markers"
+    validation_checks:
+      - "Randomly sample 20 joint configurations"
+      - "Compute FK position for each"
+      - "Use IK to recover joint angles"
+      - "Compare original vs recovered angles"
+      - "Report average error"
+    auto_grading_criteria:
+      visualization_quality: 5
+      trajectory_animation: 4
+      validation_results: 3
+      code_organization: 3
+
+# Bonus Challenge (5 points)
+bonus:
+  - description: |
+      Implement numerical IK using Jacobian pseudo-inverse for the full 3-DOF arm.
+      Compare convergence speed and accuracy with analytical solution.
+    points: 5
+    requirements:
+      - Implement: q_new = q_old + k * J_pinv * error
+      - Handle singularities with damping
+      - Compare with analytical results
+      - Measure convergence iterations and final error
+    test_case: |
+      Target: [0.4, 0.4, 0.05] meters
+      Compare:
+      - Analytical IK: iterations needed, final error
+      - Numerical IK: iterations needed, final error, sensitivity to initial guess
+
+# Submission Requirements
+submission:
+  files_required:
+    - "fk_ik_3dof.py"  # Main implementation
+    - "visualize.py"   # Visualization code
+    - "test_kinematics.py"  # Test cases
+    - "analysis_report.md"  # Written analysis
+  code_style:
+    - PEP 8 compliant
+    - Docstrings for all functions
+    - Type hints for function signatures
+  report_contents:
+    - "Problem statement and approach"
+    - "Mathematical derivations used"
+    - "Test results with screenshots"
+    - "Singularity analysis findings"
+    - "Known limitations and future improvements"
+
+# Evaluation Rubric Summary
+rubric_summary:
+  total_points: 50
+  breakdown:
+    - Task 1 (FK): 12 points
+    - Task 2 (Analytical IK): 13 points
+    - Task 3 (Jacobian): 10 points
+    - Task 4 (Visualization): 15 points
+    - Bonus: 5 points
+  grade_boundaries:
+    A: 45-50
+    B: 40-44
+    C: 35-39
+    D: 30-34
+    F: 0-29

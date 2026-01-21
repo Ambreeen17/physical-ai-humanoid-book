@@ -1,0 +1,28 @@
+{
+  "id": "chapter-5",
+  "title": "Chapter 5: Computer Vision",
+  "description": "Learning Objectives",
+  "source": "@site/docs/chapter-5.md",
+  "sourceDirName": ".",
+  "slug": "/chapter-5",
+  "permalink": "/docs/chapter-5",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/physical-ai-textbook/tree/main/frontend/docs/chapter-5.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6,
+    "title": "Chapter 5: Computer Vision"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Chapter 4: State Estimation",
+    "permalink": "/docs/chapter-4"
+  },
+  "next": {
+    "title": "Chapter 6: Control Theory",
+    "permalink": "/docs/chapter-6"
+  }
+}

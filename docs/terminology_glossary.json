@@ -1,0 +1,72 @@
+{
+  "Embodied Intelligence": {
+    "urdu": "جسمانی ذہانت",
+    "transliteration": "Jasmaani Zehanat",
+    "explanation": "Intelligence grounded in physical form"
+  },
+  "Sensorimotor Loop": {
+    "urdu": "حس و حرکت کا چکر",
+    "transliteration": "Hiss-o-Harkat ka Chakra",
+    "explanation": "Perception-action feedback cycle"
+  },
+  "Simulation-to-Real Gap": {
+    "urdu": "نقالی سے حقیقی فاصلہ",
+    "transliteration": "Naqali se Haqiqi Faasla",
+    "explanation": "The discrepancy between simulator performance and real-world performance"
+  },
+  "Sensor": {
+    "urdu": "حس کن",
+    "transliteration": "Hiskan",
+    "explanation": "Hardware that perceives environment"
+  },
+  "Actuator": {
+    "urdu": "حرکت دہندہ",
+    "transliteration": "Harkat-Dehindah",
+    "explanation": "Hardware that performs actions"
+  },
+  "ROS 2": {
+    "urdu": "ROS 2",
+    "transliteration": "Robot Operating System 2",
+    "explanation": "Middle-ware for robotics"
+  },
+  "Gazebo": {
+    "urdu": "Gazebo",
+    "transliteration": "Gazebo",
+    "explanation": "Robotics simulator"
+  },
+  "Node": {
+    "urdu": "نوڈ",
+    "transliteration": "Node",
+    "explanation": "A process that performs computation"
+  },
+  "Topic": {
+    "urdu": "موضوع",
+    "transliteration": "Mawzu",
+    "explanation": "A bus over which nodes exchange messages"
+  },
+  "Publisher": {
+    "urdu": "نشر کرنے والا",
+    "transliteration": "Nashar karne wala",
+    "explanation": "An entity that sends data"
+  },
+  "Subscriber": {
+    "urdu": "وصول کنندہ",
+    "transliteration": "Wasool-kunindah",
+    "explanation": "An entity that receives data"
+  },
+  "Physical AI": {
+    "urdu": "طبیعی AI",
+    "transliteration": "Tabiee AI",
+    "explanation": "AI that interacts with the physical world"
+  },
+  "Sim-to-Real": {
+    "urdu": "ناقالی سے حقیقت",
+    "transliteration": "Naqali se Haqiqat",
+    "explanation": "The transition from simulation to real world"
+  },
+  "Humanoid": {
+    "urdu": "انسان نما",
+    "transliteration": "Insan-numa",
+    "explanation": "Robot shaped like a human"
+  }
+}

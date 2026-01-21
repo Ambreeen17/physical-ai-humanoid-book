@@ -1,0 +1,56 @@
+flowchart TB
+    subgraph Sensor_Inputs["Raw IMU Measurements"]
+        direction LR
+        Accel["ACCELEROMETER<br/>a = [ax,ay,az]"]
+        Gyro["GYROSCOPE<br/>É = [Éx,Éy,Éz]"]
+        Mag["MAGNETOMETER<br/>m = [mx,my,mz]"]
+    end
+
+    subgraph Complementary["Complementary Filter"]
+        direction TB
+        HPF["High-Pass<br/>Äs/(1+Äs)"]
+        AccelAtt["Accel Attitude<br/>pitch, roll"]
+        LPF["Low-Pass<br/>1/(1+Äs)"]
+        GyroAtt["Gyro Integration<br/>quaternion"]
+        Comb["Weighted Sum<br/>±·gyro + (1-±)·accel"]
+    end
+
+    subgraph EKF["Extended Kalman Filter"]
+        direction TB
+        Predict["PREDICT<br/>x{ = f(‘,u)<br/>P{ = F·P·F@ + Q"]
+        Update["UPDATE<br/>K = P{H@(HP{H@ + R){¹<br/>‘ = ‘ + K(z-h(x{))"]
+        State["State Estimate<br/>[q, bias, v, p]"]
+    end
+
+    subgraph ErrorState["Error-State EKF"]
+        direction TB
+        ErrorPred["Predict Error<br/>´x{ = F·´x"]
+        Measure["Measure Error<br/>´z = z - h(x)"]
+        Correct["Correct State<br/>x += ´x"]
+        Reset["Reset Error<br/>´x = 0"]
+    end
+
+    Accel --> AccelAtt
+    Gyro --> GyroAtt
+
+    AccelAtt --> HPF
+    GyroAtt --> LPF
+    HPF --> Comb
+    LPF --> Comb
+
+    Sensor_Inputs --> EKF
+    EKF --> State
+
+    ErrorState --> Correct
+    Correct --> Reset
+    Reset --> ErrorPred
+
+    classDef sensor fill:#bbdefb,stroke:#1565c0,stroke-width:2px
+    classDef filter fill:#fff9c4,stroke:#f9a825,stroke-width:2px
+    classDef ekf fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+    classDef error fill:#ffcdd2,stroke:#c62828,stroke-width:2px
+
+    class Accel,Gyro,Mag sensor
+    class Complementary,HPF,LPF,Comb filter
+    class EKF,Predict,Update,State ekf
+    class ErrorState,ErrorPred,Measure,Correct,Reset error

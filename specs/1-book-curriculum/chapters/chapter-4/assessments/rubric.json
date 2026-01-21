@@ -1,0 +1,439 @@
+{
+  "metadata": {
+    "chapter": "Chapter 4: Bayesian Filtering and State Estimation",
+    "assessment_type": "Evaluation Rubrics",
+    "total_points": 17,
+    "base_points": 12,
+    "bonus_points": 5,
+    "rubric_sections": [
+      "MCQ Scoring",
+      "Short Answer Evaluation",
+      "Coding Challenge",
+      "Simulation Challenge (Bonus)"
+    ]
+  },
+  "rubrics": {
+    "mcq_scoring": {
+      "assessment_name": "Multiple Choice Questions",
+      "total_points": 4,
+      "questions_count": 2,
+      "scoring_method": "All-or-nothing per question",
+      "grading_rules": [
+        {
+          "rule": "Full credit (2 pts) for correct answer",
+          "conditions": ["Exact correct option selected"]
+        },
+        {
+          "rule": "No credit (0 pts) for incorrect answer",
+          "conditions": ["Any incorrect option selected"]
+        }
+      ],
+      "answer_key": {
+        "MC-001": {
+          "question": "In the Bayes filter algorithm, what does the PREDICT step compute?",
+          "correct_answer": "B",
+          "explanation": "The predict step computes the prior distribution by propagating the previous estimate through the motion model"
+        },
+        "MC-002": {
+          "question": "The Extended Kalman Filter (EKF) linearizes nonlinear functions using which method?",
+          "correct_answer": "B",
+          "explanation": "EKF uses first-order Taylor series expansion around the current estimate"
+        }
+      },
+      "partial_credit_policy": "Not applicable - MCQs are all-or-nothing"
+    },
+    "short_answer_evaluation": {
+      "assessment_name": "Short Answer - UKF vs EKF Comparison",
+      "total_points": 3,
+      "scoring_method": "Rubric-based holistic scoring",
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "description": "Comprehensive answer that demonstrates deep understanding of EKF and UKF approaches to handling nonlinearities",
+          "points_range": "2.5 - 3.0",
+          "performance_indicators": [
+            "Accurately explains EKF's first-order Taylor series linearization limitations",
+            "Clearly describes UKF's sigma point (unscented) transformation approach",
+            "Identifies at least 3 specific advantages of UKF over EKF for nonlinear systems",
+            "Discusses higher-order moment capture in UKF",
+            "Mentions practical benefits (no Jacobian computation needed)",
+            "Uses appropriate technical terminology correctly"
+          ],
+          "example_qualities": [
+            "Mentions 'linearization errors' and 'Jacobobian computation'",
+            "Explains how sigma points capture distribution through nonlinearity",
+            "Discusses second-order and higher moment approximation"
+          ]
+        },
+        {
+          "level": "Proficient",
+          "description": "Complete answer covering main comparison points between EKF and UKF",
+          "points_range": "1.5 - 2.4",
+          "performance_indicators": [
+            "States that EKF uses linearization (Taylor series)",
+            "States that UKF uses sigma points",
+            "Connects both approaches to handling nonlinearities",
+            "Identifies at least 2 key differences",
+            "Demonstrates understanding of why UKF is preferred for highly nonlinear systems"
+          ],
+          "example_qualities": [
+            "Mentions both linearization and sigma point approaches",
+            "Explains that EKF can have errors for strong nonlinearities",
+            "States UKF better captures true distribution"
+          ]
+        },
+        {
+          "level": "Developing",
+          "description": "Partial understanding with some confusion or incomplete explanation",
+          "points_range": "0.5 - 1.4",
+          "performance_indicators": [
+            "Recognizes that UKF is better than EKF for nonlinear systems",
+            "Attempts explanation but confuses details",
+            "Mentions at least one correct point but cannot elaborate",
+            "May confuse UKF with particle filters or other methods"
+          ],
+          "example_qualities": [
+            "Vague statement like 'UKF is more accurate' without explanation",
+            "Partial description of one approach only",
+            "Mixes up EKF and UKF mechanisms"
+          ]
+        },
+        {
+          "level": "Beginning",
+          "description": "Does not demonstrate understanding of the difference between EKF and UKF",
+          "points_range": "0 - 0.4",
+          "performance_indicators": [
+            "Cannot articulate why EKF struggles with nonlinearities",
+            "Confuses UKF with particle filters or random sampling",
+            "No meaningful comparison provided",
+            "Incorrect understanding of both filters"
+          ]
+        }
+      ],
+      "key_points_for_grading": [
+        {
+          "point": "EKF linearization errors",
+          "weight": 1,
+          "description": "First-order Taylor series introduces linearization errors for strong nonlinearities"
+        },
+        {
+          "point": "UKF sigma points",
+          "weight": 1,
+          "description": "UKF uses deterministic sigma points to capture mean and covariance through nonlinearity"
+        },
+        {
+          "point": "Higher-order moments",
+          "weight": 1,
+          "description": "UKF better captures second-order and higher moments"
+        },
+        {
+          "point": "No Jacobian required",
+          "weight": 0.5,
+          "description": "UKF avoids Jacobian computation complexity"
+        }
+      ],
+      "minimum_for_pass": 2,
+      "minimum_for_excellent": 2.5
+    },
+    "coding_challenge": {
+      "assessment_name": "1D Kalman Filter Implementation",
+      "total_points": 10,
+      "scoring_method": "Component-based scoring with automated tests",
+      "rubric_components": [
+        {
+          "component": "Correctness",
+          "description": "Filter produces correct outputs for all test cases",
+          "points": 6,
+          "subcomponents": [
+            {
+              "subcomponent": "Initialization",
+              "test_id": "TC-001",
+              "description": "Filter initializes state estimate and uncertainty correctly",
+              "points": 1,
+              "passing_criteria": "initial_x and initial_P stored and accessible via get_state()"
+            },
+            {
+              "subcomponent": "Predict without noise",
+              "test_id": "TC-002",
+              "description": "Predict step preserves state when process noise is zero",
+              "points": 1,
+              "passing_criteria": "x unchanged, P = P + 0 = P"
+            },
+            {
+              "subcomponent": "Predict with noise",
+              "test_id": "TC-003",
+              "description": "Predict step increases uncertainty with process noise",
+              "points": 1,
+              "passing_criteria": "x unchanged, P = P + process_noise"
+            },
+            {
+              "subcomponent": "Update matching measurement",
+              "test_id": "TC-004",
+              "description": "Update step with measurement equal to estimate",
+              "points": 2,
+              "passing_criteria": "K = P_pred/(P_pred+R), x stays same, P = (1-K)*P_pred"
+            },
+            {
+              "subcomponent": "Update differing measurement",
+              "test_id": "TC-005",
+              "description": "Update step correctly weights measurement deviation",
+              "points": 1,
+              "passing_criteria": "Innovation computed, K applied correctly, new x = x_pred + K*innovation"
+            }
+          ]
+        },
+        {
+          "component": "Code Quality",
+          "description": "Code follows best practices and is well-documented",
+          "points": 2,
+          "subcomponents": [
+            {
+              "subcomponent": "Readability",
+              "description": "Clear, readable code with appropriate variable names",
+              "points": 1,
+              "indicators": [
+                "Descriptive variable names (x, P, K, R, Q, z, etc.)",
+                "Consistent naming convention throughout",
+                "Appropriate code structure and organization"
+              ]
+            },
+            {
+              "subcomponent": "Documentation",
+              "description": "Docstrings and comments explaining key steps",
+              "points": 1,
+              "indicators": [
+                "Class docstring explaining purpose",
+                "Method docstrings with parameter and return descriptions",
+                "Inline comments for complex calculations (e.g., Kalman gain formula)"
+              ]
+            }
+          ]
+        },
+        {
+          "component": "Edge Case Handling",
+          "description": "Proper handling of edge cases and validation",
+          "points": 1,
+          "indicators": [
+            "Handles zero process noise correctly (P doesn't change)",
+            "Handles zero measurement noise (K = 1, full trust in measurement)",
+            "Handles large initial uncertainty vs small measurement noise",
+            "No division by zero or other numerical errors"
+          ]
+        },
+        {
+          "component": "Convergence Behavior",
+          "description": "Filter shows proper convergence behavior with multiple measurements",
+          "points": 1,
+          "test_id": "TC-007",
+          "indicators": [
+            "Final estimate is closer to true position than individual measurements",
+            "Uncertainty decreases with each successful update",
+            "Filter converges within tolerance of true position"
+          ]
+        }
+      ],
+      "code_quality_standards": {
+        "variable_naming": {
+          "standard": "x for state, P for uncertainty/variance, K for Kalman gain, R for measurement noise, Q for process noise, z for measurement",
+          "exceptions": "Acceptable to use more descriptive names if consistent"
+        },
+        "numerical_precision": {
+          "tolerance": 0.001,
+          "float_comparison": "Use absolute tolerance for floating point comparisons"
+        },
+        "interface_compliance": {
+          "required_methods": ["__init__", "predict", "update", "get_state"],
+          "return_format": "tuple[float, float] for predict and update methods"
+        }
+      },
+      "common_errors_to_watch": [
+        {
+          "error": "Using P instead of P_pred in Kalman gain calculation",
+          "detection": "Test TC-004 will fail - K computed with wrong denominator"
+        },
+        {
+          "error": "Forgetting to add process noise in predict",
+          "detection": "Test TC-003 will fail - P should increase"
+        },
+        {
+          "error": "Wrong update formula: P = P - K*P instead of (1-K)*P",
+          "detection": "Small numerical differences, test TC-004 may pass approximately"
+        },
+        {
+          "error": "Innovation computed as z - x instead of z - x_pred",
+          "detection": "Predict-update cycle test will fail"
+        }
+      ],
+      "grading_scale": {
+        "excellent": "9 - 10 points",
+        "proficient": "7 - 8.9 points",
+        "developing": "5 - 6.9 points",
+        "beginning": "0 - 4.9 points"
+      },
+      "minimum_for_pass": 7
+    },
+    "simulation_challenge": {
+      "assessment_name": "Particle Filter 2D Localization (Bonus)",
+      "total_points": 5,
+      "difficulty": "Advanced",
+      "scoring_method": "Rubric-based with demonstration",
+      "challenge_overview": {
+        "description": "Implement a particle filter for 2D robot localization in a known map",
+        "context": "Particle filters are commonly used for robot localization (e.g., Monte Carlo Localization / AMCL). This challenge extends the Kalman filter concepts to handle non-Gaussian distributions.",
+        "key_concepts_tested": [
+          "Representation of belief as particles",
+          "Sampling from motion model",
+          "Weighting by measurement likelihood",
+          "Resampling to prevent particle depletion"
+        ]
+      },
+      "rubric_levels": [
+        {
+          "level": "Full Implementation (Bonus)",
+          "description": "Complete, working particle filter with all components functional",
+          "points": 5,
+          "performance_indicators": [
+            "Particle initialization (uniform or Gaussian around initial guess)",
+            "Motion update: particles moved according to motion model with noise",
+            "Measurement update: particles weighted by likelihood of observations",
+            "Resampling: particles resampled proportional to weights",
+            "Localization convergence: particles cluster around true robot pose",
+            "Code is clean, documented, and runs without errors"
+          ],
+          "demo_requirements": [
+            "Visualization showing particle convergence over time",
+            "Comparison of estimated vs true pose",
+            "At least 100 particles used",
+            "Realistic sensor and motion noise parameters"
+          ]
+        },
+        {
+          "level": "Partial Implementation - Core Steps",
+          "description": "Implements most core steps but missing resampling or convergence issues",
+          "points": 3,
+          "performance_indicators": [
+            "Particle initialization implemented",
+            "Motion update implemented correctly",
+            "Measurement likelihood computed",
+            "Attempt at resampling (may have bugs)",
+            "Some convergence behavior observed"
+          ]
+        },
+        {
+          "level": "Partial Implementation - Basic Structure",
+          "description": "Basic particle filter structure without full functionality",
+          "points": 1.5,
+          "performance_indicators": [
+            "Particle class or structure defined",
+            "Basic motion model propagation",
+            "At least initializes particles and attempts update",
+            "Limited or no convergence demonstrated"
+          ]
+        },
+        {
+          "level": "Attempted",
+          "description": "Incomplete implementation with significant gaps",
+          "points": 0.5,
+          "performance_indicators": [
+            "Attempt to implement particle filter",
+            "Major components missing or non-functional",
+            "Code compiles but does not run correctly"
+          ]
+        },
+        {
+          "level": "No Attempt",
+          "description": "No meaningful attempt at implementation",
+          "points": 0
+        }
+      ],
+      "bonus_grading_notes": {
+        "note": "This is a bonus challenge. Points earned are added to total but do not count against passing threshold.",
+        "eligibility": "Students must achieve at least 7 points on base assessments to be eligible for bonus points",
+        "time_expectation": "30-60 minutes for basic implementation, additional time for visualization"
+      },
+      "implementation_guidance": {
+        "particle_representation": {
+          "description": "Each particle represents a hypothesis about robot pose (x, y, theta)",
+          "weight": "All particles initially have equal weight (1/N)"
+        },
+        "motion_update": {
+          "algorithm": "For each particle, apply motion model with added noise",
+          "noise": "Sample from Gaussian distribution for each pose component"
+        },
+        "measurement_update": {
+          "algorithm": "Weight each particle by likelihood of sensor readings given particle's pose",
+          "likelihood": "Use range measurements to landmarks - closer poses to measured ranges get higher weight"
+        },
+        "resampling": {
+          "algorithm": "Sample N particles with replacement, probability proportional to weights",
+          "purpose": "Prevent particle depletion (all weights approaching zero)",
+          "frequency": "After measurement update, or periodically"
+        }
+      },
+      "example_parameters": {
+        "particle_count": 100,
+        "motion_noise": {"forward": 0.1, "turn": 0.05},
+        "sensor_noise": 0.5,
+        "map": {"landmarks": [{"x": 0, "y": 0}, {"x": 10, "y": 0}, {"x": 0, "y": 10}]}
+      }
+    }
+  },
+  "overall_grading_summary": {
+    "assessment_breakdown": {
+      "MCQ": {
+        "questions": 2,
+        "points": 4,
+        "weight": "23.5%"
+      },
+      "Short Answer": {
+        "questions": 1,
+        "points": 3,
+        "weight": "17.6%"
+      },
+      "Coding Challenge": {
+        "tasks": 1,
+        "points": 10,
+        "weight": "58.8%"
+      },
+      "Bonus Challenge": {
+        "tasks": 1,
+        "points": 5,
+        "weight": "Bonus"
+      }
+    },
+    "total_base_points": 17,
+    "total_with_bonus": 22,
+    "passing_threshold": "10 points (minimum 7 on coding challenge)",
+    "grade_boundaries": {
+      "A": "15+ points",
+      "B": "12-14.9 points",
+      "C": "10-11.9 points",
+      "D": "7-9.9 points (requires minimum 7 on coding)"
+    }
+  },
+  "feedback_templates": {
+    "mcq": {
+      "correct": "Correct! [Explanation from rubric]",
+      "incorrect": "Incorrect. The correct answer is [answer]. [Explanation from rubric]"
+    },
+    "short_answer": {
+      "level_indicators": {
+        "excellent": "Excellent understanding demonstrated. Your answer clearly explains the key differences between EKF and UKF approaches.",
+        "proficient": "Good understanding. Your answer covers the main points but could be more comprehensive.",
+        "developing": "Partial understanding. Review the differences between Taylor series linearization and sigma point approaches.",
+        "beginning": "Significant gaps in understanding. Review Bayes filter variants and how each handles nonlinearities."
+      }
+    },
+    "coding": {
+      "excellent": "Excellent implementation! Your Kalman filter correctly implements all components with clean, well-documented code.",
+      "proficient": "Good implementation with minor issues. Review the feedback on specific test cases for improvements.",
+      "developing": "Partial implementation with several issues. Focus on understanding the predict-update cycle and Kalman gain computation.",
+      "beginning": "Incomplete implementation. Review the Kalman filter equations and retry with the hints provided."
+    }
+  },
+  "metadata": {
+    "created_for": "Chapter 4: Bayesian Filtering and State Estimation",
+    "assessment_version": "1.0",
+    "last_updated": "2025-01-04"
+  }
+}
