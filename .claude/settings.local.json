@@ -20,7 +20,8 @@
       "Bash(python -m src.main:*)",
       "Bash(git add -A)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "WebFetch(domain:physical-ai-humanoid-book-5tfp-q0gln3kn3-ambreen-rais-projects.vercel.app)"
     ]
   }
 }

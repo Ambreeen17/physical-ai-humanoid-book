@@ -32,19 +32,17 @@ How do we ensure a robot *never* hits an obstacle, even if the RL policy wants t
 
 **Control Barrier Functions (CBF)** act as a safety filter. They modify the controller's output minimaly to satisfy safety constraints.
 
-Constraint: $h(x) \ge 0$ (e.g., distance to wall > 0)
-Safety Condition: $\dot{h}(x) + \alpha h(x) \ge 0$
+Constraint: `h(x) ≥ 0` (e.g., distance to wall > 0)
+Safety Condition: `ḣ(x) + α·h(x) ≥ 0`
 
 ### QP-Based Safety Filter
 
 We solve a Quadratic Program (QP) at 1000Hz:
 
-$$
-\min_{u} \| u - u_{des} \|^2
-$$
-$$
-s.t. \quad \nabla h(x)^T (f(x) + g(x)u) + \alpha h(x) \ge 0
-$$
+```
+minimize ||u - u_des||²
+subject to: ∇h(x)ᵀ(f(x) + g(x)u) + α·h(x) ≥ 0
+```
 
 ```python
 import numpy as np
