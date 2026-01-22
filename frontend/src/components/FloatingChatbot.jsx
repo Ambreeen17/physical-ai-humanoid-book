@@ -113,7 +113,16 @@ const FloatingChatbot = () => {
         aria-label="Open AI Assistant"
       >
         <div className="float-btn-icon">
-          <span className="robot-emoji">🤖</span>
+          <div className="robot-avatar">
+            <div className="robot-head">
+              <div className="robot-antenna"></div>
+              <div className="robot-eyes">
+                <div className="robot-eye left"></div>
+                <div className="robot-eye right"></div>
+              </div>
+              <div className="robot-mouth"></div>
+            </div>
+          </div>
           <span className="pulse-ring"></span>
           <span className="pulse-ring delay"></span>
         </div>

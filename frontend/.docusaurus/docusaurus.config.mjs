@@ -7,7 +7,7 @@ export default {
   "title": "Physical AI & Humanoid Robotics",
   "tagline": "An AI-Native Textbook for Embodied Intelligence",
   "favicon": "img/favicon.ico",
-  "url": "https://your-docusaurus-site.example.com",
+  "url": "https://physical-ai-humanoid-book-fwk2.vercel.app",
   "baseUrl": "/",
   "organizationName": "your-org",
   "projectName": "physical-ai-textbook",
