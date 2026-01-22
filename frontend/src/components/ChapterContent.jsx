@@ -141,26 +141,26 @@ La IA Física es inteligencia incorporada en un sistema físico que interactúa 
  * ChapterContent - Displays chapter content in selected language
  */
 const ChapterContent = ({ chapterId, children }) => {
-  const { language } = useTranslation();
+  const { currentLang } = useTranslation();
   const [translatedContent, setTranslatedContent] = useState(null);
 
   useEffect(() => {
-    if (language !== 'en' && CHAPTER_TRANSLATIONS[language]?.[chapterId]) {
-      setTranslatedContent(CHAPTER_TRANSLATIONS[language][chapterId]);
+    if (currentLang !== 'en' && CHAPTER_TRANSLATIONS[currentLang]?.[chapterId]) {
+      setTranslatedContent(CHAPTER_TRANSLATIONS[currentLang][chapterId]);
     } else {
       setTranslatedContent(null);
     }
-  }, [language, chapterId]);
+  }, [currentLang, chapterId]);
 
   // If we have translated content, show it
   if (translatedContent) {
     return (
-      <div className={language === 'ur' || language === 'ar' ? 'rtl-content' : ''}>
+      <div className={currentLang === 'ur' || currentLang === 'ar' ? 'rtl-content' : ''}>
         <div
           className="translated-chapter"
           style={{
-            direction: language === 'ur' || language === 'ar' ? 'rtl' : 'ltr',
-            textAlign: language === 'ur' || language === 'ar' ? 'right' : 'left',
+            direction: currentLang === 'ur' || currentLang === 'ar' ? 'rtl' : 'ltr',
+            textAlign: currentLang === 'ur' || currentLang === 'ar' ? 'right' : 'left',
           }}
         >
           <div className="translation-notice" style={{
@@ -170,10 +170,10 @@ const ChapterContent = ({ chapterId, children }) => {
             marginBottom: '20px',
             fontSize: '14px'
           }}>
-            {language === 'ur' ? '🌐 یہ مواد اردو میں دکھایا جا رہا ہے' :
-             language === 'zh' ? '🌐 此内容以中文显示' :
-             language === 'es' ? '🌐 Este contenido se muestra en español' :
-             language === 'ar' ? '🌐 يتم عرض هذا المحتوى باللغة العربية' :
+            {currentLang === 'ur' ? '🌐 یہ مواد اردو میں دکھایا جا رہا ہے' :
+             currentLang === 'zh' ? '🌐 此内容以中文显示' :
+             currentLang === 'es' ? '🌐 Este contenido se muestra en español' :
+             currentLang === 'ar' ? '🌐 يتم عرض هذا المحتوى باللغة العربية' :
              '🌐 Content displayed in selected language'}
           </div>
           <div dangerouslySetInnerHTML={{ __html: markdownToHtml(translatedContent) }} />
