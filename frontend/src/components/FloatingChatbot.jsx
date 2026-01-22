@@ -1,6 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from './AuthProvider';
+import { useTranslation } from './TranslationProvider';
+import Lottie from 'lottie-react';
+import robotAnimation from './lottie/ai-robot-animation.json';
 import './FloatingChatbot.css';
+
+// Greeting translations
+const GREETINGS = {
+  en: "👋 Hi! I'm your AI Assistant. Click me to chat!",
+  ur: "👋 السلام علیکم! میں آپ کا AI اسسٹنٹ ہوں۔ بات کرنے کے لیے کلک کریں!",
+  zh: "👋 你好！我是你的AI助手。点击我开始聊天！",
+  es: "👋 ¡Hola! Soy tu Asistente de IA. ¡Haz clic para chatear!",
+  ar: "👋 مرحباً! أنا مساعدك الذكي. انقر للدردشة!",
+  hi: "👋 नमस्ते! मैं आपका AI सहायक हूं। चैट करने के लिए क्लिक करें!",
+  fr: "👋 Bonjour! Je suis votre Assistant IA. Cliquez pour discuter!"
+};
+
+const INITIAL_MESSAGES = {
+  en: "Hi! I'm your Physical AI assistant. Ask me anything about robotics, ROS 2, or the course content!",
+  ur: "السلام علیکم! میں آپ کا فزیکل AI اسسٹنٹ ہوں۔ روبوٹکس، ROS 2، یا کورس کے بارے میں کچھ بھی پوچھیں!",
+  zh: "你好！我是你的物理AI助手。问我任何关于机器人、ROS 2或课程内容的问题！",
+  es: "¡Hola! Soy tu asistente de IA Física. ¡Pregúntame sobre robótica, ROS 2 o el contenido del curso!",
+  ar: "مرحباً! أنا مساعدك للذكاء الاصطناعي الفيزيائي. اسألني أي شيء عن الروبوتات أو ROS 2!",
+  hi: "नमस्ते! मैं आपका फिजिकल AI असिस्टेंट हूं। रोबोटिक्स, ROS 2 या कोर्स के बारे में कुछ भी पूछें!",
+  fr: "Bonjour! Je suis votre assistant IA Physique. Posez-moi vos questions sur la robotique, ROS 2 ou le cours!"
+};
 
 // Demo responses for when backend is not available
 const DEMO_RESPONSES = {
@@ -25,25 +49,40 @@ const getDemoResponse = (query) => {
 
 const FloatingChatbot = () => {
   const { user } = useAuth();
+  const { currentLang } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [showGreeting, setShowGreeting] = useState(true);
+  const [showGreeting, setShowGreeting] = useState(false);
+  const [robotEntered, setRobotEntered] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi! I'm your Physical AI assistant. Ask me anything about robotics, ROS 2, or the course content!",
+      content: INITIAL_MESSAGES['en'],
     }
   ]);
+
+  // Update initial message when language changes
+  useEffect(() => {
+    setMessages([{
+      role: 'assistant',
+      content: INITIAL_MESSAGES[currentLang] || INITIAL_MESSAGES['en'],
+    }]);
+  }, [currentLang]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Auto show/hide greeting bubble
+  // Robot enters from right side and shows greeting
   useEffect(() => {
-    const showTimer = setTimeout(() => setShowGreeting(true), 2000);
-    const hideTimer = setTimeout(() => setShowGreeting(false), 8000);
+    const robotTimer = setTimeout(() => setRobotEntered(true), 500);
+    const greetingTimer = setTimeout(() => {
+      setShowGreeting(true);
+      // Hide greeting after 8 seconds
+      setTimeout(() => setShowGreeting(false), 8000);
+    }, 1500);
+
     return () => {
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
+      clearTimeout(robotTimer);
+      clearTimeout(greetingTimer);
     };
   }, []);
 
@@ -99,34 +138,36 @@ const FloatingChatbot = () => {
 
   return (
     <>
-      {/* Greeting Bubble */}
-      {!isOpen && showGreeting && (
-        <div className="chatbot-greeting">
-          <span>👋 Hi! I'm your AI Assistant</span>
+      {/* Full Robot with Greeting */}
+      {!isOpen && (
+        <div className={`robot-container ${robotEntered ? 'entered' : ''}`}>
+          {/* Greeting Bubble */}
+          {showGreeting && (
+            <div className="chatbot-greeting">
+              <span>{GREETINGS[currentLang] || GREETINGS['en']}</span>
+            </div>
+          )}
+
+          {/* Lottie Robot Animation */}
+          <button
+            className="chatbot-float-btn"
+            onClick={() => { setIsOpen(true); setShowGreeting(false); }}
+            aria-label="Open AI Assistant"
+          >
+            <div className="lottie-robot-container">
+              <Lottie
+                animationData={robotAnimation}
+                loop={true}
+                autoplay={true}
+                className="lottie-robot"
+              />
+            </div>
+
+            <span className="pulse-ring"></span>
+            <span className="pulse-ring delay"></span>
+          </button>
         </div>
       )}
-
-      {/* Floating Button */}
-      <button
-        className={`chatbot-float-btn ${isOpen ? 'hidden' : ''}`}
-        onClick={() => { setIsOpen(true); setShowGreeting(false); }}
-        aria-label="Open AI Assistant"
-      >
-        <div className="float-btn-icon">
-          <div className="robot-avatar">
-            <div className="robot-head">
-              <div className="robot-antenna"></div>
-              <div className="robot-eyes">
-                <div className="robot-eye left"></div>
-                <div className="robot-eye right"></div>
-              </div>
-              <div className="robot-mouth"></div>
-            </div>
-          </div>
-          <span className="pulse-ring"></span>
-          <span className="pulse-ring delay"></span>
-        </div>
-      </button>
 
       {/* Chat Window */}
       <div className={`chatbot-popup ${isOpen ? 'open' : ''}`}>

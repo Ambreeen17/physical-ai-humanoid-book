@@ -5,18 +5,9 @@
 }
 
 .navbar-extras {
-  position: fixed;
-  top: 12px;
-  right: 20px;
-  z-index: 10000;
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 6px 12px;
-  border-radius: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
 }
 
 /* Enhanced Language Switcher in Navbar */
@@ -37,34 +28,18 @@
   background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
 }
 
-/* Animated Logo Enhancement */
+/* Static Logo */
 .navbar__logo {
-  animation: logo-pulse 3s ease-in-out infinite;
-}
-
-@keyframes logo-pulse {
-  0%, 100% {
-    filter: drop-shadow(0 0 0px rgba(99, 102, 241, 0));
-  }
-  50% {
-    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.6));
-  }
+  /* Logo is static without animation */
 }
 
 .navbar__title {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: 700;
-  background-size: 200% auto;
-  animation: gradient-shift 3s ease infinite;
-}
-
-@keyframes gradient-shift {
-  0% { background-position: 0% center; }
-  50% { background-position: 100% center; }
-  100% { background-position: 0% center; }
+  /* Removed animation for static alignment */
 }
 
 /* Hover effect on navbar brand */

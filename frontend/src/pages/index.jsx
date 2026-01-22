@@ -117,9 +117,19 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-visual">
-            <div className="robot-animation">
-              <div className="robot-body">🤖</div>
-              <div className="robot-glow"></div>
+            <div className="hero-banner">
+              <img
+                src="/img/humanoid-robot-banner.jpg"
+                alt="Humanoid Robot - Physical AI"
+                className="banner-image"
+              />
+              <div className="banner-overlay">
+                <div className="banner-text">
+                  <span className="banner-tag">AI-Native Learning</span>
+                  <h3 className="banner-title">Build the Future with Physical AI</h3>
+                  <p className="banner-description">From simulation to real-world deployment</p>
+                </div>
+              </div>
             </div>
           </div>
         </header>
