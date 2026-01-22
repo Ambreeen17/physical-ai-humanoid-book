@@ -3,6 +3,8 @@ sidebar_position: 2
 title: "Chapter 1: Introduction to Physical AI"
 ---
 
+<ChapterContent chapterId={1}>
+
 # Chapter 1: Introduction to Physical AI
 
 <PersonalizationToggle chapterId="1" />
@@ -367,3 +369,4 @@ The glass wall between digital and physical intelligence is breaking down. Welco
 - **Robotics**: "Introduction to Robotics" by John Craig (classical control theory)
 - **ROS 2**: [Official ROS 2 documentation](https://docs.ros.org/en/humble/)
 - **Sim-to-Real**: Papers on domain randomization by OpenAI and DeepMind
+</ChapterContent>
