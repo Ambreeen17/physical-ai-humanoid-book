@@ -62,16 +62,17 @@ async def chat(request: ChatRequest):
     """
     try:
         # Initialize services
-        llm_service = LLMService()
         qdrant_service = QdrantService()
 
-        # Step 1: Retrieve relevant context from Qdrant
         logger.info(f"Processing chat query: {request.query[:100]}...")
 
-        search_results = await qdrant_service.search(
-            query=request.query,
-            top_k=request.top_k
-        )
+        # Check if Qdrant is available
+        search_results = []
+        if qdrant_service.is_available():
+            search_results = await qdrant_service.search(
+                query=request.query,
+                top_k=request.top_k
+            )
 
         if not search_results:
             logger.warning(f"No relevant documents found for query: {request.query}")

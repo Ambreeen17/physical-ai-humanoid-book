@@ -38,6 +38,10 @@ class QdrantService:
         except Exception as e:
             logger.warning(f"Could not connect to Qdrant: {e}. Vector search disabled.")
 
+    def is_available(self) -> bool:
+        """Check if Qdrant service is available."""
+        return self._available
+
     def _ensure_collection(self):
         """Ensure collection exists, create if not."""
         try:
