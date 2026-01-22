@@ -1,5 +1,49 @@
 /* Floating Chatbot Styles */
 
+/* Greeting Bubble */
+.chatbot-greeting {
+  position: fixed;
+  right: 90px;
+  bottom: 30px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 20px 20px 5px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  z-index: 999;
+  animation: greetingFadeIn 0.5s ease, greetingFloat 3s ease-in-out infinite;
+}
+
+.chatbot-greeting::after {
+  content: '';
+  position: absolute;
+  right: -8px;
+  bottom: 10px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid #8b5cf6;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+@keyframes greetingFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes greetingFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
 /* Floating Button */
 .chatbot-float-btn {
   position: fixed;

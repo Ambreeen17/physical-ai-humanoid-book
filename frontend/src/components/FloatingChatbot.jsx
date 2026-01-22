@@ -26,6 +26,7 @@ const getDemoResponse = (query) => {
 const FloatingChatbot = () => {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [showGreeting, setShowGreeting] = useState(true);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -35,6 +36,16 @@ const FloatingChatbot = () => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // Auto show/hide greeting bubble
+  useEffect(() => {
+    const showTimer = setTimeout(() => setShowGreeting(true), 2000);
+    const hideTimer = setTimeout(() => setShowGreeting(false), 8000);
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -88,10 +99,17 @@ const FloatingChatbot = () => {
 
   return (
     <>
+      {/* Greeting Bubble */}
+      {!isOpen && showGreeting && (
+        <div className="chatbot-greeting">
+          <span>👋 Hi! I'm your AI Assistant</span>
+        </div>
+      )}
+
       {/* Floating Button */}
       <button
         className={`chatbot-float-btn ${isOpen ? 'hidden' : ''}`}
-        onClick={() => setIsOpen(true)}
+        onClick={() => { setIsOpen(true); setShowGreeting(false); }}
         aria-label="Open AI Assistant"
       >
         <div className="float-btn-icon">
@@ -99,7 +117,6 @@ const FloatingChatbot = () => {
           <span className="pulse-ring"></span>
           <span className="pulse-ring delay"></span>
         </div>
-        <span className="float-btn-label">AI Assistant</span>
       </button>
 
       {/* Chat Window */}
