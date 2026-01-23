@@ -119,7 +119,7 @@ export default function Home() {
           <div className="hero-visual">
             <div className="hero-banner">
               <img
-                src="/img/humanoid-robot-banner.jpg"
+                src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
                 alt="Humanoid Robot - Physical AI"
                 className="banner-image"
               />

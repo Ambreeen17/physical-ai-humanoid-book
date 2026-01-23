@@ -48,12 +48,7 @@ export default {
           "type": "docSidebar",
           "sidebarId": "tutorialSidebar",
           "position": "left",
-          "label": "Chapters"
-        },
-        {
-          "to": "/chat",
-          "label": "AI Assistant",
-          "position": "left"
+          "label": "Book"
         },
         {
           "to": "/dashboard",
@@ -67,15 +62,11 @@ export default {
       "style": "dark",
       "links": [
         {
-          "title": "Learn",
+          "title": "Parts",
           "items": [
             {
               "label": "Introduction",
               "to": "/docs/intro"
-            },
-            {
-              "label": "Chapter 1: What is Physical AI?",
-              "to": "/docs/chapter-1"
             }
           ]
         },

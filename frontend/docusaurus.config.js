@@ -72,12 +72,7 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Chapters',
-          },
-          {
-            to: '/chat',
-            label: 'AI Assistant',
-            position: 'left',
+            label: 'Book',
           },
           {
             to: '/dashboard',
@@ -90,15 +85,43 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Learn',
+            title: 'Parts',
             items: [
               {
-                label: 'Introduction',
+                label: 'Part 1: Foundations',
                 to: '/docs/intro',
               },
               {
-                label: 'Chapter 1: What is Physical AI?',
-                to: '/docs/chapter-1',
+                label: 'Part 2: Kinematics & Dynamics',
+                to: '/docs/chapter-2',
+              },
+              {
+                label: 'Part 3: Perception & Sensors',
+                to: '/docs/chapter-3',
+              },
+              {
+                label: 'Part 4: Control Systems',
+                to: '/docs/chapter-6',
+              },
+              {
+                label: 'Part 5: Motion & Manipulation',
+                to: '/docs/chapter-7',
+              },
+              {
+                label: 'Part 6: Learning & AI',
+                to: '/docs/chapter-10',
+              },
+              {
+                label: 'Part 7: System Integration',
+                to: '/docs/chapter-13',
+              },
+              {
+                label: 'Part 8: Safety & Deployment',
+                to: '/docs/chapter-14',
+              },
+              {
+                label: 'Part 9: Capstone Project',
+                to: '/docs/chapter-16',
               },
             ],
           },
@@ -117,13 +140,7 @@ const config = {
           },
           {
             title: 'More',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/your-org/physical-ai-textbook',
-              },
-            ],
-          },
+            items: [],
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Physical AI Textbook. Built with Docusaurus.`,
       },
